@@ -6,12 +6,22 @@
 #include <limits.h>
 #include <stdio.h>
 
+#define TRUE 1
+#define FALSE 0
+
 typedef struct s_main
 {
-    int			h;
-    int			w;
-    int			fd;
-    char		**input;
+    int     h;
+    int     w;
+    int     fd;
+    char    *file;
+    char    **input;
+    char    *no;
+    char    *so;
+    char    *we;
+    char    *ea;
+    int     f[3];
+    int     c[3];
 	mlx_t		*mlx;
 	int			window_w;
 	int			window_h;
