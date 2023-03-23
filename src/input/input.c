@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/cub3d.h"
+#include "../../include/cub3d.h"
 
 void    get_input(t_m *main)
 {
     int     i;
     char	*inpt;
     char	*res;
-    
+
     i = 0;
 	inpt = NULL;
 	while ((res = get_next_line(main->fd)) > 0)
@@ -49,8 +49,6 @@ void    testing(t_m *main)
 	printf("C:%s\n", ft_itoa(main->c[2]));
 	printf("\ndone printing\n");
 }
-
-
 
 void	find_values(t_m *main)
 {
