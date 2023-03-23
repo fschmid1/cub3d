@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/cub3d.h"
+#include "../../include/cub3d.h"
 
 char	*str_append(char *s1, char c)
 {
@@ -29,12 +29,12 @@ char	*str_append(char *s1, char c)
 	return (ret);
 }
 
-int	is_whitespace(char c)
+bool	is_whitespace(char c)
 {
 	if (c == ' ' | c == '\n' | c == '\t' | c == '\v' | c == '\f' | c == '\r')
-		return (TRUE);
+		return (true);
 	else
-		return (FALSE);
+		return (true);
 }
 
 void    get_input(t_m *main)
@@ -42,7 +42,7 @@ void    get_input(t_m *main)
     int     i;
     char	*inpt;
     char	*res;
-    
+
     i = 0;
 	inpt = NULL;
 	while ((res = get_next_line(main->fd)) > 0)
@@ -101,9 +101,9 @@ void	find_color(t_m *main, int *arr, char *find)
 
 	i = 0;
 	res = ft_strdup("");
-	while(TRUE)
+	while(true)
 	{
-		if(main->file[i] == find[0] && is_whitespace(main->file[i + 1]) == TRUE) 
+		if(main->file[i] == find[0] && is_whitespace(main->file[i + 1]) == TRUE)
 			break ;
 		else
 			i++;

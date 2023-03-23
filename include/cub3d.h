@@ -5,9 +5,7 @@
 #include <fcntl.h>
 #include <limits.h>
 #include <stdio.h>
-
-#define TRUE 1
-#define FALSE 0
+#include <stdbool.h>
 
 typedef struct s_main
 {
