@@ -1,6 +1,6 @@
-[submodule "mlx42"]
-	path = mlx42
-	url = git@github.com:codam-coding-college/MLX42.git
 [submodule "libft"]
 	path = libft
 	url = git@github.com:fschmid1/libft.git
+[submodule "mlx42"]
+	path = mlx42
+	url = git@github.com:codam-coding-college/MLX42.git
