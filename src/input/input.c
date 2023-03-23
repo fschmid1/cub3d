@@ -6,43 +6,18 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 11:49:51 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/23 15:40:16 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/23 19:46:51 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
-
-char	*str_append(char *s1, char c)
-{
-	int		i;
-	char	*ret;
-
-	if (!c)
-		return (s1);
-	if (!s1)
-		return (ret = ft_calloc(2, sizeof(char)), ret[0] = c, ret);
-	i = 0;
-	ret = ft_calloc(ft_strlen(s1) + 1 + 1, sizeof(char));
-	ft_memcpy(ret, s1, ft_strlen(s1));
-	ret[ft_strlen(s1)] = c;
-	free(s1);
-	return (ret);
-}
-
-bool	is_whitespace(char c)
-{
-	if (c == ' ' | c == '\n' | c == '\t' | c == '\v' | c == '\f' | c == '\r')
-		return (true);
-	else
-		return (true);
-}
+#include "include/cub3d.h"
 
 void    get_input(t_m *main)
 {
     int     i;
     char	*inpt;
     char	*res;
-
+    
     i = 0;
 	inpt = NULL;
 	while ((res = get_next_line(main->fd)) > 0)
@@ -54,7 +29,7 @@ void    get_input(t_m *main)
 
 void    testing(t_m *main)
 {
-	// int i = 0;
+	int i = 0;
 
 	// while (main->input[i])
 	// {
@@ -72,58 +47,67 @@ void    testing(t_m *main)
 	printf("C:%s\n", ft_itoa(main->c[0]));
 	printf("C:%s\n", ft_itoa(main->c[1]));
 	printf("C:%s\n", ft_itoa(main->c[2]));
+	while (main->map[i])
+		printf("MAP:%s\n", main->map[i++]);
+	printf("PLAYER x:%i\n", main->player.x);
+	printf("PLAYER y:%i\n", main->player.y);
 	printf("\ndone printing\n");
 }
 
-char	*find_texture(char *file, char *find)
+int		mapcheck(char *str)
 {
-	int	i;
-	char *res;
+	int i;
+	int num;
 
 	i = 0;
-	res = ft_strdup("");
-	while(file[i] != find[0] && file[i + 1] != find[1])
-		i++;
-	while(file[i] && file[i] != '.')
-		i++;
-	if (file[i] == '\0')
-		printf("ERROR\n");
-	while(is_whitespace(file[i]) == FALSE)
-		res = str_append(res, file[i++]);
-	return(res);
+	while (str[i])
+	{
+		if (is_whitespace(str[i]))
+			i++;
+		else if (ft_isdigit(str[i]))
+		{
+			num = 1;
+			i++;
+		}
+		else
+			break ;
+	}
+	if(str[i] == '\0' && num == 1)
+		return (TRUE);
+	return (FALSE) ;
 }
 
-void	find_color(t_m *main, int *arr, char *find)
+char	**find_map(t_m *m)
 {
 	int	i;
 	char *res;
-	char **conv;
-
+	char **file;
+	
 	i = 0;
 	res = ft_strdup("");
-	while(true)
+	file = ft_split(m->file, '\n');
+	while(TRUE)
 	{
-		if(main->file[i] == find[0] && is_whitespace(main->file[i + 1]) == TRUE)
+		if (mapcheck(file[i]) == TRUE)
 			break ;
+		else if (!file[i + 1])
+		{
+			printf("ERROR!\n");
+			return (NULL);
+		}
 		else
 			i++;
 	}
-	while(ft_isdigit(main->file[i]) == FALSE)
-		i++;
-	while(is_whitespace(main->file[i]) == FALSE)
-		res = str_append(res, main->file[i++]);
-	conv = ft_split(res, ',');
-	free(res);
-	if (!conv[0] || !conv[1] || !conv[2])
-		printf("ERROR\n");
-	arr[0] = ft_atoi(conv[0]);
-	free(conv[0]);
-	arr[1] = ft_atoi(conv[1]);
-	free(conv[1]);
-	arr[2] = ft_atoi(conv[2]);
-	free(conv[2]);
-	free(conv);
+	while (file[i])
+	{
+		res = ft_strjoin(res, file[i]);
+		free(file[i++]);
+		res = ft_strjoin(res, "\n");
+	}
+	free(file);
+	return (ft_split(res, '\n'));
 }
+
 
 void	find_values(t_m *main)
 {
@@ -133,19 +117,18 @@ void	find_values(t_m *main)
 	main->ea = find_texture(main->file, "EA");
 	find_color(main, main->f, "F");
 	find_color(main, main->c, "C");
+	main->map = find_map(main);
 }
 
-int inputting(int argc, char **argv)
+void input_check(t_m *main, int argc, char **argv)
 {
-    t_m		main;
-
-    if (argc == 2 && (main.fd = open(argv[1], O_RDONLY)) > 0)
+    if (argc == 2 && (main->fd = open(argv[1], O_RDONLY)) > 0)
     {
-    	get_input(&main);
-		find_values(&main);
-    	testing(&main);
+    	get_input(main);
+		find_values(main);
+		check_map(main);
+    	// testing(main);
     }
 	else
 		ft_printf("Input is a file!\n");
-    return(0);
 }

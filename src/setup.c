@@ -10,8 +10,17 @@ t_m	*setup_main(void)
 	m->window_h = 1080;
 	m->window_w = 1920;
 	m->input = NULL;
+	m->status = TRUE;
+	m->player.x = -1;
+    m->player.y = -1;
 	m->h = 0;
 	m->w = 0;
 	m->fd = 0;
+	m->file = NULL;
+	m->input = NULL;
+	m->no = NULL;
+	m->so = NULL;
+	m->we = NULL;
+	m->ea = NULL;
 	return (m);
 }
