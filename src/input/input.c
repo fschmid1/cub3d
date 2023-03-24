@@ -105,6 +105,9 @@ char	*find_values(t_m *m)
 	if (m->no == NULL || m->so == NULL
 		|| m->we == NULL || m->ea == NULL)
 		return (MT);
+	if (TESTING != 1)
+		if (check_tex(m))
+			return (TF);
 	if (find_color(m, m->f, "F") == FALSE
 		|| find_color(m, m->c, "C") == FALSE)
 		return (MC);
@@ -120,7 +123,6 @@ void	input_check(t_m *m, int argc, char **argv)
 			err_exit(m, MNF);
 		err_exit(m, find_values(m));
 		check_map(m);
-		testing(m);
 	}
 	else
 		ft_printf("Input is a file!\n");
