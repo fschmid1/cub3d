@@ -6,11 +6,11 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:34:54 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/23 16:42:06 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 10:31:28 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/cub3d.h"
+#include "../include/cub3d.h"
 
 char	*str_append(char *s1, char c)
 {

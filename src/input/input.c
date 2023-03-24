@@ -17,7 +17,7 @@ void    get_input(t_m *main)
     int     i;
     char	*inpt;
     char	*res;
-
+    
     i = 0;
 	inpt = NULL;
 	while ((res = get_next_line(main->fd)) > 0)
@@ -29,7 +29,7 @@ void    get_input(t_m *main)
 
 void    testing(t_m *main)
 {
-	// int i = 0;
+	int i = 0;
 
 	// while (main->input[i])
 	// {
@@ -47,7 +47,66 @@ void    testing(t_m *main)
 	printf("C:%s\n", ft_itoa(main->c[0]));
 	printf("C:%s\n", ft_itoa(main->c[1]));
 	printf("C:%s\n", ft_itoa(main->c[2]));
+	while (main->map[i])
+		printf("MAP:%s\n", main->map[i++]);
+	printf("PLAYER x:%i\n", main->player.x);
+	printf("PLAYER y:%i\n", main->player.y);
 	printf("\ndone printing\n");
+}
+
+
+int		mapcheck(char *str)
+{
+	int i;
+	int num;
+
+	i = 0;
+	while (str[i])
+	{
+		if (is_whitespace(str[i]))
+			i++;
+		else if (ft_isdigit(str[i]))
+		{
+			num = 1;
+			i++;
+		}
+		else
+			break ;
+	}
+	if(str[i] == '\0' && num == 1)
+		return (TRUE);
+	return (FALSE) ;
+}
+
+char	**find_map(t_m *m)
+{
+	int	i;
+	char *res;
+	char **file;
+	
+	i = 0;
+	res = ft_strdup("");
+	file = ft_split(m->file, '\n');
+	while(TRUE)
+	{
+		if (mapcheck(file[i]) == TRUE)
+			break ;
+		else if (!file[i + 1])
+		{
+			printf("ERROR!\n");
+			return (NULL);
+		}
+		else
+			i++;
+	}
+	while (file[i])
+	{
+		res = ft_strjoin(res, file[i]);
+		free(file[i++]);
+		res = ft_strjoin(res, "\n");
+	}
+	free(file);
+	return (ft_split(res, '\n'));
 }
 
 void	find_values(t_m *main)
@@ -58,6 +117,7 @@ void	find_values(t_m *main)
 	main->ea = find_texture(main->file, "EA");
 	find_color(main, main->f, "F");
 	find_color(main, main->c, "C");
+	main->map = find_map(main);
 }
 
 void input_check(t_m *main, int argc, char **argv)
@@ -66,7 +126,8 @@ void input_check(t_m *main, int argc, char **argv)
     {
     	get_input(main);
 		find_values(main);
-    	testing(main);
+		check_map(main);
+    	// testing(main);
     }
 	else
 		ft_printf("Input is a file!\n");

@@ -9,7 +9,7 @@ SRC_FILES		= main.c window.c setup.c
 
 INPUT			= $(addprefix $(INPUT_DIR), $(INPUT_FILES))
 INPUT_DIR		= src/input/
-INPUT_FILES		= input.c tex_col.c
+INPUT_FILES		= input.c tex_col.c map.c player.c
 
 UTILS			= $(addprefix $(UTILS_DIR), $(UTILS_FILES))
 UTILS_DIR		= src/utils/
