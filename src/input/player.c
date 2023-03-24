@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:39:22 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 16:03:14 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 19:14:55 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ispos_p(char c)
 	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }
 
-char	*find_player(t_m *m)
+char	*find_player(t_p *m)
 {
 	int	i;
 	int	j;

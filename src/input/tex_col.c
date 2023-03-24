@@ -6,13 +6,13 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:01:46 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 16:40:16 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 19:14:58 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-int	find_color(t_m *main, int *arr, char *find)
+int	find_color(t_p *main, int *arr, char *find)
 {
 	int		i;
 	char	*res;
@@ -70,7 +70,7 @@ char	*find_texture(char *file, char *find)
 	return (res);
 }
 
-int	check_tex(t_m *m)
+int	check_tex(t_p *m)
 {
 	if (access(m->no, X_OK) != 0)
 		return	(TRUE);

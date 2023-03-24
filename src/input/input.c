@@ -6,13 +6,14 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 11:49:51 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 17:32:15 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 19:14:35 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+#include <stdio.h>
 
-int	get_input(t_m *m)
+int	get_input(t_p *m)
 {
 	char	*inpt;
 	char	*res;
@@ -60,7 +61,7 @@ int	mapcheck(char *str)
 	return (FALSE);
 }
 
-char	**find_map(t_m *m)
+char	**find_map(t_p *m)
 {
 	int		i;
 	char	*res;
@@ -89,7 +90,7 @@ char	**find_map(t_m *m)
 	return (file);
 }
 
-char	*find_values(t_m *m)
+char	*find_values(t_p *m)
 {
 	char	*err;
 
@@ -114,7 +115,7 @@ char	*find_values(t_m *m)
 	return (err);
 }
 
-void	input_check(t_m *m, int argc, char **argv)
+void	input_check(t_p *m, int argc, char **argv)
 {
 	if (argc == 2 && open(argv[1], O_RDONLY) > 0)
 	{

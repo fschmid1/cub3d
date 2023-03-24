@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:31:15 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 14:59:59 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 19:51:40 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,21 @@
 //==============================================================================
 //-------------------------------DEFINED_VALUES---------------------------------
 //==============================================================================
+#define TESTING 1
 #define TRUE 1
 #define FALSE 0
-#define MNF "MAP NOT FOUND"
-#define MV "MISSING VALUES"
+//---------------------------------TEX/COL--------------------------------------
 #define MT "MISSING TEXTURE"
 #define MC "MISSING COLOR"
+#define MV "MISSING VALUES"
+#define TF "TEXTURE FILE INACCESSIBLE"
+//-----------------------------------MAP----------------------------------------
+#define MNF "MAP NOT FOUND"
+#define MH "MAP HAS HOLES"
+#define IM "INVALID MAP"
+//---------------------------------PLAYER---------------------------------------
 #define MP "MULTIPLE STARTING POSITIONS FOUND"
 #define NP "NO PLAYER FOUND"
-#define IM "INVALID MAP"
 //==============================================================================
 //----------------------------------STRUCTS-------------------------------------
 //==============================================================================
@@ -64,7 +70,9 @@ typedef struct	s_camera
 	double	ray_dir_y;
 }	t_camera;
 
-typedef struct s_main
+typedef struct s_main	t_m;
+
+typedef struct s_parse
 {
     int     h;
     int     w;
@@ -82,14 +90,39 @@ typedef struct s_main
     int     c[3];
     t_point pos_p;
     t_point size;
+	t_m		*main;
+} t_p;
+
+typedef struct s_menu
+{
+	mlx_texture_t *m1;
+	mlx_image_t *m1i;
+	mlx_texture_t *m2;
+	mlx_image_t *m2i;
+	int		menu;
+} t_menu;
+
+typedef struct	s_map
+{
+	t_point		size;
 	mlx_t		*mlx;
+	mlx_image_t	*img;
+	t_player	*player;
+	double		csize_x;
+	double		csize_y;
+}	t_map;
+
+typedef	struct	s_main
+{
+	t_menu		*men;
+	t_map		*map;
+	t_camera	*camera;
+	t_p			*p;
 	int			window_w;
 	int			window_h;
-	mlx_image_t	*img;
 	double		time;
 	double		old_time;
-	t_player	*player;
-} t_m;
+}	t_m;
 //==============================================================================
 //----------------------------------WINDOW.c------------------------------------
 //==============================================================================
@@ -100,10 +133,13 @@ void	register_hooks(t_m *m);
 //==============================================================================
 t_m		*setup_main(void);
 void	free_main(t_m *m);
+t_map	*setup_map(t_m *m);
+t_p		*setup_parse(t_m *m);
+t_menu	*setup_menu(void);
 //==============================================================================
 //----------------------------------GAME/GAME.c-------------------------------------
 //==============================================================================
-void	game_loop(t_m *m);
+void	game_loop(t_p *m);
 //==============================================================================
 //----------------------------------GAME/SETUP.c-------------------------------------
 //==============================================================================
@@ -118,35 +154,42 @@ void	draw_pixel(t_m *m, int x, int y, uint32_t color);
 int		is_whitespace(char c);
 char	*str_append(char *s1, char c);
 int		char_check(char c, char *str);
+char	**doublcpy(char **src, int size);
 //==============================================================================
 //----------------------------------ERROR.c-------------------------------------
 //==============================================================================
-void	safe_exit(t_m *main, char *msg);
-void	err_exit(t_m *m, char *msg);
+void	safe_exit(t_p *m, char *msg);
+void	err_exit(t_p *m, char *msg);
 //==============================================================================
 //----------------------------------INPUT.c-------------------------------------
 //==============================================================================
-void	input_check(t_m *main, int argc, char **argv);
-char	*find_values(t_m *main);
-int		get_input(t_m *main);
-void	testing(t_m *main);
-char	**find_map(t_m *m);
-void	free_t(t_m *m);
+void	input_check(t_p *m, int argc, char **argv);
+char	*find_values(t_p *main);
+int		get_input(t_p *main);
+char	**find_map(t_p *m);
+void	free_t(t_p *m);
+//==============================================================================
+//---------------------------------TESTING.c------------------------------------
+//==============================================================================
+void	testing(t_p *main);
+void	dprint(char **str);
 //==============================================================================
 //---------------------------------TEX_COL.c------------------------------------
 //==============================================================================
+int 	check_tex(t_p *m);
 void	set_color(int *arr, char **conv);
 char	*find_texture(char *file, char *find);
-int		find_color(t_m *main, int *arr, char *find);
+int		find_color(t_p *main, int *arr, char *find);
 //==============================================================================
 //----------------------------------PLAYER.c------------------------------------
 //==============================================================================
-char	*find_player(t_m *m);
+char	*find_player(t_p *m);
+int		ispos_p(char c);
 //==============================================================================
 //-----------------------------------MAP.c--------------------------------------
 //==============================================================================
-void	check_map(t_m *m);
-void	fill(t_m *m, t_point cur, char to_fill);
-void	max_val(t_m *m);
+void	check_map(t_p *m);
+void	fill(t_p *m, t_point cur, char to_fill);
+void	max_val(t_p *m);
 
 #endif
