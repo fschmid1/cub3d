@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 11:49:51 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/23 17:06:26 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 12:33:49 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,6 @@ void    get_input(t_m *main)
 void    testing(t_m *main)
 {
 	int i = 0;
-
-	// while (main->input[i])
-	// {
-	// 	printf("Input:%i\n", i);
-	// 	printf("%s\n", main->input[i]);
-	// 	i++;
-	// }
 	printf("NO:%s\n", main->no);
 	printf("SO:%s\n", main->so);
 	printf("WE:%s\n", main->we);
@@ -52,8 +45,8 @@ void    testing(t_m *main)
 	printf("C:%s\n", ft_itoa(main->c[2]));
 	while (main->map[i])
 		printf("MAP:%s\n", main->map[i++]);
-	printf("PLAYER x:%i\n", main->player.x);
-	printf("PLAYER y:%i\n", main->player.y);
+	printf("PLAYER x:%d\n", main->player.x);
+	printf("PLAYER y:%d\n", main->player.y);
 	printf("\ndone printing\n");
 }
 
@@ -122,16 +115,21 @@ void	find_values(t_m *main)
 	find_color(main, main->f, "F");
 	find_color(main, main->c, "C");
 	main->map = find_map(main);
+	max_val(main);
+	find_player(main);
 }
 
 void input_check(t_m *main, int argc, char **argv)
 {
     if (argc == 2 && (main->fd = open(argv[1], O_RDONLY)) > 0)
     {
+		printf("HERE\n");
     	get_input(main);
+		printf("HERE\n");
 		find_values(main);
+		printf("HERE\n");
 		check_map(main);
-    	// testing(main);
+		printf("HERE\n");
     }
 	else
 		ft_printf("Input is a file!\n");

@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:31:15 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/23 21:00:47 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 12:15:53 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_main
     int     status;
     char    *file;
     char    **map;
+    char    **fmap;
     char    **input;
     char    *no;
     char    *so;
@@ -97,7 +98,7 @@ int     find_player(t_m *m);
 //-----------------------------------MAP.c--------------------------------------
 //==============================================================================
 void    check_map(t_m *m);
-void fill(t_m *m, size_t x, int y, int *hole_found);
+void	fill(t_m *m, t_point size, t_point cur, char to_fill);
 void	max_val(t_m *m);
 
 #endif

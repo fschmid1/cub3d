@@ -6,23 +6,11 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:54:02 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 11:04:03 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 12:31:04 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-int is_wall(char c) 
-{
-  return (c == '1');
-}
-
-int is_player(char c) 
-{
-	if (c)
-		return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
-	return(0);
-}
 
 void	max_val(t_m *m)
 {
@@ -54,66 +42,47 @@ int	char_check(char c, char *str)
 	return(FALSE);
 }
 
-int	rows(t_m *m, int i, int j, int t)
+void	fill(t_m *m, t_point size, t_point cur, char to_fill)
 {
-	if (t == 1)
-	{
-		if (char_check(m->map[i][j], "02") 
-			|| is_player(m->map[i][j]))
-		{
-			if(!m->map[i][j + 1] 
-			|| (m->map[i][j + 1] && m->map[i][j + 1] == ' ')) 
-                return(TRUE);
-		}
-		else
-			return(FALSE);
-	}
-	return(FALSE);
+	if (m->fmap[cur.y][cur.x] != '1'
+		&& m->fmap[cur.y][cur.x] != '0'
+		&& m->fmap[cur.y][cur.x] != 'F')
+			m->status = FALSE;
+	if (cur.y < 0 || cur.y >= (int)ft_strlen(m->fmap[cur.y]) 
+		|| cur.x < 0 || cur.x >= m->size.y	
+		|| m->fmap[cur.y][cur.x] != to_fill)
+		return;
+
+	m->fmap[cur.y][cur.x] = 'F';
+	fill(m, size, (t_point){cur.x - 1, cur.y}, to_fill);
+	fill(m, size, (t_point){cur.x + 1, cur.y}, to_fill);
+	fill(m, size, (t_point){cur.x, cur.y - 1}, to_fill);
+	fill(m, size, (t_point){cur.x, cur.y + 1}, to_fill);
 }
 
-void check_valid(t_m *m)
+void	doublcpy(char **src, char **dst, int size)
 {
-    int i = -1;
-    int j = 0;
-    while (m->map[++i])
-    {
-        while (m->map[i][j] == ' ')
-            j++;
-        if (m->map[i][j] != '1')
-            printf("Error\nCheck map\n");
-        while (m->map[i][j])
-        {
-            if ((m->map[i][j] == '0' || m->map[i][j] == '2' || is_player(m->map[i][j]))
-            && (!m->map[i][j + 1] || (m->map[i][j + 1] && m->map[i][j + 1] == ' ')))
-                printf("Error\nCheck map\n");
-            else if (m->map[i][j] == ' ' && m->map[i][j + 1] && m->map[i][j + 1] != ' ' && m->map[i][j + 1] != '1')
-                printf("Error\nCheck map\n");
-            j++;
-        }
-        j = 0;
-        while (m->map[i][j])
-        {
-            if (m->map[i][j] == ' ')
-                if ((i > 0 && (int)ft_strlen(m->map[i - 1]) > j && m->map[i - 1][j] != '1' && m->map[i - 1][j] != ' ') ||
-                    (m->map[i + 1] && (int)ft_strlen(m->map[i + 1]) > j && m->map[i + 1][j] != '1' && m->map[i + 1][j] != ' '))
-                    printf("Error\nCheck map\n");
-            if (((i > 0 && (int)ft_strlen(m->map[i - 1]) <= j) || (m->map[i + 1] && (int)ft_strlen(m->map[i + 1]) <= j)) &&
-                m->map[i][j] != '1' && m->map[i][j] != ' ')
-                printf("Error\nCheck map\n");
-            j++;
-        }
-    }
+	int	i;
+
+	i = 0;
+	dst = ft_calloc(sizeof(char *), size + 1);
+	while(src[i])
+	{
+		printf("%i", i);
+		dst[i] = ft_strdup(src[i]);
+		i++;
+	}
+	printf("\n");
 }
 
 void check_map(t_m *m)
 {
-	int i;
-	
-	i = 0;
-	max_val(m);
-	find_player(m);
-	// testing(m);
-	printf("MAP RETURN;%i\n", m->size.x);
-	check_valid(m);
-	printf("MAP RETURN;%i\n", m->status);
+	t_point size;
+	size = (t_point){m->size.x, m->size.y};
+	printf("bf\n");
+	doublcpy(m->map, m->fmap, m->size.y);
+	printf("fmap:%c\n", m->fmap[0][0]);
+	printf("af\n");
+	m->fmap[m->player.y][m->player.x] = '0';
+	fill(m, size, m->player, '0');
 }
