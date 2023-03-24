@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:40 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 15:52:41 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 17:33:08 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_m	*setup_main(void)
 	m->input = NULL;
 	m->status = TRUE;
 	m->pos_p.x = -1;
-  m->pos_p.y = -1;
+	m->pos_p.y = -1;
 	m->h = 0;
 	m->w = 0;
 	m->fd = 0;

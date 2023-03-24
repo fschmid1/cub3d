@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:54:02 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 17:24:15 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 17:32:34 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	resize_map(t_m *m)
 
 void	max_val(t_m *m)
 {
-	size_t w;
-	size_t h;
+	size_t	w;
+	size_t	h;
 
 	w = 0;
 	h = 0;
@@ -79,7 +79,8 @@ void	fill(t_m *m, t_point cur, char to_fill)
 
 void	check_map(t_m *m)
 {
-	t_point size;
+	t_point	size;
+
 	size = (t_point){m->size.x, m->size.y};
 	m->fmap = doublcpy(m->map, m->size.y);
 	m->fmap[m->pos_p.y][m->pos_p.x] = '0';

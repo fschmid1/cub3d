@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 11:49:51 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 16:48:59 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 17:32:15 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int	get_input(t_m *m)
 	return (TRUE);
 }
 
-int		mapcheck(char *str)
+int	mapcheck(char *str)
 {
-	int i;
-	int num;
+	int	i;
+	int	num;
 
 	i = 0;
 	while (str[i])
