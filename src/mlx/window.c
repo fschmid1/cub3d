@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   window.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/24 15:53:00 by pgorner           #+#    #+#             */
+/*   Updated: 2023/03/24 15:53:36 by pgorner          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
 int	setup_window(t_m *m)
@@ -7,11 +19,12 @@ int	setup_window(t_m *m)
 		return (puts(mlx_strerror(mlx_errno)), EXIT_FAILURE);
 	m->img = mlx_new_image(m->mlx, m->window_w, m->window_h);
 	if (!m->img)
-		return (mlx_close_window(m->mlx), puts(mlx_strerror(mlx_errno)), EXIT_FAILURE);
+		return (mlx_close_window(m->mlx),
+			puts(mlx_strerror(mlx_errno)), EXIT_FAILURE);
 	if (mlx_image_to_window(m->mlx, m->img, 0, 0) == -1)
-		return(mlx_close_window(m->mlx), puts(mlx_strerror(mlx_errno)), EXIT_FAILURE);
+		return (mlx_close_window(m->mlx),
+			puts(mlx_strerror(mlx_errno)), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
-
 }
 
 void	main_hooks(void *param)

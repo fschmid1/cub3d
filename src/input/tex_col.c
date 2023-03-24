@@ -6,37 +6,39 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:01:46 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 10:30:26 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 15:51:38 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void	find_color(t_m *main, int *arr, char *find)
+int	find_color(t_m *main, int *arr, char *find)
 {
-	int	i;
-	char *res;
-	char **conv;
+	int		i;
+	char	*res;
+	char	**conv;
 
 	i = 0;
 	res = ft_strdup("");
-	while(TRUE)
+	while (TRUE && main->file[i])
 	{
-		if(main->file[i] == find[0]
+		if (main->file[i] == find[0]
 			&& is_whitespace(main->file[i + 1]) == TRUE)
 			break ;
-		else
-			i++;
-	}
-	while(ft_isdigit(main->file[i]) == FALSE)
 		i++;
-	while(is_whitespace(main->file[i]) == FALSE)
+	}
+	while (ft_isdigit(main->file[i]) == FALSE && main->file[i])
+		i++;
+	while (is_whitespace(main->file[i]) == FALSE && main->file[i])
 		res = str_append(res, main->file[i++]);
+	if (ft_strlen(res) == 0)
+		return (free(res), FALSE);
 	conv = ft_split(res, ',');
 	free(res);
 	if (!conv[0] || !conv[1] || !conv[2])
-		printf("ERROR\n");
+		return (free_string_array(conv), FALSE);
 	set_color(arr, conv);
+	return (TRUE);
 }
 
 void	set_color(int *arr, char **conv)
@@ -52,18 +54,18 @@ void	set_color(int *arr, char **conv)
 
 char	*find_texture(char *file, char *find)
 {
-	int	i;
-	char *res;
+	int		i;
+	char	*res;
 
 	i = 0;
 	res = ft_strdup("");
-	while(file[i] != find[0] && file[i + 1] != find[1])
+	while ((file[i] != find[0] && file[i + 1] != find[1]) && file[i])
 		i++;
-	while(file[i] != '\n' && file[i] != '.')
+	while (file[i] != '\n' && file[i] != '.' && file[i])
 		i++;
-	if (file[i] == '\n')
-		printf("ERROR\n");
-	while(is_whitespace(file[i]) == FALSE)
+	if (file[i] == '\n' || !file[i])
+		return (free (res), NULL);
+	while (is_whitespace(file[i]) == FALSE && file[i] != '\n')
 		res = str_append(res, file[i++]);
-	return(res);
+	return (res);
 }
