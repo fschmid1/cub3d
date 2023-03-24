@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:54:02 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 13:42:05 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 16:01:31 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ void	check_map(t_m *m)
 	t_point size;
 	size = (t_point){m->size.x, m->size.y};
 	printf("bf\n");
-	doublcpy(m->map, m->fmap, m->size.y);
+	m->fmap = doublcpy(m->map, m->size.y);
 	printf("fmap:%c\n", m->fmap[0][0]);
 	printf("af\n");
 	m->fmap[m->pos_p.y][m->pos_p.x] = '0';
-	fill(m, size, m->pos_p, '0');
+	fill(m, m->pos_p, '0');
 }
