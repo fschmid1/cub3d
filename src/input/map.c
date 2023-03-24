@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../../include/cub3d.h"
 
 void	max_val(t_m *m)
 {
-	size_t	w;
-	size_t	h;
+	size_t w;
+	size_t h;
 
 	w = 0;
 	h = 0;
@@ -63,7 +63,12 @@ char	**doublcpy(char **src, int size)
 
 void	check_map(t_m *m)
 {
-	m->fmap = doublcpy(m->map, m->size.x);
-	m->fmap[m->player.y][m->player.x] = '0';
-	fill(m, m->player, '0');
+	t_point size;
+	size = (t_point){m->size.x, m->size.y};
+	printf("bf\n");
+	doublcpy(m->map, m->fmap, m->size.y);
+	printf("fmap:%c\n", m->fmap[0][0]);
+	printf("af\n");
+	m->fmap[m->pos_p.y][m->pos_p.x] = '0';
+	fill(m, size, m->pos_p, '0');
 }

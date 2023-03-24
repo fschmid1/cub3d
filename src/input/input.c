@@ -37,10 +37,10 @@ int	get_input(t_m *m)
 	return (TRUE);
 }
 
-int	mapcheck(char *str)
+int		mapcheck(char *str)
 {
-	int	i;
-	int	num;
+	int i;
+	int num;
 
 	i = 0;
 	while (str[i])

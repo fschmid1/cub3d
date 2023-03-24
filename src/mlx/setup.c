@@ -23,8 +23,8 @@ t_m	*setup_main(void)
 	m->window_w = 1920;
 	m->input = NULL;
 	m->status = TRUE;
-	m->player.x = -1;
-	m->player.y = -1;
+	m->pos_p.x = -1;
+  m->pos_p.y = -1;
 	m->h = 0;
 	m->w = 0;
 	m->fd = 0;
