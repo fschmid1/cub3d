@@ -5,11 +5,15 @@ CFLAGS			= -Wall -Wextra -Werror -g
 
 SRC				= $(addprefix $(SRC_DIR), $(SRC_FILES))
 SRC_DIR			= src/
-SRC_FILES		= main.c window.c setup.c
+SRC_FILES		= main.c
 
 INPUT			= $(addprefix $(INPUT_DIR), $(INPUT_FILES))
 INPUT_DIR		= src/input/
 INPUT_FILES		= input.c tex_col.c map.c player.c
+
+MLX				= $(addprefix $(MLX_DIR), $(MLX_FILES))
+MLX_DIR			= src/mlx/
+MLX_FILES		= window.c setup.c draw.c
 
 UTILS			= $(addprefix $(UTILS_DIR), $(UTILS_FILES))
 UTILS_DIR		= src/utils/
@@ -23,7 +27,7 @@ HDR				= $(addprefix $(HDR_DIR)/, $(HDR_FILES))
 HDR_DIR			= include/
 HDR_FILES		= cub3d.h
 
-ALL_SRC			=	$(SRC) $(INPUT) $(UTILS)
+ALL_SRC			=	$(SRC) $(INPUT) $(UTILS) $(MLX)
 
 OBJ_DIR			=	obj/
 ALL_OBJ			=	$(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(ALL_SRC))
@@ -67,11 +71,11 @@ $(ALL_OBJ_DIR):
 ################################################################################
 ################################################################################
 
-LSAN = LeakSanitizer
-LSANLIB = /LeakSanitizer/liblsan.a
+LSAN 			= LeakSanitizer
+LSANLIB 		= /LeakSanitizer/liblsan.a
 
 lsan: 			CFLAGS += -ILeakSanitizer -Wno-gnu-include-next
-lsan:			LINK += $(LSANLFLAGS)
+lsan:			LINK += -LLeakSanitizer -llsan -lc++
 lsan:			fclean $(LSANLIB)
 lsan:			all
 
@@ -100,6 +104,12 @@ re:
 				@make fclean
 				@make all
 
+run:			$(NAME)
+				./$(NAME) maps/tiny.cub
 
-.PHONY:			all clean fclean re lsan
+lrun:			lsan
+				./$(NAME) maps/tiny.cub
+
+
+.PHONY:			all clean fclean re lsan run
 .SILENT:		clean

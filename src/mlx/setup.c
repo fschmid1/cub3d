@@ -1,4 +1,4 @@
-#include "../include/cub3d.h"
+#include "../../include/cub3d.h"
 
 t_m	*setup_main(void)
 {
@@ -23,4 +23,16 @@ t_m	*setup_main(void)
 	m->we = NULL;
 	m->ea = NULL;
 	return (m);
+}
+
+void	free_main(t_m *m)
+{
+	free(m->file);
+	free_string_array(m->map);
+	free_string_array(m->input);
+	free(m->no);
+	free(m->so);
+	free(m->we);
+	free(m->ea);
+	free(m);
 }

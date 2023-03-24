@@ -17,11 +17,14 @@ void    get_input(t_m *main)
     int     i;
     char	*inpt;
     char	*res;
-    
+
     i = 0;
 	inpt = NULL;
 	while ((res = get_next_line(main->fd)) > 0)
+	{
 		inpt = ft_strjoin_gnl(inpt, res);
+		free(res);
+	}
 	main->file = ft_strdup(inpt);
 	main->input = ft_split(inpt, '\n');
 	free(inpt);
@@ -76,7 +79,7 @@ char	**find_map(t_m *m)
 	int	i;
 	char *res;
 	char **file;
-	
+
 	i = 0;
 	res = ft_strdup("");
 	file = ft_split(m->file, '\n');
@@ -87,20 +90,20 @@ char	**find_map(t_m *m)
 		else if (!file[i + 1])
 		{
 			printf("ERROR!\n");
-			return (NULL);
+			return (free_string_array(file), free(res), NULL);
 		}
 		else
 			i++;
 	}
 	while (file[i])
 	{
-		res = ft_strjoin(res, file[i]);
-		free(file[i++]);
-		res = ft_strjoin(res, "\n");
+		res = ft_strjoin_gnl(res, file[i++]);
+		res = ft_strjoin_gnl(res, "\n");
 	}
-	free(file);
-	// printf("m,->file%s\n", m->file);
-	return (ft_split(res, '\n'));
+	free_string_array(file);
+	file = ft_split(res, '\n');
+	free(res);
+	return (file);
 }
 
 void	find_values(t_m *main)
