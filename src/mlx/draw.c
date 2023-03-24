@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:32:59 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 17:33:00 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 19:28:57 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,5 @@ void	draw_pixel(t_m *m, int x, int y, uint32_t color)
 {
 	if (x < (int) m->window_w && x > 0)
 		if (y < (int) m->window_h && y > 0)
-			mlx_put_pixel(m->img, x, y, color);
+			mlx_put_pixel(m->map->img, x, y, color);
 }

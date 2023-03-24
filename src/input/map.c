@@ -6,13 +6,13 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:54:02 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 17:32:34 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 19:14:44 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void	resize_map(t_m *m)
+void	resize_map(t_p *m)
 {
 	int		i;
 	int		j;
@@ -44,7 +44,7 @@ void	resize_map(t_m *m)
 	free_string_array(new);
 }
 
-void	max_val(t_m *m)
+void	max_val(t_p *m)
 {
 	size_t	w;
 	size_t	h;
@@ -60,7 +60,7 @@ void	max_val(t_m *m)
 	m->size = (t_point){h, w};
 }
 
-void	fill(t_m *m, t_point cur, char to_fill)
+void	fill(t_p *m, t_point cur, char to_fill)
 {
 	if (m->fmap[cur.y][cur.x] != '1'
 		&& m->fmap[cur.y][cur.x] != '0'
@@ -77,7 +77,7 @@ void	fill(t_m *m, t_point cur, char to_fill)
 	fill(m, (t_point){cur.x, cur.y + 1}, to_fill);
 }
 
-void	check_map(t_m *m)
+void	check_map(t_p *m)
 {
 	t_point	size;
 

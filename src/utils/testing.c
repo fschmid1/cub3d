@@ -6,13 +6,13 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:43:42 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 17:01:30 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 19:40:49 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void	testing(t_m *main)
+void	testing(t_p *main)
 {
 	int	i;
 
@@ -32,7 +32,7 @@ void	testing(t_m *main)
 	printf("PLAYER x:%d\n", main->pos_p.x);
 	printf("PLAYER y:%d\n", main->pos_p.y);
 	printf("MAP CHECK: %i (1==MAP OK)\n", main->status);
-	printf("\ndone printing\n");
+	printf("\ndone printing\n\n");
 }
 
 void	dprint(char **str)

@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:33:21 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 17:34:02 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 19:30:10 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ t_player	*setup_player(t_m *m)
 	player = malloc(sizeof(t_player));
 	if (!player)
 		return (NULL);
-	player->pos_x = (double) m->pos_p.x;
-	player->pos_y = (double) m->pos_p.y;
+	player->pos_x = (double) m->p->pos_p.x;
+	player->pos_y = (double) m->p->pos_p.y;
 	player->plane_x = 0;
 	player->plane_y = 0.66;
-	dir = m->map[m->pos_p.x][m->pos_p.y];
+	dir = m->p->map[m->p->pos_p.x][m->p->pos_p.y];
 	if (dir == 'W')
 	{
 		player->dir_x = -1;
