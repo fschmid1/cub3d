@@ -98,4 +98,5 @@ int     find_player(t_m *m);
 void    check_map(t_m *m);
 void fill(t_m *m, size_t x, int y, int *hole_found);
 void	max_val(t_m *m);
+
 #endif

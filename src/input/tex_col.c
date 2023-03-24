@@ -12,6 +12,7 @@
 
 #include "../include/cub3d.h"
 
+
 void	find_color(t_m *main, int *arr, char *find)
 {
 	int	i;

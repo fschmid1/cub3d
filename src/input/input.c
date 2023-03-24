@@ -6,11 +6,11 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 11:49:51 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 10:30:20 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/23 17:06:26 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../../include/cub3d.h"
 
 void    get_input(t_m *main)
 {
@@ -53,6 +53,7 @@ void    testing(t_m *main)
 	printf("PLAYER y:%i\n", main->player.y);
 	printf("\ndone printing\n");
 }
+
 
 int		mapcheck(char *str)
 {
@@ -107,7 +108,6 @@ char	**find_map(t_m *m)
 	free(file);
 	return (ft_split(res, '\n'));
 }
-
 
 void	find_values(t_m *main)
 {
