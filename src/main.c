@@ -7,10 +7,10 @@ int	main(int argc, char **argv)
 
 	m = setup_main();
 	input_check(m, argc, argv);
-	// setup_window(m);
-	// register_hooks(m);
-	// mlx_loop(m->mlx);
-	// mlx_terminate(m->mlx);
-	free(m);
+	setup_window(m);
+	register_hooks(m);
+	mlx_loop(m->mlx);
+	mlx_terminate(m->mlx);
+	free_main(m);
 	return (0);
 }
