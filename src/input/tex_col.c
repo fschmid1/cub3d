@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
-
+#include "../../include/cub3d.h"
 
 void	find_color(t_m *main, int *arr, char *find)
 {
@@ -23,8 +22,8 @@ void	find_color(t_m *main, int *arr, char *find)
 	res = ft_strdup("");
 	while(TRUE)
 	{
-		if(main->file[i] == find[0] 
-			&& is_whitespace(main->file[i + 1]) == TRUE) 
+		if(main->file[i] == find[0]
+			&& is_whitespace(main->file[i + 1]) == TRUE)
 			break ;
 		else
 			i++;
