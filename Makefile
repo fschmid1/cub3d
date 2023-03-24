@@ -17,7 +17,7 @@ MLX_FILES		= window.c setup.c draw.c
 
 UTILS			= $(addprefix $(UTILS_DIR), $(UTILS_FILES))
 UTILS_DIR		= src/utils/
-UTILS_FILES		= utils.c
+UTILS_FILES		= utils.c testing.c error.c
 
 # OBJ				= $(addprefix $(OBJ_DIR)/, $(OBJ_FILES))
 # OBJ_DIR			= obj
@@ -53,6 +53,10 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 				@$(CC) $(CFLAGS) -c $< -o $@ -I $(HDR_DIR)
 				@echo $(LGREEN)"compiled "$^$(DEFAULT)
 
+$(NAME):		$(LIBFT) $(MLX42) $(ALL_OBJ_DIR) $(ALL_OBJ)
+				@$(CC) $(ALL_OBJ) -o $@ $(CFLAGS) $(LINK)
+				@echo $(GREEN)Compiled$(DEFAULT) $@
+
 $(MLX42):
 				git submodule update --init
 				cd mlx42 && cmake -B build && cmake --build build -j4
@@ -60,10 +64,6 @@ $(MLX42):
 $(LIBFT):
 				git submodule update --init
 				cd libft && make && make clean
-
-$(NAME):		$(MLX42) $(LIBFT) $(ALL_OBJ_DIR) $(ALL_OBJ)
-				@$(CC) $(ALL_OBJ) -o $@ $(CFLAGS) $(LINK)
-				@echo $(GREEN)Compiled$(DEFAULT) $@
 
 $(ALL_OBJ_DIR):
 	@mkdir -p $(ALL_OBJ_DIR)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   setup.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/24 15:52:40 by pgorner           #+#    #+#             */
+/*   Updated: 2023/03/24 15:52:41 by pgorner          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/cub3d.h"
 
 t_m	*setup_main(void)
@@ -12,11 +24,13 @@ t_m	*setup_main(void)
 	m->input = NULL;
 	m->status = TRUE;
 	m->player.x = -1;
-    m->player.y = -1;
+	m->player.y = -1;
 	m->h = 0;
 	m->w = 0;
 	m->fd = 0;
 	m->file = NULL;
+	m->map = NULL;
+	m->fmap = NULL;
 	m->input = NULL;
 	m->no = NULL;
 	m->so = NULL;
@@ -29,6 +43,7 @@ void	free_main(t_m *m)
 {
 	free(m->file);
 	free_string_array(m->map);
+	free_string_array(m->fmap);
 	free_string_array(m->input);
 	free(m->no);
 	free(m->so);

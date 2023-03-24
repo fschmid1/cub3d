@@ -6,55 +6,41 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 11:49:51 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 12:33:49 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 15:45:22 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void    get_input(t_m *main)
+int	get_input(t_m *m)
 {
-    int     i;
-    char	*inpt;
-    char	*res;
+	char	*inpt;
+	char	*res;
+	char	*i;
 
-    i = 0;
 	inpt = NULL;
-	while ((res = get_next_line(main->fd)) > 0)
+	res = get_next_line(m->fd);
+	i = res;
+	while (i > 0)
 	{
 		inpt = ft_strjoin_gnl(inpt, res);
 		free(res);
+		res = get_next_line(m->fd);
+		i = res;
 	}
-	main->file = ft_strdup(inpt);
-	main->input = ft_split(inpt, '\n');
+	m->file = ft_strdup(inpt);
+	m->map = find_map(m);
+	if (!m->map)
+		return (free(inpt), FALSE);
+	m->input = ft_split(inpt, '\n');
 	free(inpt);
+	return (TRUE);
 }
 
-void    testing(t_m *main)
+int	mapcheck(char *str)
 {
-	int i = 0;
-	printf("NO:%s\n", main->no);
-	printf("SO:%s\n", main->so);
-	printf("WE:%s\n", main->we);
-	printf("EA:%s\n", main->ea);
-	printf("F:%s\n", ft_itoa(main->f[0]));
-	printf("F:%s\n", ft_itoa(main->f[1]));
-	printf("F:%s\n", ft_itoa(main->f[2]));
-	printf("C:%s\n", ft_itoa(main->c[0]));
-	printf("C:%s\n", ft_itoa(main->c[1]));
-	printf("C:%s\n", ft_itoa(main->c[2]));
-	while (main->map[i])
-		printf("MAP:%s\n", main->map[i++]);
-	printf("PLAYER x:%d\n", main->player.x);
-	printf("PLAYER y:%d\n", main->player.y);
-	printf("\ndone printing\n");
-}
-
-
-int		mapcheck(char *str)
-{
-	int i;
-	int num;
+	int	i;
+	int	num;
 
 	i = 0;
 	while (str[i])
@@ -69,29 +55,26 @@ int		mapcheck(char *str)
 		else
 			break ;
 	}
-	if(str[i] == '\0' && num == 1)
+	if (str[i] == '\0' && num == 1)
 		return (TRUE);
-	return (FALSE) ;
+	return (FALSE);
 }
 
 char	**find_map(t_m *m)
 {
-	int	i;
-	char *res;
-	char **file;
+	int		i;
+	char	*res;
+	char	**file;
 
 	i = 0;
 	res = ft_strdup("");
 	file = ft_split(m->file, '\n');
-	while(TRUE)
+	while (TRUE)
 	{
 		if (mapcheck(file[i]) == TRUE)
 			break ;
 		else if (!file[i + 1])
-		{
-			printf("ERROR!\n");
 			return (free_string_array(file), free(res), NULL);
-		}
 		else
 			i++;
 	}
@@ -106,31 +89,39 @@ char	**find_map(t_m *m)
 	return (file);
 }
 
-void	find_values(t_m *main)
+char	*find_values(t_m *m)
 {
-	main->no = find_texture(main->file, "NO");
-	main->so = find_texture(main->file, "SO");
-	main->we = find_texture(main->file, "WE");
-	main->ea = find_texture(main->file, "EA");
-	find_color(main, main->f, "F");
-	find_color(main, main->c, "C");
-	main->map = find_map(main);
-	max_val(main);
-	find_player(main);
+	char	*err;
+
+	err = NULL;
+	max_val(m);
+	err = find_player(m);
+	if (err != NULL)
+		return (err);
+	m->no = find_texture(m->file, "NO");
+	m->so = find_texture(m->file, "SO");
+	m->we = find_texture(m->file, "WE");
+	m->ea = find_texture(m->file, "EA");
+	if (m->no == NULL || m->so == NULL
+		|| m->we == NULL || m->ea == NULL)
+		return (MT);
+	if (find_color(m, m->f, "F") == FALSE
+		|| find_color(m, m->c, "C") == FALSE)
+		return (MC);
+	return (err);
 }
 
-void input_check(t_m *main, int argc, char **argv)
+void	input_check(t_m *m, int argc, char **argv)
 {
-    if (argc == 2 && (main->fd = open(argv[1], O_RDONLY)) > 0)
-    {
-		printf("HERE\n");
-    	get_input(main);
-		printf("HERE\n");
-		find_values(main);
-		printf("HERE\n");
-		check_map(main);
-		printf("HERE\n");
-    }
+	if (argc == 2 && open(argv[1], O_RDONLY) > 0)
+	{
+		m->fd = open(argv[1], O_RDONLY);
+		if (get_input(m) == FALSE)
+			err_exit(m, MNF);
+		err_exit(m, find_values(m));
+		check_map(m);
+		testing(m);
+	}
 	else
 		ft_printf("Input is a file!\n");
 }
