@@ -6,11 +6,43 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:54:02 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 16:01:31 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 17:24:15 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+void	resize_map(t_m *m)
+{
+	int		i;
+	int		j;
+	char	**new;
+
+	i = 0;
+	new = ft_calloc(sizeof(char *), m->size.x + 1);
+	while (i < m->size.x)
+		new[i++] = ft_calloc(sizeof(char), m->size.y + 1);
+	i = -1;
+	while(++i < m->size.x)
+	{
+		j = 0;
+		while (j <= m->size.y)
+		{
+			if ((m->map[i][j] != '1' 
+			&& m->map[i][j] != '0'
+			&& ispos_p(m->map[i][j]) == 0)
+			|| j >= (int)ft_strlen(m->map[i]))
+				new[i][j] = '1';
+			else
+				new[i][j] = m->map[i][j];
+			j++;
+		}
+		new[i][j] = '\0';
+	}
+	free_string_array(m->map);
+	m->map = doublcpy(new, m->size.x);
+	free_string_array(new);
+}
 
 void	max_val(t_m *m)
 {
@@ -45,30 +77,14 @@ void	fill(t_m *m, t_point cur, char to_fill)
 	fill(m, (t_point){cur.x, cur.y + 1}, to_fill);
 }
 
-char	**doublcpy(char **src, int size)
-{
-	int		i;
-	char	**dst;
-
-	i = 0;
-	dst = ft_calloc(sizeof(char *), size + 1);
-	while (src[i])
-	{
-		dst[i] = ft_strdup(src[i]);
-		i++;
-	}
-	dst[i] = NULL;
-	return (dst);
-}
-
 void	check_map(t_m *m)
 {
 	t_point size;
 	size = (t_point){m->size.x, m->size.y};
-	printf("bf\n");
 	m->fmap = doublcpy(m->map, m->size.y);
-	printf("fmap:%c\n", m->fmap[0][0]);
-	printf("af\n");
 	m->fmap[m->pos_p.y][m->pos_p.x] = '0';
 	fill(m, m->pos_p, '0');
+	if (m->status == FALSE)
+		err_exit(m, MH);
+	resize_map(m);
 }

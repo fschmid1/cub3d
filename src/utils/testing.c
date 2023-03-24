@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:43:42 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 16:02:42 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 17:01:30 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,11 @@ void	testing(t_m *main)
 	printf("PLAYER y:%d\n", main->pos_p.y);
 	printf("MAP CHECK: %i (1==MAP OK)\n", main->status);
 	printf("\ndone printing\n");
+}
+
+void	dprint(char **str)
+{
+	int i = -1;
+	while(str[++i])
+		printf("%s\n", str[i]);
 }

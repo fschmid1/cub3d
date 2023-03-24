@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:34:54 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 15:10:40 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 16:54:04 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,20 @@ int	is_whitespace(char c)
 		return (TRUE);
 	else
 		return (FALSE);
+}
+
+char	**doublcpy(char **src, int size)
+{
+	int		i;
+	char	**dst;
+
+	i = 0;
+	dst = ft_calloc(sizeof(char *), size + 1);
+	while (src[i])
+	{
+		dst[i] = ft_strdup(src[i]);
+		i++;
+	}
+	dst[i] = NULL;
+	return (dst);
 }
