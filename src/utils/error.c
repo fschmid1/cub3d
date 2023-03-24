@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/23 16:34:54 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 15:10:40 by pgorner          ###   ########.fr       */
+/*   Created: 2023/03/24 13:50:39 by pgorner           #+#    #+#             */
+/*   Updated: 2023/03/24 15:53:43 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-char	*str_append(char *s1, char c)
+void	safe_exit(t_m *m, char *msg)
 {
-	int		i;
-	char	*ret;
-
-	if (!c)
-		return (s1);
-	if (!s1)
-		return (ret = ft_calloc(2, sizeof(char)), ret[0] = c, ret);
-	i = 0;
-	ret = ft_calloc(ft_strlen(s1) + 1 + 1, sizeof(char));
-	ft_memcpy(ret, s1, ft_strlen(s1));
-	ret[ft_strlen(s1)] = c;
-	free(s1);
-	return (ret);
+	printf("%s\n", msg);
+	free_main(m);
+	exit (0);
 }
 
-int	is_whitespace(char c)
+void	err_exit(t_m *m, char *msg)
 {
-	if (c == ' ' | c == '\n' | c == '\t' | c == '\v' | c == '\f' | c == '\r')
-		return (TRUE);
-	else
-		return (FALSE);
+	if (msg == NULL)
+		return ;
+	printf("%s\n", msg);
+	testing(m);
+	free_main(m);
+	exit(0);
 }
