@@ -45,8 +45,8 @@ void    testing(t_m *main)
 	printf("C:%s\n", ft_itoa(main->c[2]));
 	while (main->map[i])
 		printf("MAP:%s\n", main->map[i++]);
-	printf("PLAYER x:%d\n", main->player.x);
-	printf("PLAYER y:%d\n", main->player.y);
+	printf("PLAYER x:%d\n", main->pos_p.x);
+	printf("PLAYER y:%d\n", main->pos_p.y);
 	printf("\ndone printing\n");
 }
 

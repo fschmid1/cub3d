@@ -15,6 +15,10 @@ MLX				= $(addprefix $(MLX_DIR), $(MLX_FILES))
 MLX_DIR			= src/mlx/
 MLX_FILES		= window.c setup.c draw.c
 
+GAME			= $(addprefix $(GAME_DIR), $(GAME_FILES))
+GAME_DIR		= src/game/
+GAME_FILES		= setup.c game.c
+
 UTILS			= $(addprefix $(UTILS_DIR), $(UTILS_FILES))
 UTILS_DIR		= src/utils/
 UTILS_FILES		= utils.c
@@ -27,7 +31,7 @@ HDR				= $(addprefix $(HDR_DIR)/, $(HDR_FILES))
 HDR_DIR			= include/
 HDR_FILES		= cub3d.h
 
-ALL_SRC			=	$(SRC) $(INPUT) $(UTILS) $(MLX)
+ALL_SRC			=	$(SRC) $(INPUT) $(UTILS) $(MLX) $(GAME)
 
 OBJ_DIR			=	obj/
 ALL_OBJ			=	$(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(ALL_SRC))

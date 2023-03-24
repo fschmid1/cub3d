@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../../include/cub3d.h"
 
 int find_player(t_m *m)
 {
@@ -26,10 +26,10 @@ int find_player(t_m *m)
 		{
 			if (m->map[i][j] == 'N' || m->map[i][j] == 'S'
 				|| m->map[i][j] == 'E' || m->map[i][j] == 'W')
-				if (m->player.x != -1 || m->player.y != -1)
+				if (m->pos_p.x != -1 || m->pos_p.y != -1)
 					return (0);
 				else
-					m->player = (t_point){j++, i};
+					m->pos_p = (t_point){j++, i};
             else if (is_whitespace(m->map[i][j])
                 || ft_isdigit(m->map[i][j]))
 			    j++;
@@ -41,7 +41,7 @@ int find_player(t_m *m)
 		}
 		i++;
 	}
-	if (m->player.x == -1 || m->player.y == -1)
+	if (m->pos_p.x == -1 || m->pos_p.y == -1)
 		return (0);
 	return (1);
 }

@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../../include/cub3d.h"
 
 void	max_val(t_m *m)
 {
 	size_t w;
 	size_t h;
-	
+
 	w = 0;
 	h = 0;
 	while (m->map[h])
@@ -31,7 +31,7 @@ void	max_val(t_m *m)
 int	char_check(char c, char *str)
 {
 	int i;
-	
+
 	i = 0;
 	while(str[i])
 	{
@@ -48,8 +48,8 @@ void	fill(t_m *m, t_point size, t_point cur, char to_fill)
 		&& m->fmap[cur.y][cur.x] != '0'
 		&& m->fmap[cur.y][cur.x] != 'F')
 			m->status = FALSE;
-	if (cur.y < 0 || cur.y >= (int)ft_strlen(m->fmap[cur.y]) 
-		|| cur.x < 0 || cur.x >= m->size.y	
+	if (cur.y < 0 || cur.y >= (int)ft_strlen(m->fmap[cur.y])
+		|| cur.x < 0 || cur.x >= m->size.y
 		|| m->fmap[cur.y][cur.x] != to_fill)
 		return;
 
@@ -83,6 +83,6 @@ void check_map(t_m *m)
 	doublcpy(m->map, m->fmap, m->size.y);
 	printf("fmap:%c\n", m->fmap[0][0]);
 	printf("af\n");
-	m->fmap[m->player.y][m->player.x] = '0';
-	fill(m, size, m->player, '0');
+	m->fmap[m->pos_p.y][m->pos_p.x] = '0';
+	fill(m, size, m->pos_p, '0');
 }
