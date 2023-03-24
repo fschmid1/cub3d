@@ -67,18 +67,6 @@ $(ALL_OBJ_DIR):
 ################################################################################
 ################################################################################
 
-# ifeq ($(OS),Windows_NT)
-# else
-# 	UNAME_S := $(shell uname -s)
-# 	ifeq ($(UNAME_S),Linux)
-# #		LINK_FLAGS += -ltinfo
-# 		LSANLFLAGS := -rdynamic -LLeakSanitizer -llsan -ldl -lstdc++
-# 	endif
-# 	ifeq ($(UNAME_S),Darwin)
-# 		LSANLFLAGS := -LLeakSanitizer -llsan -lc++
-# 	endif
-# endif
-
 LSAN = LeakSanitizer
 LSANLIB = /LeakSanitizer/liblsan.a
 
@@ -114,3 +102,4 @@ re:
 
 
 .PHONY:			all clean fclean re lsan
+.SILENT:		clean
