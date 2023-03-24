@@ -13,5 +13,11 @@ t_m	*setup_main(void)
 	m->h = 0;
 	m->w = 0;
 	m->fd = 0;
+	m->file = NULL;
+	m->input = NULL;
+	m->no = NULL;
+	m->so = NULL;
+	m->we = NULL;
+	m->ea = NULL;
 	return (m);
 }

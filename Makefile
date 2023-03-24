@@ -9,7 +9,11 @@ SRC_FILES		= main.c window.c setup.c
 
 INPUT			= $(addprefix $(INPUT_DIR), $(INPUT_FILES))
 INPUT_DIR		= src/input/
-INPUT_FILES		= input.c
+INPUT_FILES		= input.c tex_col.c
+
+UTILS			= $(addprefix $(UTILS_DIR), $(UTILS_FILES))
+UTILS_DIR		= src/utils/
+UTILS_FILES		= utils.c
 
 # OBJ				= $(addprefix $(OBJ_DIR)/, $(OBJ_FILES))
 # OBJ_DIR			= obj
@@ -19,7 +23,7 @@ HDR				= $(addprefix $(HDR_DIR)/, $(HDR_FILES))
 HDR_DIR			= include/
 HDR_FILES		= cub3d.h
 
-ALL_SRC			=	$(SRC) $(INPUT)
+ALL_SRC			=	$(SRC) $(INPUT) $(UTILS)
 
 OBJ_DIR			=	obj/
 ALL_OBJ			=	$(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(ALL_SRC))

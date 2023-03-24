@@ -6,36 +6,11 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 11:49:51 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/23 15:40:16 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/23 17:06:26 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
-
-char	*str_append(char *s1, char c)
-{
-	int		i;
-	char	*ret;
-
-	if (!c)
-		return (s1);
-	if (!s1)
-		return (ret = ft_calloc(2, sizeof(char)), ret[0] = c, ret);
-	i = 0;
-	ret = ft_calloc(ft_strlen(s1) + 1 + 1, sizeof(char));
-	ft_memcpy(ret, s1, ft_strlen(s1));
-	ret[ft_strlen(s1)] = c;
-	free(s1);
-	return (ret);
-}
-
-bool	is_whitespace(char c)
-{
-	if (c == ' ' | c == '\n' | c == '\t' | c == '\v' | c == '\f' | c == '\r')
-		return (true);
-	else
-		return (true);
-}
 
 void    get_input(t_m *main)
 {
@@ -75,56 +50,6 @@ void    testing(t_m *main)
 	printf("\ndone printing\n");
 }
 
-char	*find_texture(char *file, char *find)
-{
-	int	i;
-	char *res;
-
-	i = 0;
-	res = ft_strdup("");
-	while(file[i] != find[0] && file[i + 1] != find[1])
-		i++;
-	while(file[i] && file[i] != '.')
-		i++;
-	if (file[i] == '\0')
-		printf("ERROR\n");
-	while(is_whitespace(file[i]) == FALSE)
-		res = str_append(res, file[i++]);
-	return(res);
-}
-
-void	find_color(t_m *main, int *arr, char *find)
-{
-	int	i;
-	char *res;
-	char **conv;
-
-	i = 0;
-	res = ft_strdup("");
-	while(true)
-	{
-		if(main->file[i] == find[0] && is_whitespace(main->file[i + 1]) == TRUE)
-			break ;
-		else
-			i++;
-	}
-	while(ft_isdigit(main->file[i]) == FALSE)
-		i++;
-	while(is_whitespace(main->file[i]) == FALSE)
-		res = str_append(res, main->file[i++]);
-	conv = ft_split(res, ',');
-	free(res);
-	if (!conv[0] || !conv[1] || !conv[2])
-		printf("ERROR\n");
-	arr[0] = ft_atoi(conv[0]);
-	free(conv[0]);
-	arr[1] = ft_atoi(conv[1]);
-	free(conv[1]);
-	arr[2] = ft_atoi(conv[2]);
-	free(conv[2]);
-	free(conv);
-}
-
 void	find_values(t_m *main)
 {
 	main->no = find_texture(main->file, "NO");
@@ -135,17 +60,14 @@ void	find_values(t_m *main)
 	find_color(main, main->c, "C");
 }
 
-int inputting(int argc, char **argv)
+void input_check(t_m *main, int argc, char **argv)
 {
-    t_m		main;
-
-    if (argc == 2 && (main.fd = open(argv[1], O_RDONLY)) > 0)
+    if (argc == 2 && (main->fd = open(argv[1], O_RDONLY)) > 0)
     {
-    	get_input(&main);
-		find_values(&main);
-    	testing(&main);
+    	get_input(main);
+		find_values(main);
+    	testing(main);
     }
 	else
 		ft_printf("Input is a file!\n");
-    return(0);
 }
