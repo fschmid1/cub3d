@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:01:46 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 15:51:38 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 16:40:16 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,17 @@ char	*find_texture(char *file, char *find)
 	while (is_whitespace(file[i]) == FALSE && file[i] != '\n')
 		res = str_append(res, file[i++]);
 	return (res);
+}
+
+int	check_tex(t_m *m)
+{
+	if (access(m->no, X_OK) != 0)
+		return	(TRUE);
+	if (access(m->so, X_OK) != 0)
+		return	(TRUE);
+	if (access(m->we, X_OK) != 0)
+		return	(TRUE);
+	if (access(m->ea, X_OK) != 0)
+		return	(TRUE);
+	return (FALSE);
 }

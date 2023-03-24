@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:50:39 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 15:53:43 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/24 16:42:56 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	err_exit(t_m *m, char *msg)
 	if (msg == NULL)
 		return ;
 	printf("%s\n", msg);
-	testing(m);
 	free_main(m);
 	exit(0);
 }
