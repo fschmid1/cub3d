@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:53:00 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 20:53:18 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 23:59:36 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@ void	main_hooks(void *param)
 	m = param;
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(m->map->mlx);
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_UP))
+	{
+		printf("KEY UP\n");
+		if (m->map->map[(int)(m->camera->pos.x + m->camera->dir.x * m->camera->mspeed)][(int)m->camera->pos.y] == FALSE)
+			m->camera->pos.x += m->camera->dir.x * m->camera->mspeed;
+		if (m->map->map[(int)m->camera->pos.x][(int)(m->camera->pos.y + m->camera->dir.y * m->camera->mspeed)] == FALSE)
+			m->camera->pos.y += m->camera->dir.y * m->camera->mspeed;
+		m->x = 0;
+	}
 }
 
 void	menu_hook(void *param)
@@ -74,8 +83,8 @@ void	mmsg_hook(void *param)
 
 void	register_hooks(t_m *m)
 {
-	mlx_loop_hook(m->map->mlx, &main_hooks, m);
-	// mlx_loop_hook(m->map->mlx, &game_loop, m);
+	// mlx_loop_hook(m->map->mlx, &main_hooks, m);
+	mlx_loop_hook(m->map->mlx, &game_loop, m);
 	// mlx_loop_hook(m->map->mlx, &mmsg_hook, m);
 	// mlx_loop_hook(m->map->mlx, &menu_hook, m);
 }

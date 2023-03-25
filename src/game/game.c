@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 19:37:45 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 22:44:55 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/26 00:31:18 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,19 @@ void	set_position(t_m *m)
 	m->time = 0; // time of current frame 
 	m->old_time = 0; // time  of previous frame
 	m->map->color = 0xFFFFFF;
-}
-
-void	ray_posdir(t_m *m, int x)
-{
-	m->camera->pos.x = 2 * x / m->window_w - 1;
+	m->camera->pos.x = 2 * m->x / m->window_w - 1;
 	m->camera->ray.x = m->camera->dir.x + m->camera->plane.x * m->camera->pos.x;
 	m->camera->ray.y = m->camera->dir.y + m->camera->plane.y * m->camera->pos.x;
-	m->map->delta_dist.x = m->camera->ray.x == 0 ? INT_MAX : fabs(1 / m->camera->ray.x);
-	m->map->delta_dist.y = m->camera->ray.y == 0 ? INT_MAX : fabs(1 / m->camera->ray.y);
 }
+
+// void	ray_posdir(t_m *m, int x)
+// {
+// }
 
 void	delta_step(t_m *m)
 {
+	m->map->delta_dist.x = m->camera->ray.x == 0 ? INT_MAX : fabs(1 / m->camera->ray.x);
+	m->map->delta_dist.y = m->camera->ray.y == 0 ? INT_MAX : fabs(1 / m->camera->ray.y);
 	m->map->hit = 0;
 	if (m->camera->ray.x < 0)
 	{
@@ -102,17 +102,31 @@ void	perp_wd(t_m *m)
 		m->map->perp_wd = (m->map->side_dist.y - m->map->delta_dist.y);
 }
 
-void	draw_line(t_m *m, int x, int start, int end)
+void	draw_wall(t_m *m, int x, int start, int end)
 {
-	printf("DRAW START %i DRAW END %i\n", start, end);
+	// printf("DRAW START %i DRAW END %i\n", start, end);
 	while (start >= end)
 	{
 		mlx_put_pixel(m->map->img, x, start, m->map->color);
 		start--;
 	}
 }
+void	draw_ceiling(t_m *m, int x, int start, int end)
+{
+	int i;
+	
+	i = 0;
+	while (i < m->window_h)
+	{
+		if (i <= start)
+			mlx_put_pixel(m->map->img, x, i, m->map->colorc);
+		else if (i > end)
+			mlx_put_pixel(m->map->img, x, i, m->map->colorf);
+		i++;
+	}
+}
 
-void	draw_lines(t_m *m, int x)
+void	draw_lines(t_m *m)
 {
 	int	line_height;
 	int draw_start;
@@ -128,7 +142,8 @@ void	draw_lines(t_m *m, int x)
 		draw_end = m->window_h - 1;
 	// if (m->map->side_hit = 1)
 	// 	color = color / 2;
-	draw_line(m, x, draw_start, draw_end);
+	draw_ceiling(m, m->x, draw_start, draw_end);
+	draw_wall(m, m->x, draw_start, draw_end);
 }
 
 void	test_values(t_m *m)
@@ -156,45 +171,81 @@ void	test_values(t_m *m)
 	printf("-------------------------------------------\n");
 }
 
-void	game_loop(t_m *m)
-{
-	int	x;
 
-	x = 0;
-	while (x < m->window_w)
+
+// void	game_loop(t_m *m)
+// {
+// 	int	x;
+
+// 	x = 0;
+// 	while (x < m->window_w)
+// 	{
+// 		// test_values(m);
+// 		// printf("BROKE AT POSDIR\n");
+// 		ray_posdir(m, x);
+// 		// printf("BROKE AT DELTASTEP\n");
+// 		delta_step(m);
+// 		// printf("BROKE AT DDA\n");
+// 		dda(m);
+// 		// printf("BROKE AT PER_WD\n");
+// 		perp_wd(m);
+// 		draw_lines(m, x);
+// 		x++;
+// 	}
+// }
+
+void	movspeed(t_m *m)
+{
+	m->old_time = m->time;
+	m->time = mlx_get_time();
+	m->frametime = (m->time - m->old_time) / 1000;
+	// printf("FPS:%f\n", (1.0/m->frametime));
+	m->camera->mspeed = m->frametime * 5.0;
+	m->camera->rspeed = m->frametime * 3.0;
+}
+
+void	game_loop(void *param)
+{
+	t_m	*m;
+	m = param;
+
+	movspeed(m);
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(m->map->mlx);
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_UP))
 	{
-		// test_values(m);
-		printf("BROKE AT POSDIR\n");
-		ray_posdir(m, x);
+		printf("XPOS:%f\n",m->camera->pos.x );
+		printf("%i && %i\n", (int)(m->camera->pos.x + m->camera->dir.x * m->camera->mspeed), (int)m->camera->pos.y);
+		printf("or\n");
+		printf("%i && %i\n", (int)m->camera->pos.x, (int)(m->camera->pos.y + m->camera->dir.y * m->camera->mspeed));
+		// if (m->map->map[(int)(m->camera->pos.x + m->camera->dir.x * m->camera->mspeed)][(int)m->camera->pos.y] == FALSE)
+		// 	m->camera->pos.x += m->camera->dir.x * m->camera->mspeed;
+		// if (m->map->map[(int)m->camera->pos.x][(int)(m->camera->pos.y + m->camera->dir.y * m->camera->mspeed)] == FALSE)
+		// 	m->camera->pos.y += m->camera->dir.y * m->camera->mspeed;
+		m->camera->pos.x = m->camera->pos.x - m->camera->dir.x * 0.5;
+		m->x = 0;
+	}
+	
+	if (m->x == 0)
+	{
+		// testing(m->p);
+		test_values(m);	
+		if (m->map->img)
+			mlx_delete_image(m->map->mlx, m->map->img);
+		m->map->img = mlx_new_image(m->map->mlx, m->window_w, m->window_h);
+	}
+	while (m->x < m->window_w)
+	{
+		// printf("BROKE AT POSDIR\n");
+		// ray_posdir(m, m->x);
 		printf("BROKE AT DELTASTEP\n");
 		delta_step(m);
 		printf("BROKE AT DDA\n");
 		dda(m);
 		printf("BROKE AT PER_WD\n");
 		perp_wd(m);
-		draw_lines(m, x);
-		x++;
+		draw_lines(m);
+		m->x++;
 	}
+	mlx_image_to_window(m->map->mlx, m->map->img, 0, 0);
 }
-// void	game_loop(void *param)
-// {
-// 	t_m	*m;
-// 	m = param;
-// 	int	x;
-
-// 	x = 0;
-// 	if (x == 0)
-// 	{
-// 		testing(m->p);
-// 		test_values(m);
-// 	}
-// 	while (x < 10)
-// 	{
-// 		ray_posdir(m, x);
-// 		delta_step(m);
-// 		dda(m);
-// 		perp_wd(m);
-// 		draw_lines(m, x);
-// 		x++;
-// 	}
-// }
