@@ -23,6 +23,11 @@ UTILS			= $(addprefix $(UTILS_DIR), $(UTILS_FILES))
 UTILS_DIR		= src/utils/
 UTILS_FILES		= utils.c testing.c error.c
 
+
+MENU			= $(addprefix $(MENU_DIR), $(MENU_FILES))
+MENU_DIR		= src/menu/
+MENU_FILES		= tex_img.c
+
 # OBJ				= $(addprefix $(OBJ_DIR)/, $(OBJ_FILES))
 # OBJ_DIR			= obj
 # OBJ_FILES		= $(SRC_FILES:.c=.o)
@@ -31,7 +36,7 @@ HDR				= $(addprefix $(HDR_DIR)/, $(HDR_FILES))
 HDR_DIR			= include/
 HDR_FILES		= cub3d.h
 
-ALL_SRC			=	$(SRC) $(INPUT) $(UTILS) $(MLX) $(GAME)
+ALL_SRC			=	$(SRC) $(INPUT) $(UTILS) $(MLX) $(GAME) $(MENU)
 
 OBJ_DIR			=	obj/
 ALL_OBJ			=	$(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(ALL_SRC))
