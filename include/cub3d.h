@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:31:15 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 11:04:04 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 11:24:31 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,13 @@ typedef struct s_point {
   int y;
 } t_point;
 //------------------------------------MAIN--------------------------------------
+
+typedef enum e_gstate
+{
+	MENU;
+	GAME;
+	DEAD;
+} t_gstate;
 
 typedef	struct	s_player
 {
