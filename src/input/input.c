@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 11:49:51 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 19:14:35 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 22:16:58 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,29 @@ char	*find_values(t_p *m)
 	return (err);
 }
 
+void	map_to_int(t_p *m)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	j = 0;
+	m->intmap = malloc(sizeof(int *) * m->size.x + 1);
+	while (++i < m->size.x)
+	{
+		j = 0;
+ 		m->intmap[i] = ft_calloc(sizeof(int), m->size.y + 1);
+		while(m->map[i][j])
+		{
+			if (ispos_p(m->map[i][j]) == TRUE)
+				m->intmap[i][j] = 0;
+			else
+				m->intmap[i][j] = m->map[i][j] - '0';
+			j++;
+		}
+	}
+}
+
 void	input_check(t_p *m, int argc, char **argv)
 {
 	if (argc == 2 && open(argv[1], O_RDONLY) > 0)
@@ -124,6 +147,7 @@ void	input_check(t_p *m, int argc, char **argv)
 			err_exit(m, MNF);
 		err_exit(m, find_values(m));
 		check_map(m);
+		map_to_int(m);
 	}
 	else
 		ft_printf("Input is a file!\n");

@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:53:00 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 20:53:18 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 14:53:56 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,30 @@ void	main_hooks(void *param)
 	t_m	*m;
 
 	m = param;
-	if (mlx_is_key_down(m->map->mlx, MLX_KEY_ESCAPE))
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_ESCAPE) 
+		&& m->g_state == MENU)
+	{
+		m->g_state = PAUSE;
+		mlx_put_string(m->map->mlx, "DO YOU WANT TO QUIT?", 700, MSG_H);
+		mlx_put_string(m->map->mlx, "PRESS SPACE TO EXIT OR", 700, MSG_H + 20);
+		mlx_put_string(m->map->mlx, "ENTER TO CONTINUE", 700, MSG_H + 40);
+		m->g_state = EXIT;
+	}
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_SPACE)
+		&& m->g_state == EXIT)
 		mlx_close_window(m->map->mlx);
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_ENTER)
+		&& m->g_state == EXIT)
+			m->g_state = MENU;
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_ESCAPE)
+		&& m->g_state != MENU && m->g_state != EXIT)
+		{
+			m->prev_state = m->g_state;
+			m->g_state = PAUSE;
+		}
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_ESCAPE)
+		&& m->g_state == PAUSE && m->g_state != EXIT)
+			m->g_state = m->prev_state;
 }
 
 void	menu_hook(void *param)
@@ -75,7 +97,6 @@ void	mmsg_hook(void *param)
 void	register_hooks(t_m *m)
 {
 	mlx_loop_hook(m->map->mlx, &main_hooks, m);
-	// mlx_loop_hook(m->map->mlx, &game_loop, m);
 	// mlx_loop_hook(m->map->mlx, &mmsg_hook, m);
-	// mlx_loop_hook(m->map->mlx, &menu_hook, m);
+	mlx_loop_hook(m->map->mlx, &menu_hook, m);
 }
