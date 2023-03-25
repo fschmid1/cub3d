@@ -28,10 +28,6 @@ MENU			= $(addprefix $(MENU_DIR), $(MENU_FILES))
 MENU_DIR		= src/menu/
 MENU_FILES		= tex_img.c msg.c
 
-# OBJ				= $(addprefix $(OBJ_DIR)/, $(OBJ_FILES))
-# OBJ_DIR			= obj
-# OBJ_FILES		= $(SRC_FILES:.c=.o)
-
 HDR				= $(addprefix $(HDR_DIR)/, $(HDR_FILES))
 HDR_DIR			= include/
 HDR_FILES		= cub3d.h
