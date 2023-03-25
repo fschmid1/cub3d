@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:54:02 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 19:14:44 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 11:29:42 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	resize_map(t_p *m)
 	while(++i < m->size.x)
 	{
 		j = 0;
-		while (j <= m->size.y)
+		while (j < m->size.y)
 		{
 			if ((m->map[i][j] != '1' 
 			&& m->map[i][j] != '0'
