@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:31:15 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 12:05:56 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 14:04:01 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,10 @@ typedef struct s_point {
 typedef enum e_gstate
 {
 	START,
+	PAUSE,
 	GAME,
 	DEAD,
+	EXIT,
 } t_gstate;
 
 typedef	struct	s_player
@@ -156,6 +158,7 @@ typedef	struct	s_main
 	int			window_h;
 	double		time;
 	double		old_time;
+	t_gstate	prev_state;
 	t_gstate	g_state;
 }	t_m;
 //==============================================================================
