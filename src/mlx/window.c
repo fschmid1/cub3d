@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:53:00 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 12:32:21 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 12:38:02 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	menu_hook(void *param)
 	double	time;
 	
 	time = mlx_get_time();
-	if (time - m->men->t > m->men->speed)
+	if (time - m->men->t > m->men->speed && m->g_state == START)
 	{
 		if (m->men->i < m->men->num_of_f - 1)
 			m->men->i++;
