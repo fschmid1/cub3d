@@ -26,7 +26,7 @@ UTILS_FILES		= utils.c testing.c error.c
 
 MENU			= $(addprefix $(MENU_DIR), $(MENU_FILES))
 MENU_DIR		= src/menu/
-MENU_FILES		= tex_img.c
+MENU_FILES		= tex_img.c msg.c
 
 # OBJ				= $(addprefix $(OBJ_DIR)/, $(OBJ_FILES))
 # OBJ_DIR			= obj

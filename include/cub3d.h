@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:31:15 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 11:24:31 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 12:05:56 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@
 // SET PATH TO APPROPRIATE MENU
 // "src/menu/dream/" // 1 = dream // NUMOFFILES 3
 // "src/menu/city/"  // 2 = city // NUMOFFILES 51
+//-------------------------------MENU_MSG------------------------------------
+#define MSG_P "src/menu/msg/"
+#define MSG_NOF 19
+#define MSG_H 270
+#define MSG_W 670
+
 //==============================================================================
 //----------------------------------STRUCTS-------------------------------------
 //==============================================================================
@@ -65,9 +71,9 @@ typedef struct s_point {
 
 typedef enum e_gstate
 {
-	MENU;
-	GAME;
-	DEAD;
+	START,
+	GAME,
+	DEAD,
 } t_gstate;
 
 typedef	struct	s_player
@@ -111,6 +117,14 @@ typedef struct s_parse
 	t_m		*main;
 } t_p;
 
+typedef struct s_msg
+{
+	mlx_texture_t **tex;
+	mlx_image_t **img;
+	int 		num_of_f;
+	int			i;
+} t_msg;
+
 typedef struct s_menu
 {
 	mlx_texture_t **tex;
@@ -119,6 +133,7 @@ typedef struct s_menu
 	double		t;
 	int			i;
 	double		speed;
+	t_msg		*msg;
 } t_menu;
 
 typedef struct	s_map
@@ -155,6 +170,7 @@ void	free_main(t_m *m);
 t_map	*setup_map(t_m *m);
 t_p		*setup_parse(t_m *m);
 t_menu	*setup_menu(void);
+t_msg	*setup_msg(void);
 //==============================================================================
 //----------------------------------GAME/GAME.c-------------------------------------
 //==============================================================================
@@ -217,5 +233,12 @@ void	draw_menu(t_m *m);
 void	tex_to_im(t_m *m);
 void	alloc_tex_im(t_m *m);
 void	load_textures(t_m *m, char *path);
+//==============================================================================
+//--------------------------------------MSG.c-------------------------------------
+//==============================================================================
+void	draw_msg(t_m *m);
+void	msg_tex_to_im(t_m *m);
+void	msg_alloc_tex_im(t_m *m);
+void	msg_load_textures(t_m *m, char *path);
 
 #endif
