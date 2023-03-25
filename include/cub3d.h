@@ -24,6 +24,7 @@
 #include <fcntl.h>
 #include <limits.h>
 #include <stdio.h>
+#include <math.h>
 
 //==============================================================================
 //-------------------------------DEFINED_VALUES---------------------------------
@@ -67,8 +68,14 @@ typedef struct s_point {
   int x;
   int y;
 } t_point;
-//------------------------------------MAIN--------------------------------------
 
+typedef struct	s_vec
+{
+	double	x;
+	double	y;
+	double	z;
+}	t_vec;
+//------------------------------------MAIN--------------------------------------
 typedef enum e_gstate
 {
 	START,
@@ -78,20 +85,15 @@ typedef enum e_gstate
 
 typedef	struct	s_player
 {
-	double	pos_x;
-	double	pos_y;
-	double	dir_x;
-	double	dir_y;
-	double	plane_x;
-	double	plane_y;
+	t_vec	pos;
+	t_vec	dir;
+	t_vec	plane;
 }	t_player;
 
 typedef struct	s_camera
 {
-	double	x;
-	double	y;
-	double	ray_dir_x;
-	double	ray_dir_y;
+	t_vec	pos;
+	t_vec	ray;
 }	t_camera;
 
 typedef struct s_main	t_m;
@@ -138,12 +140,15 @@ typedef struct s_menu
 
 typedef struct	s_map
 {
+	t_point		pos;
+	t_vec		side_dist;
+	t_vec		delta_dist;
+	double		p_wall_dist;
 	t_point		size;
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	t_player	*player;
-	double		csize_x;
-	double		csize_y;
+	t_vec		csize;
 }	t_map;
 
 typedef	struct	s_main
@@ -175,7 +180,7 @@ t_msg	*setup_msg(void);
 //==============================================================================
 //----------------------------------GAME/GAME.c-------------------------------------
 //==============================================================================
-void	game_loop(t_p *m);
+void	game_loop(t_m *m);
 //==============================================================================
 //----------------------------------GAME/SETUP.c-------------------------------------
 //==============================================================================
