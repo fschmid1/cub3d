@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:53:00 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 19:52:01 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 11:15:53 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,18 @@ void	main_hooks(void *param)
 void	menu_hook(void *param)
 {
 	t_m	*m;
-
 	m = param;
-	if (m->men->menu == 0)
+	double	time;
+	
+	time = mlx_get_time();
+	if (time - m->men->t > m->men->speed)
 	{
-		mlx_image_to_window(m->map->mlx, m->men->m2i, 0, 0);
-		m->men->menu++;
-		sleep(1);
-	}
-	else if (m->men->menu != 0)
-	{
-		mlx_image_to_window(m->map->mlx, m->men->m1i, 0, 0);
-		m->men->menu = 0;
-		sleep(1);
+		if (m->men->i < m->men->num_of_f - 1)
+			m->men->i++;
+		else
+			m->men->i = 0;
+		mlx_image_to_window(m->map->mlx, m->men->img[m->men->i], 0, 0);
+		m->men->t = time;
 	}
 }
 
@@ -59,4 +58,5 @@ void	register_hooks(t_m *m)
 {
 	mlx_loop_hook(m->map->mlx, &main_hooks, m);
 	mlx_loop_hook(m->map->mlx, &menu_hook, m);
+	// mlx_loop_hook(m->map->mlx, &city_hook, m);
 }

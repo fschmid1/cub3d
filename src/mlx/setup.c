@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:40 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 19:51:10 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 10:58:22 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ t_menu	*setup_menu(void)
 	menu = malloc(sizeof(t_menu));
 	if (!menu)
 		return (NULL);
+	menu->num_of_f = NUMOFFILES;
+	menu->t = 0;
+	menu->i = 0;
+	menu->speed = SPEED;
 	return (menu);
 }
 

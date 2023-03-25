@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:31:15 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 19:51:40 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 11:04:04 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,16 @@
 //---------------------------------PLAYER---------------------------------------
 #define MP "MULTIPLE STARTING POSITIONS FOUND"
 #define NP "NO PLAYER FOUND"
+//-------------------------------MENU_SCREEN------------------------------------
+#define PNG ".png"
+#define MENU 2
+#define PATH "src/menu/city/"
+#define NUMOFFILES 51
+#define SPEED 0.2
+// DEFINE NUMBER OF FILES TO NUM OF FILES + 1
+// SET PATH TO APPROPRIATE MENU
+// "src/menu/dream/" // 1 = dream // NUMOFFILES 3
+// "src/menu/city/"  // 2 = city // NUMOFFILES 51
 //==============================================================================
 //----------------------------------STRUCTS-------------------------------------
 //==============================================================================
@@ -52,6 +62,7 @@ typedef struct s_point {
   int y;
 } t_point;
 //------------------------------------MAIN--------------------------------------
+
 typedef	struct	s_player
 {
 	double	pos_x;
@@ -95,11 +106,12 @@ typedef struct s_parse
 
 typedef struct s_menu
 {
-	mlx_texture_t *m1;
-	mlx_image_t *m1i;
-	mlx_texture_t *m2;
-	mlx_image_t *m2i;
-	int		menu;
+	mlx_texture_t **tex;
+	mlx_image_t **img;
+	int 		num_of_f;
+	double		t;
+	int			i;
+	double		speed;
 } t_menu;
 
 typedef struct	s_map
@@ -191,5 +203,12 @@ int		ispos_p(char c);
 void	check_map(t_p *m);
 void	fill(t_p *m, t_point cur, char to_fill);
 void	max_val(t_p *m);
+//==============================================================================
+//-----------------------------------TEX_IMG.c-------------------------------------
+//==============================================================================
+void	draw_menu(t_m *m);
+void	tex_to_im(t_m *m);
+void	alloc_tex_im(t_m *m);
+void	load_textures(t_m *m, char *path);
 
 #endif
