@@ -26,6 +26,7 @@ t_m	*setup_main(void)
 	m->men->msg = setup_msg();
 	m->time = 0;
 	m->old_time = 0;
+	m->g_state = START;
 	return (m);
 }
 
