@@ -87,15 +87,15 @@ typedef enum e_gstate
 
 typedef	struct	s_player
 {
-	t_vec	pos;
-	t_vec	dir;
-	t_vec	plane;
+	t_vec	pos; // player pos
+	t_vec	dir; // player dir
+	t_vec	plane; // player plane
 }	t_player;
 
 typedef struct	s_camera
 {
-	t_vec	pos;
-	t_vec	ray;
+	t_vec	pos; // camera pos
+	t_vec	ray; // ray dir
 }	t_camera;
 
 typedef struct s_main	t_m;
@@ -142,15 +142,14 @@ typedef struct s_menu
 
 typedef struct	s_map
 {
-	t_point		pos;
+	t_point		pos; // player pos in parsed map
 	t_vec		side_dist;
-	t_vec		delta_dist;
-	double		p_wall_dist;
+	t_vec		delta_dist; // delta ray dir
+	double		p_wall_dist; // perp wall dist
 	t_point		size;
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	t_player	*player;
-	t_vec		csize;
 }	t_map;
 
 typedef	struct	s_main
@@ -158,7 +157,7 @@ typedef	struct	s_main
 	t_menu		*men;
 	t_map		*map;
 	t_camera	*camera;
-	t_p			*p;
+	t_p			*p; // parsed
 	int			window_w;
 	int			window_h;
 	double		time;
