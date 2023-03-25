@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:40 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 10:58:22 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 12:06:13 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_m	*setup_main(void)
 	m->p = setup_parse(m);
 	m->map = setup_map(m);
 	m->men = setup_menu();
+	m->men->msg = setup_msg();
 	m->time = 0;
 	m->old_time = 0;
 	m->g_state = START;
@@ -64,6 +65,18 @@ t_map	*setup_map(t_m *m)
 	map->csize_y = 0;
 	map->size = m->p->size;
 	return (map);
+}
+
+t_msg	*setup_msg(void)
+{
+	t_msg	*msg;
+
+	msg = malloc(sizeof(t_msg));
+	if (!msg)
+		return (NULL);
+	msg->num_of_f = MSG_NOF;
+	msg->i = 0;
+	return (msg);
 }
 
 t_menu	*setup_menu(void)

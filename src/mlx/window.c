@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:53:00 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 11:15:53 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 12:32:21 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,27 @@ void	menu_hook(void *param)
 	}
 }
 
+void	mmsg_hook(void *param)
+{
+	t_m	*m;
+	m = param;
+	double	time;
+	
+	time = mlx_get_time();
+	if (time - m->men->t > m->men->speed)
+	{
+		if (m->men->msg->i < m->men->msg->num_of_f - 1)
+			m->men->msg->i++;
+		else
+			m->men->msg->i = 0;
+		mlx_image_to_window(m->map->mlx, m->men->msg->img[m->men->msg->i], MSG_W, MSG_H);
+		m->men->t = time;
+	}
+}
+
 void	register_hooks(t_m *m)
 {
 	mlx_loop_hook(m->map->mlx, &main_hooks, m);
+	// mlx_loop_hook(m->map->mlx, &mmsg_hook, m);
 	mlx_loop_hook(m->map->mlx, &menu_hook, m);
-	// mlx_loop_hook(m->map->mlx, &city_hook, m);
 }

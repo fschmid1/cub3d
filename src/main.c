@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:17 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 20:50:36 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 11:54:27 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	main(int argc, char **argv)
 	testing(m->p);
 	setup_window(m);
 	draw_menu(m);
+	draw_msg(m);
 	printf("done\n");
 	register_hooks(m);
 	mlx_loop(m->map->mlx);
