@@ -61,7 +61,7 @@ t_map	*setup_map(t_m *m)
 		return (NULL);
 	map->mlx = NULL;
 	map->img = NULL;
-	map->csize = (t_vec) {0, 0};
+	map->csize = (t_vec) {0, 0, 0};
 	map->size = m->p->size;
 	return (map);
 }

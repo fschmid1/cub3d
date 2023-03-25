@@ -23,15 +23,15 @@ void	game_loop(t_m *main)
 	while (++x < main->window_w)
 	{
 		double	cameraX = 2 * x / (double) main->window_w - 1;
-		camera = (t_camera){(t_vec) {cameraX, 0 }, (t_vec) { m->player->dir.x + m->player->plane.x * cameraX, m->player->dir.y + m->player->plane.y * cameraX}};
+		camera = (t_camera){(t_vec) {cameraX, 0, 0}, (t_vec) {m->player->dir.x + m->player->plane.x * cameraX, m->player->dir.y + m->player->plane.y * cameraX, 0}};
 		m->pos = (t_point) {(int) m->player->pos.x, (int) m->player->pos.y};
 		m->delta_dist.x = camera.ray.x == 0 ? INT_MAX : fabs(1 / camera.ray.x);
 		m->delta_dist.y = camera.ray.y == 0 ? INT_MAX : fabs(1 / camera.ray.y);
 
 		int stepX;
-		int setpY;
-		int hit = 0;
-		int side;
+		// int stepY;
+		// int hit = 0;
+		// int side;
 
 		if (camera.ray.x < 0)
 		{
