@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:17 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 12:38:15 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 22:18:32 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,21 @@ int	main(int argc, char **argv)
 
 	m = setup_main();
 	input_check(m->p, argc, argv);
+	printf("-------------------INPUT CHECK DONE-------------\n");
 	testing(m->p);
+	printf("--------------------TESTING DONE----------------\n");
 	setup_window(m);
-	draw_menu(m);
-	draw_msg(m);
+	printf("--------------------WINDOW DONE----------------\n");
+	// draw_msg(m);
+	// draw_menu(m);
+	m->map->player = setup_player(m);
+	printf("--------------------PLAYER SETUP ----------------\n");
+	m->camera = setup_camera(m);
+	printf("--------------------CAMERA SETUP ----------------\n");
+	set_position(m);
+	printf("--------------------POSITION SETUP----------------\n");
+	game_loop(m);
+	printf("--------------------GAME LOOP RUNNING ONCE----------------\n");
 	register_hooks(m);
 	mlx_loop(m->map->mlx);
 	mlx_terminate(m->map->mlx);

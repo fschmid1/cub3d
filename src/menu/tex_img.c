@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:16 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 12:37:46 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 14:56:13 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,5 @@ void	draw_menu(t_m *m)
 	alloc_tex_im(m);
 	load_textures(m, PATH);
 	tex_to_im(m);
+	mlx_image_to_window(m->map->mlx, m->men->img[0], 0, 0);
 }

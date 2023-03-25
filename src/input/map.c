@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:54:02 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 11:29:42 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 22:46:19 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,17 @@ void	max_val(t_p *m)
 			w = ft_strlen(m->map[h]);
 		h++;
 	}
-	m->size = (t_point){h, w};
+	m->size = (t_vec){h, w, 0};
 }
 
 void	fill(t_p *m, t_point cur, char to_fill)
 {
-	if (m->fmap[cur.y][cur.x] != '1'
+	if ((m->fmap[cur.y][cur.x] != '1'
 		&& m->fmap[cur.y][cur.x] != '0'
 		&& m->fmap[cur.y][cur.x] != 'F')
+		|| (m->fmap[0][cur.x] == '0'))
 			m->status = FALSE;
-	if (cur.y < 0 || cur.y >= (int)ft_strlen(m->fmap[cur.y])
+	else if (cur.y < 0 || cur.y >= (int)ft_strlen(m->fmap[cur.y])
 		|| cur.x < 0 || cur.x >= m->size.y
 		|| m->fmap[cur.y][cur.x] != to_fill)
 		return ;
@@ -79,12 +80,18 @@ void	fill(t_p *m, t_point cur, char to_fill)
 
 void	check_map(t_p *m)
 {
+	int i;
 	t_point	size;
 
+	i = 0;
+	while (i < m->size.x)
+		if(m->map[0][i++] == '0')
+			err_exit(m, MH);
 	size = (t_point){m->size.x, m->size.y};
 	m->fmap = doublcpy(m->map, m->size.y);
-	m->fmap[m->pos_p.y][m->pos_p.x] = '0';
-	fill(m, m->pos_p, '0');
+	m->fmap[(int)m->pos_p.y][(int)m->pos_p.x] = '0';
+	size = (t_point){(int)m->pos_p.x, (int)m->pos_p.y};
+	fill(m, size, '0');
 	if (m->status == FALSE)
 		err_exit(m, MH);
 	resize_map(m);

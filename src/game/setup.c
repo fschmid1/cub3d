@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:33:21 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 19:30:10 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/25 21:30:38 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ t_player	*setup_player(t_m *m)
 	player = malloc(sizeof(t_player));
 	if (!player)
 		return (NULL);
-	player->pos = (t_vec) {m->p->pos_p.x, m->p->pos_p.y, 0};
-	player->plane = (t_vec) {0, 0.66, 0};
-	dir = m->p->map[m->p->pos_p.x][m->p->pos_p.y];
+	player->pos = m->p->pos_p;
+	dir = m->p->map[(int)m->p->pos_p.y][(int)m->p->pos_p.x];
 	if (dir == 'W')
 		player->dir = (t_vec) {-1, 0, 0};
 	else if (dir == 'O')
@@ -32,4 +31,23 @@ t_player	*setup_player(t_m *m)
 	else if (dir == 'N')
 		player->dir = (t_vec) {0, 1, 0};
 	return (player);
+}
+
+t_camera	*setup_camera(t_m *m)
+{
+	t_camera *cam;
+	char		dir;
+
+	cam = malloc(sizeof(t_camera));
+	cam->pos = (t_vec){m->p->pos_p.x, m->p->pos_p.y, 0};
+	dir = m->p->map[(int)m->p->pos_p.x][(int)m->p->pos_p.y];
+	if (dir == 'W')
+		cam->dir = (t_vec) {-1, 0, 0};
+	else if (dir == 'O')
+		cam->dir = (t_vec) {1, 0, 0};
+	else if (dir == 'S')
+		cam->dir = (t_vec) {0, -1, 0};
+	else if (dir == 'N')
+		cam->dir = (t_vec) {0, 1, 0};
+	return (cam);
 }

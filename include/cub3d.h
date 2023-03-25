@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/23 16:31:15 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 14:04:01 by pgorner          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 //				██╗  ██╗███████╗ █████╗ ██████╗ ███████╗██████╗
 //				██║  ██║██╔════╝██╔══██╗██╔══██╗██╔════╝██╔══██╗
@@ -75,7 +64,8 @@ typedef struct	s_vec
 	double	y;
 	double	z;
 }	t_vec;
-//------------------------------------MAIN--------------------------------------
+
+//------------------------------------ENUM--------------------------------------
 typedef enum e_gstate
 {
 	START,
@@ -85,42 +75,7 @@ typedef enum e_gstate
 	EXIT,
 } t_gstate;
 
-typedef	struct	s_player
-{
-	t_vec	pos; // player pos
-	t_vec	dir; // player dir
-	t_vec	plane; // player plane
-}	t_player;
-
-typedef struct	s_camera
-{
-	t_vec	pos; // camera pos
-	t_vec	ray; // ray dir
-}	t_camera;
-
-typedef struct s_main	t_m;
-
-typedef struct s_parse
-{
-    int     h;
-    int     w;
-    int     fd;
-    int     status;
-    char    *file;
-    char    **map;
-    char    **fmap;
-    char    **input;
-    char    *no;
-    char    *so;
-    char    *we;
-    char    *ea;
-    int     f[3];
-    int     c[3];
-    t_point pos_p;
-    t_point size;
-	t_m		*main;
-} t_p;
-
+//------------------------------------MENU--------------------------------------
 typedef struct s_msg
 {
 	mlx_texture_t **tex;
@@ -140,30 +95,74 @@ typedef struct s_menu
 	t_msg		*msg;
 } t_menu;
 
+//------------------------------------INPUT--------------------------------------
+typedef struct s_main	t_m;
+
+typedef struct s_parse
+{
+    //height of map
+    //width of map
+    int     fd; //file descriptor
+    int     status; // return status if map is valid
+    char    **input; // full file
+    char    *file; // full file as one continous string
+    char    **map; // only the map as a char matrix
+    int    **intmap; // only the map as a char matrix
+    char    **fmap; // only the map for floodfill in struct
+    char    *no; //path to NORTH texture
+    char    *so; //path to SOUTH texture
+    char    *we; //path to WEST texture
+    char    *ea; //path to EAST texture
+    int     f[3]; //floor color as RGB
+    int     c[3]; //sky color as RGB
+    t_vec	pos_p; //player position on matrix
+    t_vec	size; 
+	t_m		*main;
+} t_p;
+
+//------------------------------------INPUT--------------------------------------
+typedef	struct	s_player
+{
+	t_vec	pos; // player pos
+	t_vec	dir; // player dir
+}	t_player;
+
+typedef struct	s_camera
+{
+	t_vec	dir; // camera direction
+	t_vec	ray; // ray dir // rayDirX // rayDirY
+	t_vec	plane; // camera plane //planeX // planeY
+	t_vec	pos; // position of player //posX // posY
+	t_vec	map; // position on map // mapX // mapY
+}	t_camera;
+
 typedef struct	s_map
 {
-	t_point		pos; // player pos in parsed map
-	t_vec		side_dist;
+	mlx_t		*mlx; //mlx
+	mlx_image_t	*img; //initial window
+	t_vec		side_dist; // distance to side
 	t_vec		delta_dist; // delta ray dir
-	double		p_wall_dist; // perp wall dist
-	t_point		size;
-	mlx_t		*mlx;
-	mlx_image_t	*img;
-	t_player	*player;
+	t_vec		step; //stepX // stepY
+	int			hit; 
+	int			side_hit; // hit NS OR EW wall?
+	double		perp_wd; // perp wall dist
+	t_player	*player; //player struct
+	int			**map;
+	uint32_t	color;
 }	t_map;
 
 typedef	struct	s_main
 {
-	t_menu		*men;
-	t_map		*map;
-	t_camera	*camera;
+	t_menu		*men; //menu animation struct
+	t_map		*map; //makes the cub 3d
+	t_camera	*camera; //camera infos
 	t_p			*p; // parsed
-	int			window_w;
-	int			window_h;
-	double		time;
-	double		old_time;
-	t_gstate	prev_state;
-	t_gstate	g_state;
+	int			window_w; //window width
+	int			window_h; //window height
+	double		time; //time of current frame
+	double		old_time; //time of previous frame
+	t_gstate	g_state; //current state
+	t_gstate	prev_state; //save of previous state
 }	t_m;
 //==============================================================================
 //----------------------------------WINDOW.c------------------------------------
@@ -175,18 +174,20 @@ void	register_hooks(t_m *m);
 //==============================================================================
 t_m		*setup_main(void);
 void	free_main(t_m *m);
-t_map	*setup_map(t_m *m);
+t_map	*setup_map(void);
 t_p		*setup_parse(t_m *m);
 t_menu	*setup_menu(void);
 t_msg	*setup_msg(void);
 //==============================================================================
-//----------------------------------GAME/GAME.c-------------------------------------
+//----------------------------------GAME/GAME.c---------------------------------
 //==============================================================================
 void	game_loop(t_m *m);
+void	set_position(t_m *m);
 //==============================================================================
-//----------------------------------GAME/SETUP.c-------------------------------------
+//----------------------------------GAME/SETUP.c--------------------------------
 //==============================================================================
 t_player	*setup_player(t_m *m);
+t_camera	*setup_camera(t_m *m);
 //==============================================================================
 //----------------------------------DRAW.c-------------------------------------
 //==============================================================================
@@ -216,6 +217,7 @@ void	free_t(t_p *m);
 //==============================================================================
 void	testing(t_p *main);
 void	dprint(char **str);
+void	dprinti(int **str, int x, int y);
 //==============================================================================
 //---------------------------------TEX_COL.c------------------------------------
 //==============================================================================
