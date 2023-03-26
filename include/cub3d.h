@@ -129,26 +129,32 @@ typedef	struct	s_player
 
 typedef struct	s_camera
 {
-	t_vec	dir; // camera direction
-	t_vec	ray; // ray dir // rayDirX // rayDirY
-	t_vec	plane; // camera plane //planeX // planeY
-	t_vec	pos; // position of player //posX // posY
-	t_vec	map; // position on map // mapX // mapY
+	t_vec	old_ray_dir;
+	t_vec	ray_dir;
+	t_vec	pos;
+	t_vec	old_plane;
+	t_vec	plane;
+	int		map_x;
+	int		map_y;
+	t_vec	side_dist; // distance to side
+	t_vec	delta_dist; // delta ray dir
+	t_vec	step; //stepX // stepY
+	double	perp_wd; // perp wall dist
+	int		hit; 
+	int		side; // hit NS OR EW wall?
+	double	mspeed; // movement speed
+	double	rspeed; // rotation speed
 }	t_camera;
 
 typedef struct	s_map
 {
 	mlx_t		*mlx; //mlx
 	mlx_image_t	*img; //initial window
-	t_vec		side_dist; // distance to side
-	t_vec		delta_dist; // delta ray dir
-	t_vec		step; //stepX // stepY
-	int			hit; 
-	int			side_hit; // hit NS OR EW wall?
-	double		perp_wd; // perp wall dist
 	t_player	*player; //player struct
 	int			**map;
 	uint32_t	color;
+	uint32_t	colorc;
+	uint32_t	colorf;
 }	t_map;
 
 typedef	struct	s_main
@@ -161,8 +167,10 @@ typedef	struct	s_main
 	int			window_h; //window height
 	double		time; //time of current frame
 	double		old_time; //time of previous frame
+	double		frametime; //time of previous frame
 	t_gstate	g_state; //current state
 	t_gstate	prev_state; //save of previous state
+	int			x; //used for action iteration in game loop
 }	t_m;
 //==============================================================================
 //----------------------------------WINDOW.c------------------------------------
@@ -181,7 +189,8 @@ t_msg	*setup_msg(void);
 //==============================================================================
 //----------------------------------GAME/GAME.c---------------------------------
 //==============================================================================
-void	game_loop(t_m *m);
+void	game_loop(void *param);
+// void	game_loop(t_m *m);
 void	set_position(t_m *m);
 //==============================================================================
 //----------------------------------GAME/SETUP.c--------------------------------
@@ -199,6 +208,7 @@ int		is_whitespace(char c);
 char	*str_append(char *s1, char c);
 int		char_check(char c, char *str);
 char	**doublcpy(char **src, int size);
+int	**dblcpy_to_int(int **src, int x, int y);
 //==============================================================================
 //----------------------------------ERROR.c-------------------------------------
 //==============================================================================
@@ -218,6 +228,7 @@ void	free_t(t_p *m);
 void	testing(t_p *main);
 void	dprint(char **str);
 void	dprinti(int **str, int x, int y);
+void	test_values(t_m *m);
 //==============================================================================
 //---------------------------------TEX_COL.c------------------------------------
 //==============================================================================

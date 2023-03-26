@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:53:00 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 20:53:18 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/26 15:40:39 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@ void	main_hooks(void *param)
 	m = param;
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(m->map->mlx);
+	// if (mlx_is_key_down(m->map->mlx, MLX_KEY_UP))
+	// {
+	// 	printf("KEY UP\n");
+	// 	if (m->map->map[(int)(m->camera->pos.x + m->camera->dir.x * m->camera->mspeed)][(int)m->camera->pos.y] == FALSE)
+	// 		m->camera->pos.x += m->camera->dir.x * m->camera->mspeed;
+	// 	if (m->map->map[(int)m->camera->pos.x][(int)(m->camera->pos.y + m->camera->dir.y * m->camera->mspeed)] == FALSE)
+	// 		m->camera->pos.y += m->camera->dir.y * m->camera->mspeed;
+	// 	m->x = 0;
+	// }
 }
 
 void	menu_hook(void *param)
@@ -49,7 +58,12 @@ void	menu_hook(void *param)
 			m->men->i++;
 		else
 			m->men->i = 0;
+		if (m->men->msg->i < m->men->msg->num_of_f - 1)
+			m->men->msg->i++;
+		else
+			m->men->msg->i = 0;
 		mlx_image_to_window(m->map->mlx, m->men->img[m->men->i], 0, 0);
+		mlx_image_to_window(m->map->mlx, m->men->msg->img[m->men->msg->i], MSG_W, MSG_H);
 		m->men->t = time;
 	}
 }
@@ -63,11 +77,6 @@ void	mmsg_hook(void *param)
 	time = mlx_get_time();
 	if (time - m->men->t > m->men->speed)
 	{
-		if (m->men->msg->i < m->men->msg->num_of_f - 1)
-			m->men->msg->i++;
-		else
-			m->men->msg->i = 0;
-		mlx_image_to_window(m->map->mlx, m->men->msg->img[m->men->msg->i], MSG_W, MSG_H);
 		m->men->t = time;
 	}
 }
@@ -75,7 +84,7 @@ void	mmsg_hook(void *param)
 void	register_hooks(t_m *m)
 {
 	mlx_loop_hook(m->map->mlx, &main_hooks, m);
-	// mlx_loop_hook(m->map->mlx, &game_loop, m);
+	mlx_loop_hook(m->map->mlx, &game_loop, m);
 	// mlx_loop_hook(m->map->mlx, &mmsg_hook, m);
 	// mlx_loop_hook(m->map->mlx, &menu_hook, m);
 }

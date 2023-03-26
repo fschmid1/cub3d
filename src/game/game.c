@@ -6,195 +6,207 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 19:37:45 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 22:44:55 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/26 16:53:32 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../include/cub3d.h"
 
-int	**dblcpy_to_int(int **src, int x, int y)
+void	set_values(t_m *m)
 {
-	int **dest;
-	int	i;
-	int	j;
-
-	i = y;
-	i = 0;
-	j = 0;
-	dest = malloc(sizeof(int *) * x);
-	while (i < x)
-	{
-			dest[i] = src[i];
-		i++;
-	}
-	return(dest);
-}
-
-void	set_position(t_m *m)
-{
-	m->map->map = dblcpy_to_int(m->p->intmap, m->p->size.x, m->p->size.y);
-	m->camera->pos = (t_vec){m->p->pos_p.x, m->p->pos_p.y, 0}; // sets player start position
-	m->camera->map = m->camera->pos; // initial direction vector
-	m->camera->dir = (t_vec){-1, 0, 0}; // initial direction vector
-	m->camera->plane = (t_vec){0, 0.66, 0}; // 2d raycaster of camera plane
-	m->time = 0; // time of current frame 
-	m->old_time = 0; // time  of previous frame
-	m->map->color = 0xFFFFFF;
-}
-
-void	ray_posdir(t_m *m, int x)
-{
-	m->camera->pos.x = 2 * x / m->window_w - 1;
-	m->camera->ray.x = m->camera->dir.x + m->camera->plane.x * m->camera->pos.x;
-	m->camera->ray.y = m->camera->dir.y + m->camera->plane.y * m->camera->pos.x;
-	m->map->delta_dist.x = m->camera->ray.x == 0 ? INT_MAX : fabs(1 / m->camera->ray.x);
-	m->map->delta_dist.y = m->camera->ray.y == 0 ? INT_MAX : fabs(1 / m->camera->ray.y);
+	m->camera->pos.x = 2 * m->x / m->window_w - 1;
+	m->camera->ray_dir.x = m->camera->ray_dir.x + m->camera->plane.x * m->camera->pos.x;
+	m->camera->ray_dir.y = m->camera->ray_dir.y + m->camera->plane.y * m->camera->pos.x;
+	m->camera->map_x = (int)m->p->pos_p.x;
+	m->camera->map_y = (int)m->p->pos_p.y;
 }
 
 void	delta_step(t_m *m)
 {
-	m->map->hit = 0;
-	if (m->camera->ray.x < 0)
+	m->camera->delta_dist.x = m->camera->ray_dir.x == 0 ? INT_MAX : fabs(1 / m->camera->ray_dir.x);
+	m->camera->delta_dist.y = m->camera->ray_dir.y == 0 ? INT_MAX : fabs(1 / m->camera->ray_dir.y);
+	m->camera->hit = 0;
+	if (m->camera->ray_dir.x < 0)
 	{
-		m->map->step.x *= -1;
-		m->map->side_dist.x = (m->camera->pos.x - m->camera->map.x) * m->map->delta_dist.x;
+		m->camera->step.x = -1;
+		m->camera->side_dist.x = (m->camera->pos.x - m->camera->map_x) * m->camera->delta_dist.x;
 	}
 	else
-		m->map->side_dist.x = (m->camera->map.x + 1.0 - m->camera->pos.x) * m->map->delta_dist.x;
-	if (m->camera->ray.y < 0)
 	{
-		m->map->step.y *= -1;
-		m->map->side_dist.y = (m->camera->pos.y - m->camera->map.y) * m->map->delta_dist.y;
+		m->camera->step.x = 1;
+		m->camera->side_dist.x = (m->camera->map_x + 1.0 - m->camera->pos.x) * m->camera->delta_dist.x;
+	}
+	if (m->camera->ray_dir.y < 0)
+	{
+		m->camera->step.y = -1;
+		m->camera->side_dist.y = (m->camera->pos.y - m->camera->map_y) * m->camera->delta_dist.y;
 	}
 	else
-		m->map->side_dist.y = (m->camera->map.y + 1.0 - m->camera->pos.y) * m->map->delta_dist.y;
+	{
+		m->camera->step.y = 1;
+		m->camera->side_dist.y = (m->camera->map_y + 1.0 - m->camera->pos.y) * m->camera->delta_dist.y;
+	}
 }
 
 void	dda(t_m *m)
 {
-	while(m->map->hit == 0)
+	while(m->camera->hit == 0)
 	{
-		// printf("MAP SIDE DIST:X:%f: Y:%f: Z:%f\n", m->map->side_dist.x, m->map->side_dist.y, m->map->side_dist.z);
-		// printf("MAP DELT DIST:X:%f: Y:%f: Z:%f\n", m->map->delta_dist.x, m->map->delta_dist.y, m->map->delta_dist.z);
-		if (m->map->side_dist.x < m->map->side_dist.y)
+		// printf("MAP SIDE DIST:X:%f: Y:%f: Z:%f\n", m->camera->side_dist.x, m->camera->side_dist.y, m->camera->side_dist.z);
+		// printf("MAP DELT DIST:X:%f: Y:%f: Z:%f\n", m->camera->delta_dist.x, m->camera->delta_dist.y, m->camera->delta_dist.z);
+		if (m->camera->side_dist.x < m->camera->side_dist.y)
 		{
-			m->map->side_dist.x += m->map->delta_dist.x;
-			m->camera->map.x += m->map->step.x;
-			m->map->side_hit = 0;
+			m->camera->side_dist.x += m->camera->delta_dist.y;
+			m->camera->map_x += m->camera->step.x;
+			m->camera->side = 0;
 		}
 		else
 		{
-			m->map->side_dist.y += m->map->delta_dist.y;
-			m->camera->map.y += m->map->step.y;
-			m->map->side_hit = 1;
+			m->camera->side_dist.y += m->camera->delta_dist.x;
+			m->camera->map_y += m->camera->step.y;
+			m->camera->side = 1;
 		}
-		if (m->map->map[(int)(m->camera->map.x)][(int)(m->camera->map.x)] > 0)
-			m->map->hit = 1;
+		if (m->map->map[m->camera->map_x][m->camera->map_y] > 0)
+			m->camera->hit = 1;
 	}
 }
 
 void	perp_wd(t_m *m)
 {
-	if (m->map->side_hit == 0)
-		m->map->perp_wd = (m->map->side_dist.x - m->map->delta_dist.x);
+	if (m->camera->side == 0)
+		m->camera->perp_wd = (m->camera->map_x - m->camera->pos.x + (1 - m->camera->step.x) / 2) / m->camera->ray_dir.x;
 	else
-		m->map->perp_wd = (m->map->side_dist.y - m->map->delta_dist.y);
+		m->camera->perp_wd = (m->camera->map_y - m->camera->pos.y + (1 - m->camera->step.y) / 2) / m->camera->ray_dir.y;
 }
 
-void	draw_line(t_m *m, int x, int start, int end)
+void	draw_wall(t_m *m, int x, int start, int end)
 {
-	printf("DRAW START %i DRAW END %i\n", start, end);
-	while (start >= end)
+	while (start < end)
 	{
 		mlx_put_pixel(m->map->img, x, start, m->map->color);
-		start--;
+		start++;
+	}
+}
+void	draw_ceiling(t_m *m, int x, int start, int end)
+{
+	int i;
+	
+	i = 0;
+	while (i < m->window_h)
+	{
+		if (i < start)
+			mlx_put_pixel(m->map->img, x, i, m->map->colorc);
+		else if (i > end)
+			mlx_put_pixel(m->map->img, x, i, m->map->colorf);
+		i++;
 	}
 }
 
-void	draw_lines(t_m *m, int x)
+void	draw_lines(t_m *m)
 {
 	int	line_height;
 	int draw_start;
 	int draw_end;
 	
 	
-	line_height = (int)(m->window_h / m->map->perp_wd);
+	line_height = (int)(m->window_h / m->camera->perp_wd);
 	draw_start = -line_height / 2 + m->window_h / 2;
 	draw_end = line_height / 2 + m->window_h / 2;
 	if (draw_start < 0)
 		draw_start = 0;
 	if (draw_end >= m->window_h)
 		draw_end = m->window_h - 1;
-	// if (m->map->side_hit = 1)
-	// 	color = color / 2;
-	draw_line(m, x, draw_start, draw_end);
+	// if (m->camera->side == 1)
+	// 	m->map->color = 0x333333FF;
+	// printf("LINE HEIGHT: %i P_WD.%f \nDRAW START %i DRAW END %i\n", line_height, m->camera->perp_wd, draw_start, draw_end);
+	draw_ceiling(m, m->x, draw_start, draw_end);
+	draw_wall(m, m->x, draw_start, draw_end);
 }
 
-void	test_values(t_m *m)
+void	movspeed(t_m *m)
 {
-	// dprinti(m->map->map, m->p->size.x, m->p->size.y);
-	printf("----------------PARSE-------------------\n");
-	printf("MAP PLAYER POS :X:%f: Y:%f: Z:%f\n", m->p->pos_p.x, m->p->pos_p.y, m->p->pos_p.z);
-	printf("MAP PLAYER POS :X:%i: Y:%i: Z:%i\n", (int)m->p->pos_p.x, (int)m->p->pos_p.y, (int)m->p->pos_p.z);
-	printf("----------------PLAYER-------------------\n");
-	printf("MAP PLAYER POS :X:%f: Y:%f: Z:%f\n", m->map->player->pos.x, m->map->player->pos.y, m->map->player->pos.z);
-	printf("MAP PLAYER DIR :X:%f: Y:%f: Z:%f\n", m->map->player->dir.x, m->map->player->dir.y, m->map->player->dir.z);
-	printf("----------------NEW LINE-------------------\n");
-	printf("MAP SIDE DIST:X:%f: Y:%f: Z:%f\n", m->map->side_dist.x, m->map->side_dist.y, m->map->side_dist.z);
-	printf("MAP DELT DIST:X:%f: Y:%f: Z:%f\n", m->map->delta_dist.x, m->map->delta_dist.y, m->map->delta_dist.z);
-	printf("MAP STEP:     X:%f: Y:%f: Z:%f\n", m->map->step.x, m->map->step.y, m->map->step.z);
-	printf("MAP HIT:     %i\n", m->map->hit);
-	printf("MAP SIDEHIT: %i\n", m->map->side_hit);
-	printf("MAP PERP_WD: %f\n", m->map->perp_wd);
-	printf("-------------------------------------------\n");
-	printf("CAM DIR:  X:%f: Y:%f: Z:%f\n", m->camera->dir.x, m->camera->dir.y, m->camera->dir.z);
-	printf("CAM RAY:  X:%f: Y:%f: Z:%f\n", m->camera->ray.x, m->camera->ray.y, m->camera->ray.z);
-	printf("CAM PLANE:X:%f: Y:%f: Z:%f\n", m->camera->plane.x, m->camera->plane.y, m->camera->plane.z);
-	printf("CAM POS:  X:%f: Y:%f: Z:%f\n", m->camera->pos.x, m->camera->pos.y, m->camera->pos.z);
-	printf("CAM MAP:  X:%f: Y:%f: Z:%f\n", m->camera->map.x, m->camera->map.y, m->camera->map.z);
-	printf("-------------------------------------------\n");
+	m->old_time = m->time;
+	m->time = mlx_get_time();
+	m->frametime = (m->time - m->old_time) / 1000;
+	// printf("FPS:%f\n", (1.0/m->frametime));
+	m->camera->mspeed = m->frametime * 0.5;
+	m->camera->rspeed = /* m->frametime * */ 0.3;
 }
 
-void	game_loop(t_m *m)
+void	movement(t_m *m)
 {
-	int	x;
-
-	x = 0;
-	while (x < m->window_w)
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_UP))
 	{
-		// test_values(m);
-		printf("BROKE AT POSDIR\n");
-		ray_posdir(m, x);
-		printf("BROKE AT DELTASTEP\n");
-		delta_step(m);
-		printf("BROKE AT DDA\n");
-		dda(m);
-		printf("BROKE AT PER_WD\n");
-		perp_wd(m);
-		draw_lines(m, x);
-		x++;
+		// printf("XPOS:%f\n",m->camera->pos.x );
+		// printf("%i && %i\n", (int)(m->camera->pos.x + m->camera->ray_dir.x * m->camera->mspeed), (int)m->camera->pos.y);
+		// printf("or\n");
+		// printf("%i && %i\n", (int)m->camera->pos.x, (int)(m->camera->pos.y + m->camera->ray_dir.y * m->camera->mspeed));
+		if (m->map->map[(int)(m->camera->pos.x + m->camera->ray_dir.x * m->camera->mspeed)][(int)m->camera->pos.y] == FALSE)
+			m->camera->pos.x += m->camera->ray_dir.x * m->camera->mspeed;
+		if (m->map->map[(int)m->camera->pos.x][(int)(m->camera->pos.y + m->camera->ray_dir.y * m->camera->mspeed)] == FALSE)
+			m->camera->pos.y += m->camera->pos.x - m->camera->ray_dir.y * m->camera->mspeed;
+		// m->camera->pos.x = m->camera->pos.x - m->camera->ray_dir.x * m->camera->mspeed;
+		m->x = 0;
+	}
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_DOWN))
+	{
+		m->camera->pos.x = m->camera->pos.x + m->camera->step.x * m->camera->mspeed;
+		m->x = 0;
+	}
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_LEFT))
+	{
+		m->camera->old_ray_dir.x = m->camera->ray_dir.x;
+		m->camera->ray_dir.x = m->camera->ray_dir.x * cos(-m->camera->rspeed) - m->camera->ray_dir.y * sin(-m->camera->rspeed);
+		m->camera->ray_dir.y = m->camera->old_ray_dir.x * sin(-m->camera->rspeed) + m->camera->ray_dir.y * cos(-m->camera->rspeed);
+		m->camera->old_plane.x = m->camera->plane.x;
+		m->camera->plane.x = m->camera->plane.x * cos(m->camera->rspeed) - m->camera->plane.y * sin(m->camera->rspeed);
+		m->camera->plane.y = m->camera->old_plane.x * sin(m->camera->rspeed) + m->camera->plane.y * cos(m->camera->rspeed);
+		m->x = 0;
+	}
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_RIGHT))
+	{
+		m->camera->old_ray_dir.x = m->camera->ray_dir.x;
+		m->camera->ray_dir.x = m->camera->ray_dir.x * cos(m->camera->rspeed) - m->camera->ray_dir.y * sin(m->camera->rspeed);
+		m->camera->ray_dir.y = m->camera->old_ray_dir.x * sin(m->camera->rspeed) + m->camera->ray_dir.y * cos(m->camera->rspeed);
+		m->camera->old_plane.x = m->camera->plane.x;
+		m->camera->plane.x = m->camera->plane.x * cos(m->camera->rspeed) - m->camera->plane.y * sin(m->camera->rspeed);
+		m->camera->plane.y = m->camera->old_plane.x * sin(m->camera->rspeed) + m->camera->plane.y * cos(m->camera->rspeed);
+		m->x = 0;
 	}
 }
-// void	game_loop(void *param)
-// {
-// 	t_m	*m;
-// 	m = param;
-// 	int	x;
 
-// 	x = 0;
-// 	if (x == 0)
-// 	{
-// 		testing(m->p);
-// 		test_values(m);
-// 	}
-// 	while (x < 10)
-// 	{
-// 		ray_posdir(m, x);
-// 		delta_step(m);
-// 		dda(m);
-// 		perp_wd(m);
-// 		draw_lines(m, x);
-// 		x++;
-// 	}
-// }
+void	game_loop(void *param)
+{
+	t_m	*m;
+	m = param;
+
+	movspeed(m);
+	movement(m);
+	if (m->x == 0)
+	{
+		// test_values(m);	
+		if (m->map->img)
+			mlx_delete_image(m->map->mlx, m->map->img);
+		m->map->img = mlx_new_image(m->map->mlx, m->window_w, m->window_h);
+	}
+	while (m->x < m->window_w)
+	{
+		// printf("BROKE AT VALUES\n");
+		set_values(m);
+		// test_values(m);
+		// printf("BROKE AT DELTASTEP\n");
+		delta_step(m);
+		// test_values(m);
+		// printf("BROKE AT DDA\n");
+		dda(m);
+		// test_values(m);
+		// printf("BROKE AT PER_WD\n");
+		perp_wd(m);
+		// test_values(m);
+		// printf("BROKE AT DRAW LINES\n");
+		draw_lines(m);
+		m->x++;
+	}
+	mlx_image_to_window(m->map->mlx, m->map->img, 0, 0);
+}

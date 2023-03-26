@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:40 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 22:40:56 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/26 15:42:08 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_m	*setup_main(void)
 	m->time = 0;
 	m->old_time = 0;
 	m->g_state = MENU;
+	m->time = mlx_get_time();
 	return (m);
 }
 
@@ -60,11 +61,9 @@ t_map	*setup_map(void)
 		return (NULL);
 	map->mlx = NULL;
 	map->img = NULL;
-	map->step = (t_vec) {0, 0, 0};
-	// map->csize = (t_vec) {1, 1, 0};
-	// map->size = m->p->size;
-	map->side_hit = 0;
 	map->color = 0xFFFFFF;
+	map->colorc = 0xa29a9a;
+	map->colorf = 0x721818;
 	return (map);
 }
 

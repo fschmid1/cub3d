@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:34:54 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 16:54:04 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/26 15:19:02 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,27 @@ char	**doublcpy(char **src, int size)
 	}
 	dst[i] = NULL;
 	return (dst);
+}
+
+int	**dblcpy_to_int(int **src, int x, int y)
+{
+	int **dest;
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	dest = malloc(sizeof(int *) * x);
+	while (i < x)
+	{
+		dest[i] = malloc(sizeof(int) * y);
+		j = 0;
+		while (j < y)
+		{
+			dest[i][j] = src[i][j];
+			j++;
+		}
+		i++;
+	}
+	return (dest);
 }
