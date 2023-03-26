@@ -26,10 +26,12 @@
 #define MC "MISSING COLOR"
 #define MV "MISSING VALUES"
 #define TF "TEXTURE FILE INACCESSIBLE"
+#define ITE "INVALID TEXTURE EXTENSION"
 //-----------------------------------MAP----------------------------------------
 #define MNF "MAP NOT FOUND"
 #define MH "MAP HAS HOLES"
 #define IM "INVALID MAP"
+#define ME "MAP EXTENSION NEEDS TO BE \".cub\""
 //---------------------------------PLAYER---------------------------------------
 #define MP "MULTIPLE STARTING POSITIONS FOUND"
 #define NP "NO PLAYER FOUND"

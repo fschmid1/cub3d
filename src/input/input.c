@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 11:49:51 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 22:16:58 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/26 17:21:13 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,19 @@ char	**find_map(t_p *m)
 	return (file);
 }
 
+char	*check_textures(t_p *m)
+{
+	if (ft_strnstr(m->no, ".png", ft_strlen(m->no)) == 0
+		|| ft_strnstr(m->so, ".png", ft_strlen(m->so)) == 0
+		|| ft_strnstr(m->we, ".png", ft_strlen(m->we)) == 0
+		|| ft_strnstr(m->ea, ".png", ft_strlen(m->ea)) == 0)
+		return (ITE);
+	if (m->no == NULL || m->so == NULL
+		|| m->we == NULL || m->ea == NULL)
+		return (MT);
+	return (NULL);
+}
+
 char	*find_values(t_p *m)
 {
 	char	*err;
@@ -103,12 +116,12 @@ char	*find_values(t_p *m)
 	m->so = find_texture(m->file, "SO");
 	m->we = find_texture(m->file, "WE");
 	m->ea = find_texture(m->file, "EA");
-	if (m->no == NULL || m->so == NULL
-		|| m->we == NULL || m->ea == NULL)
-		return (MT);
 	if (TESTING != 1)
+	{
+	err = check_textures(m);
 		if (check_tex(m))
 			return (TF);
+	}
 	if (find_color(m, m->f, "F") == FALSE
 		|| find_color(m, m->c, "C") == FALSE)
 		return (MC);
@@ -140,6 +153,8 @@ void	map_to_int(t_p *m)
 
 void	input_check(t_p *m, int argc, char **argv)
 {
+	if (ft_strnstr(argv[1], ".cub", ft_strlen(argv[1])) == 0)
+		err_exit(m, ME);
 	if (argc == 2 && open(argv[1], O_RDONLY) > 0)
 	{
 		m->fd = open(argv[1], O_RDONLY);
@@ -150,5 +165,5 @@ void	input_check(t_p *m, int argc, char **argv)
 		map_to_int(m);
 	}
 	else
-		ft_printf("Input is a file!\n");
+		err_exit(m, "INPUT IS A FILE");
 }
