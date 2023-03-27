@@ -24,12 +24,12 @@ t_player	*setup_player(t_m *m)
 	dir = m->p->map[(int)m->p->pos_p.y][(int)m->p->pos_p.x];
 	if (dir == 'W')
 		player->dir = (t_vec) {-1, 0, 0};
-	else if (dir == 'O')
+	else if (dir == 'E')
 		player->dir = (t_vec) {1, 0, 0};
 	else if (dir == 'S')
-		player->dir = (t_vec) {0, -1, 0};
-	else if (dir == 'N')
 		player->dir = (t_vec) {0, 1, 0};
+	else if (dir == 'N')
+		player->dir = (t_vec) {0, -1, 0};
 	return (player);
 }
 
@@ -52,11 +52,11 @@ t_camera	*setup_camera(t_m *m)
 	dir = m->p->map[(int)m->p->pos_p.x][(int)m->p->pos_p.y];
 	if (dir == 'W')
 		cam->ray_dir = (t_vec) {-1, 0, 0};
-	else if (dir == 'O')
+	else if (dir == 'E')
 		cam->ray_dir = (t_vec) {1, 0, 0};
 	else if (dir == 'S')
-		cam->ray_dir = (t_vec) {0, -1, 0};
-	else if (dir == 'N')
 		cam->ray_dir = (t_vec) {0, 1, 0};
+	else if (dir == 'N')
+		cam->ray_dir = (t_vec) {-1, 0, 0};
 	return (cam);
 }
