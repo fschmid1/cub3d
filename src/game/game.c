@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 19:37:45 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/27 15:34:32 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/27 16:58:35 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,24 @@ void	game_loop(void *param)
 	// 	draw_lines(m);
 	// 	m->x++;
 	// }
+	while (m->x < m->window_w)
+	{
+		// printf("BROKE AT VALUES\n");
+		set_values(m);
+		// test_values(m);
+		// printf("BROKE AT DELTASTEP\n");
+		delta_step(m);
+		// test_values(m);
+		// printf("BROKE AT DDA\n");
+		dda(m);
+		// test_values(m);
+		// printf("BROKE AT PER_WD\n");
+		perp_wd(m);
+		// test_values(m);
+		// printf("BROKE AT DRAW LINES\n");
+		draw_lines(m);
+		m->x++;
+	}
 	minimap(m);
 	// mlx_image_to_window(m->map->mlx, m->map->img, 0, 0);
 }
