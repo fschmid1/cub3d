@@ -140,18 +140,18 @@ void	movement(t_m *m)
 {
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_UP))
 	{
-		if (m->map->map[(int)(m->map->player->pos.x + m->camera->ray_dir.x * m->camera->mspeed)][(int)m->camera->pos.y] == FALSE)
-			m->map->player->pos.x += m->camera->ray_dir.x * m->camera->mspeed;
-		if (m->map->map[(int)m->camera->pos.x][(int)(m->camera->pos.y + m->camera->ray_dir.y * m->camera->mspeed)] == FALSE)
-			m->map->player->pos.y += m->map->player->pos.y - m->camera->ray_dir.y * m->camera->mspeed;
+		if (m->map->map[(int)(m->map->player->pos.x + m->map->player->dir.x * m->camera->mspeed)][(int)m->map->player->pos.y] == FALSE)
+			m->map->player->pos.x += m->map->player->dir.x * m->camera->mspeed;
+		if (m->map->map[(int)m->map->player->pos.x][(int)(m->map->player->pos.y + m->camera->ray_dir.y * m->camera->mspeed)] == FALSE)
+			m->map->player->pos.y += m->map->player->pos.y - m->map->player->dir.y * m->camera->mspeed;
 		m->x = 0;
 	}
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_DOWN))
 	{
-		if (m->map->map[(int)(m->map->player->pos.x - m->camera->ray_dir.x * m->camera->mspeed)][(int)m->camera->pos.y] == FALSE)
-			m->map->player->pos.x -= m->camera->ray_dir.x * m->camera->mspeed;
-		if (m->map->map[(int)m->camera->pos.x][(int)(m->camera->pos.y - m->camera->ray_dir.y * m->camera->mspeed)] == FALSE)
-			m->map->player->pos.y -= m->map->player->pos.y - m->camera->ray_dir.y * m->camera->mspeed;
+		if (m->map->map[(int)(m->map->player->pos.x - m->map->player->dir.x * m->camera->mspeed)][(int)m->map->player->pos.y] == FALSE)
+			m->map->player->pos.x -= m->map->player->dir.x * m->camera->mspeed;
+		if (m->map->map[(int)m->map->player->pos.x][(int)(m->map->player->pos.y - m->map->player->dir.y * m->camera->mspeed)] == FALSE)
+			m->map->player->pos.y -= m->map->player->pos.y - m->map->player->dir.y * m->camera->mspeed;
 		m->x = 0;
 	}
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_LEFT))

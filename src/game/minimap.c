@@ -1,5 +1,6 @@
 #include "../../include/cub3d.h"
 #include <stdio.h>
+#include <sys/fcntl.h>
 #include <sys/syslimits.h>
 
 static void	draw_square(t_m *m, int x, int y, int color)
@@ -28,15 +29,15 @@ static bool	is_in_triangle(t_point p1, t_point p2, t_point p3, t_point p)
 	return ((ab >= 0 && bc >= 0 && ca >= 0) || (ab <= 0 && bc <= 0 && ca <= 0));
 }
 
-static void draw_triangle(t_m *m, int x, int y, int size, double direction)
+static void draw_triangle(t_m *m, int x, int y, int size, double dir)
 {
-    double angle = direction * M_PI / 180.0;
+    double angle = dir * M_PI / 180.0;
     double cos_a = cos(angle);
     double sin_a = sin(angle);
     int half_size = size / 2;
-
 	x -= half_size;
 	y -= half_size;
+
 	t_point p1 = {x + (int)round(half_size * cos_a) * 1.75, y + (int)round(half_size * sin_a) * 1.75};
 	t_point p2 = {x + (int)round(half_size * cos(angle + 2*M_PI/3)), y + (int)round(half_size * sin(angle + 2*M_PI/3))};
 	t_point p3 = {x + (int)round(half_size * cos(angle + 4*M_PI/3)), y + (int)round(half_size * sin(angle + 4*M_PI/3))};
@@ -57,6 +58,15 @@ static void draw_triangle(t_m *m, int x, int y, int size, double direction)
     }
 }
 
+static double	to_angle(t_vec dir)
+{
+	double	radians;
+	double	degrees;
+
+	radians = atan2(dir.y, dir.x);
+    degrees = radians * 180.0 / M_PI;
+    return (degrees);
+}
 
 static void	draw_player(t_m *m)
 {
@@ -69,7 +79,9 @@ static void	draw_player(t_m *m)
 	mw = m->map->minmap_scale * m->p->size.y;
 	rh = mh / m->p->size.x;
 	rw = mw / m->p->size.y;
-	draw_triangle(m, (m->camera->pos.x * rw) + m->map->minmap_scale + 20, (m->camera->pos.y * rh) + m->map->minmap_scale + 20, 10, m->map->player->dir.x);
+
+	draw_triangle(m, (m->camera->pos.x * rw) + m->map->minmap_scale + 20,
+			(m->camera->pos.y * rh) + m->map->minmap_scale + 20, 10, to_angle(m->map->player->dir));
 }
 
 void	minimap(t_m	*m)
@@ -89,9 +101,9 @@ void	minimap(t_m	*m)
 		while (j < m->p->size.y)
 		{
 			if (m->p->map[i][j] == '1')
-				draw_square(m, x, y, 0xFFFFFFFF);
-			else if (m->p->map[i][j] == '0')
-				draw_square(m, x, y, 0x00000000);
+				draw_square(m, x, y, m->map->color);
+			else if (m->p->map[i][j] == '0' || ft_strchr("WESN", m->p->map[i][j]))
+				draw_square(m, x, y, m->map->colorf);
 			j++;
 			x += m->map->minmap_scale;
 		}

@@ -63,10 +63,10 @@ t_map	*setup_map(void)
 		return (NULL);
 	map->mlx = NULL;
 	map->img = NULL;
-	map->color = 0xFFFFFF;
+	map->color = 0xFFFFFFFF;
 	map->minmap_scale = 0;
-	map->colorc = 0xa29a9a;
-	map->colorf = 0x721818;
+	map->colorc = 0xa29a9aFF;
+	map->colorf = 0x721818FF;
 	return (map);
 }
 
