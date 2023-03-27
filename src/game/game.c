@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 
-#include "../include/cub3d.h"
+#include "../../include/cub3d.h"
 
 void	set_values(t_m *m)
 {
@@ -91,7 +91,7 @@ void	draw_wall(t_m *m, int x, int start, int end)
 void	draw_ceiling(t_m *m, int x, int start, int end)
 {
 	int i;
-	
+
 	i = 0;
 	while (i < m->window_h)
 	{
@@ -108,7 +108,7 @@ void	draw_lines(t_m *m)
 	int	line_height;
 	int draw_start;
 	int draw_end;
-	
+
 	line_height = 0;
 	draw_start = 0;
 	draw_end = 0;
@@ -183,32 +183,33 @@ void	game_loop(void *param)
 	t_m	*m;
 	m = param;
 
-	movspeed(m);
-	movement(m);
-	if (m->x == 0)
-	{
-		// test_values(m);	
-		if (m->map->img)
-			mlx_delete_image(m->map->mlx, m->map->img);
-		m->map->img = mlx_new_image(m->map->mlx, m->window_w, m->window_h);
-	}
+	// movspeed(m);
+	// movement(m);
+	// if (m->x == 0)
+	// {
+	// 	// test_values(m);
+	// 	if (m->map->img)
+	// 		mlx_delete_image(m->map->mlx, m->map->img);
+	// 	m->map->img = mlx_new_image(m->map->mlx, m->window_w, m->window_h);
+	// }
 	while (m->x < m->window_w)
 	{
-		printf("BROKE AT VALUES\n");
-		set_values(m);
-		// test_values(m);
-		printf("BROKE AT DELTASTEP\n");
-		delta_step(m);
-		// test_values(m);
-		printf("BROKE AT DDA\n");
-		dda(m);
-		// test_values(m);
-		printf("BROKE AT PER_WD\n");
-		perp_wd(m);
-		// test_values(m);
-		printf("BROKE AT DRAW LINES\n");
-		draw_lines(m);
+		// printf("BROKE AT VALUES\n");
+		// set_values(m);
+		// // test_values(m);
+		// printf("BROKE AT DELTASTEP\n");
+		// delta_step(m);
+		// // test_values(m);
+		// printf("BROKE AT DDA\n");
+		// dda(m);
+		// // test_values(m);
+		// printf("BROKE AT PER_WD\n");
+		// perp_wd(m);
+		// // test_values(m);
+		// printf("BROKE AT DRAW LINES\n");
+		// draw_lines(m);
 		m->x++;
 	}
-	mlx_image_to_window(m->map->mlx, m->map->img, 0, 0);
+	minimap(m);
+	// mlx_image_to_window(m->map->mlx, m->map->img, 0, 0);
 }

@@ -1,0 +1,106 @@
+#include "../../include/cub3d.h"
+#include <stdio.h>
+#include <sys/syslimits.h>
+
+static void	draw_square(t_m *m, int x, int y, int color)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < m->map->minmap_scale)
+	{
+		j = 0;
+		while (j < m->map->minmap_scale)
+		{
+			draw_pixel(m, x + i + 20, y + j + 20, color);
+			j++;
+		}
+		i++;
+	}
+}
+
+static bool	is_in_triangle(t_point p1, t_point p2, t_point p3, t_point p)
+{
+	double ab = (p2.y - p1.y) * (p.x - p1.x) - (p2.x - p1.x) * (p.y - p1.y);
+	double bc = (p3.y - p2.y) * (p.x - p2.x) - (p3.x - p2.x) * (p.y - p2.y);
+	double ca = (p1.y - p3.y) * (p.x - p3.x) - (p1.x - p3.x) * (p.y - p3.y);
+	return ((ab >= 0 && bc >= 0 && ca >= 0) || (ab <= 0 && bc <= 0 && ca <= 0));
+}
+
+static void draw_triangle(t_m *m, int x, int y, int size, double direction)
+{
+    double angle = direction * M_PI / 180.0;
+    double cos_a = cos(angle);
+    double sin_a = sin(angle);
+    int half_size = size / 2;
+
+	x -= half_size;
+	y -= half_size;
+	t_point p1 = {x + (int)round(half_size * cos_a) * 1.75, y + (int)round(half_size * sin_a) * 1.75};
+	t_point p2 = {x + (int)round(half_size * cos(angle + 2*M_PI/3)), y + (int)round(half_size * sin(angle + 2*M_PI/3))};
+	t_point p3 = {x + (int)round(half_size * cos(angle + 4*M_PI/3)), y + (int)round(half_size * sin(angle + 4*M_PI/3))};
+
+    int min_x = fmin(fmin(p1.x, p2.x), p3.x);
+    int max_x = fmax(fmax(p1.x, p2.x), p3.x);
+    int min_y = fmin(fmin(p1.y, p2.y), p3.y);
+    int max_y = fmax(fmax(p1.y, p2.y), p3.y);
+
+    int i = min_x;
+    while (i <= max_x)
+    {
+        int j = min_y;
+        while (j <= max_y)
+        {
+            if (is_in_triangle(p1, p2, p3, (t_point){i, j}))
+				draw_pixel(m, i, j, 0xFF0000FF);
+            j++;
+        }
+        i++;
+    }
+}
+
+
+static void	draw_player(t_m *m)
+{
+	int	mh;
+	int	mw;
+	int	rh;
+	int	rw;
+
+	mh = m->map->minmap_scale * m->p->size.x;
+	mw = m->map->minmap_scale * m->p->size.y;
+	rh = mh / m->p->size.x;
+	rw = mw / m->p->size.y;
+	draw_triangle(m, (m->camera->pos.x * rw) + m->map->minmap_scale + 20, (m->camera->pos.y * rh) + m->map->minmap_scale + 20, 10, m->map->player->dir.x);
+}
+
+void	minimap(t_m	*m)
+{
+	int	i;
+	int	j;
+	int	x;
+	int	y;
+
+	i = 0;
+	x = 0;
+	y = 0;
+	m->map->minmap_scale = 200 / m->p->size.x;
+	while (i < m->p->size.x)
+	{
+		j = 0;
+		while (j < m->p->size.y)
+		{
+			if (m->p->map[i][j] == '1')
+				draw_square(m, x, y, 0xFFFFFFFF);
+			else if (m->p->map[i][j] == '0')
+				draw_square(m, x, y, 0x00000000);
+			j++;
+			x += m->map->minmap_scale;
+		}
+		i++;
+		x = 0;
+		y += m->map->minmap_scale;
+	}
+	draw_player(m);
+}
