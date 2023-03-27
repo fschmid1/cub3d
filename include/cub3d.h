@@ -129,11 +129,6 @@ typedef	struct	s_player
 	t_vec	dir; // player dir
 }	t_player;
 
-typedef struct	s_idata
-{
-	mlx_get_data_addr()
-}
-
 typedef struct	s_camera
 {
 	t_vec	old_ray_dir;

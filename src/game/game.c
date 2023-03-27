@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 19:37:45 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/26 16:53:32 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/27 10:36:46 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	draw_ceiling(t_m *m, int x, int start, int end)
 	{
 		if (i < start)
 			mlx_put_pixel(m->map->img, x, i, m->map->colorc);
-		else if (i > end)
+		else if (i < end)
 			mlx_put_pixel(m->map->img, x, i, m->map->colorf);
 		i++;
 	}
@@ -109,7 +109,10 @@ void	draw_lines(t_m *m)
 	int draw_start;
 	int draw_end;
 	
-	
+	line_height = 0;
+	draw_start = 0;
+	draw_end = 0;
+	printf("LINE HEIGHT: %i P_WD.%f \nDRAW START %i DRAW END %i\n", line_height, m->camera->perp_wd, draw_start, draw_end);
 	line_height = (int)(m->window_h / m->camera->perp_wd);
 	draw_start = -line_height / 2 + m->window_h / 2;
 	draw_end = line_height / 2 + m->window_h / 2;
@@ -119,9 +122,8 @@ void	draw_lines(t_m *m)
 		draw_end = m->window_h - 1;
 	// if (m->camera->side == 1)
 	// 	m->map->color = 0x333333FF;
-	// printf("LINE HEIGHT: %i P_WD.%f \nDRAW START %i DRAW END %i\n", line_height, m->camera->perp_wd, draw_start, draw_end);
+	// draw_wall(m, m->x, draw_start, draw_end);
 	draw_ceiling(m, m->x, draw_start, draw_end);
-	draw_wall(m, m->x, draw_start, draw_end);
 }
 
 void	movspeed(t_m *m)
@@ -131,7 +133,7 @@ void	movspeed(t_m *m)
 	m->frametime = (m->time - m->old_time) / 1000;
 	// printf("FPS:%f\n", (1.0/m->frametime));
 	m->camera->mspeed = m->frametime * 0.5;
-	m->camera->rspeed = /* m->frametime * */ 0.3;
+	m->camera->rspeed = m->frametime * 0.3;
 }
 
 void	movement(t_m *m)
@@ -192,19 +194,19 @@ void	game_loop(void *param)
 	}
 	while (m->x < m->window_w)
 	{
-		// printf("BROKE AT VALUES\n");
+		printf("BROKE AT VALUES\n");
 		set_values(m);
 		// test_values(m);
-		// printf("BROKE AT DELTASTEP\n");
+		printf("BROKE AT DELTASTEP\n");
 		delta_step(m);
 		// test_values(m);
-		// printf("BROKE AT DDA\n");
+		printf("BROKE AT DDA\n");
 		dda(m);
 		// test_values(m);
-		// printf("BROKE AT PER_WD\n");
+		printf("BROKE AT PER_WD\n");
 		perp_wd(m);
 		// test_values(m);
-		// printf("BROKE AT DRAW LINES\n");
+		printf("BROKE AT DRAW LINES\n");
 		draw_lines(m);
 		m->x++;
 	}
