@@ -41,16 +41,13 @@ static void draw_triangle(t_m *m, int x, int y, int size, double direction)
 	t_point p2 = {x + (int)round(half_size * cos(angle + 2*M_PI/3)), y + (int)round(half_size * sin(angle + 2*M_PI/3))};
 	t_point p3 = {x + (int)round(half_size * cos(angle + 4*M_PI/3)), y + (int)round(half_size * sin(angle + 4*M_PI/3))};
 
-    int min_x = fmin(fmin(p1.x, p2.x), p3.x);
-    int max_x = fmax(fmax(p1.x, p2.x), p3.x);
-    int min_y = fmin(fmin(p1.y, p2.y), p3.y);
-    int max_y = fmax(fmax(p1.y, p2.y), p3.y);
-
-    int i = min_x;
-    while (i <= max_x)
+	t_point min = {fmin(fmin(p1.x, p2.x), p3.x), fmin(fmin(p1.y, p2.y), p3.y)};
+	t_point max = {fmax(fmax(p1.x, p2.x), p3.x), fmax(fmax(p1.y, p2.y), p3.y)};
+    int i = min.x;
+    while (i <= max.x)
     {
-        int j = min_y;
-        while (j <= max_y)
+        int j = min.y;
+        while (j <= max.y)
         {
             if (is_in_triangle(p1, p2, p3, (t_point){i, j}))
 				draw_pixel(m, i, j, 0xFF0000FF);
