@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:17 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/27 17:10:14 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/27 20:02:58 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@
 
 void	set_position(t_m *m)
 {
-	m->map->map = dblcpy_to_int(m->p->intmap, m->p->size.x, m->p->size.y);
-	m->camera->pos = m->p->pos_p; // sets player start position
-	// m->camera->pos = (t_vec){m->p->pos_p.x, m->p->pos_p.y, 0}; // sets player start position
-	// m->camera->map = m->camera->pos; // initial camera position
-	// m->camera->dir = (t_vec){-1, 0, 0}; // initial direction vector
-	// 2d raycaster of camera plane
-	m->time = 0; // time of current frame 
-	m->old_time = 0; // time  of previous frame
-	m->map->color = 0xFFFFFF;
-	// m->camera->pos.x = 2;
-	// m->map->step = (t_vec){0, 0, 0};
-	// m->camera->ray_dir.x = m->camera->ray_dir.x + m->camera->plane.x * m->camera->pos.x;
-	// m->camera->ray_dir.y = m->camera->ray_dir.y + m->camera->plane.y * m->camera->pos.x;
-	// m->camera->delta_dist.x = m->camera->ray_dir.x == 0 ? INT_MAX : fabs(1 / m->camera->ray_dir.x);
-	// m->camera->delta_dist.y = m->camera->ray_dir.y == 0 ? INT_MAX : fabs(1 / m->camera->ray_dir.y);
+	m->t = malloc(sizeof(t_t));
+	m->t->map = dblcpy_to_int(m->p->intmap, m->p->size.x, m->p->size.y);
+	m->t->posx = m->map->player->pos.y;
+	m->t->posy = m->map->player->pos.x;
+	m->t->dirx = m->map->player->dir.y;
+	m->t->diry = m->map->player->dir.x;
+	m->t->planex = 0.0;
+	m->t->planey = 0.66;
+	m->t->time = 0;
+	m->t->old_time = 0;
+	m->t->hit = 0;
+	m->t->stepx = 0;
+	m->t->stepy = 0;
+	m->t->sidedistx = 0;
+	m->t->sidedisty = 0;
 }
 
 int	main(int argc, char **argv)
@@ -53,11 +53,11 @@ int	main(int argc, char **argv)
 	m->map->player = setup_player(m);
 	printf("--------------------PLAYER SETUP ----------------\n");
 	m->camera = setup_camera(m);
-	printf("--------------------CAMERA SETUP ----------------\n");
+	printf("--------------------T SETUP ----------------\n");
+	// test_values(m);
 	set_position(m);
 	printf("--------------------POSITION SETUP----------------\n");
 	game_loop(m);
-	test_values(m);
 	printf("--------------------GAME LOOP RUNNING ONCE----------------\n");
 	register_hooks(m);
 	mlx_loop(m->map->mlx);

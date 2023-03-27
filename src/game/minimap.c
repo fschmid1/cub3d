@@ -54,12 +54,12 @@ static void draw_triangle(t_m *m, int x, int y, int size, double dir)
     }
 }
 
-static double	to_angle(t_vec dir)
+static double	to_angle(t_m *m)
 {
 	double	radians;
 	double	degrees;
 
-	radians = atan2(dir.y, dir.x);
+	radians = atan2(m->t->diry, m->t->dirx);
     degrees = radians * 180.0 / M_PI;
     return (degrees);
 }
@@ -75,8 +75,8 @@ static void	draw_player(t_m *m)
 	mw = m->map->minmap_scale * m->p->size.x;
 	rh = mh / m->p->size.y;
 	rw = mw / m->p->size.x;
-	draw_triangle(m, (m->map->player->pos.x * rw) + m->map->minmap_scale + 20,
-			(m->map->player->pos.y * rh) + m->map->minmap_scale + 20, 10, to_angle(m->map->player->dir));
+	draw_triangle(m, (m->t->posx * rw) + m->map->minmap_scale + 20,
+			(m->t->posy * rh) + m->map->minmap_scale + 20, 10, to_angle(m));
 }
 
 void	minimap(t_m	*m)
