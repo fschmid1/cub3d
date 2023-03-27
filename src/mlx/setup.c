@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:40 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/26 18:10:37 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/27 12:12:22 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_m	*setup_main(void)
 	m->old_time = 0;
 	m->g_state = MENU;
 	m->time = mlx_get_time();
+	m->x = 0;
 	return (m);
 }
 

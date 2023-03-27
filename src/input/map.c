@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:54:02 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/25 22:46:19 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/27 12:32:45 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	check_map(t_p *m)
 			err_exit(m, MH);
 	size = (t_point){m->size.x, m->size.y};
 	m->fmap = doublcpy(m->map, m->size.y);
-	m->fmap[(int)m->pos_p.y][(int)m->pos_p.x] = '0';
+	m->fmap[(int)m->pos_p.x][(int)m->pos_p.y] = '0';
 	size = (t_point){(int)m->pos_p.x, (int)m->pos_p.y};
 	fill(m, size, '0');
 	if (m->status == FALSE)

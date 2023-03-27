@@ -133,6 +133,7 @@ typedef struct	s_camera
 {
 	t_vec	old_ray_dir;
 	t_vec	ray_dir;
+	t_vec	ray_pos;
 	t_vec	pos;
 	t_vec	old_plane;
 	t_vec	plane;
