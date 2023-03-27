@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+#include <stdio.h>
 
 t_player	*setup_player(t_m *m)
 {
