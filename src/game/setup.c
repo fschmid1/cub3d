@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:33:21 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/27 12:32:25 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/27 15:06:39 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ t_camera	*setup_camera(t_m *m)
 	else if (dir == 'S')
 		cam->ray_dir = (t_vec) {0, -1, 0};
 	else if (dir == 'N')
-		cam->ray_dir = (t_vec) {0, 1, 0};
+		cam->ray_dir = (t_vec) {-1, 0, 0};
 	return (cam);
 }

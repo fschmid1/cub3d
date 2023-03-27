@@ -143,8 +143,6 @@ typedef struct	s_camera
 	t_vec	delta_dist; // delta ray dir
 	t_vec	step; //stepX // stepY
 	double	perp_wd; // perp wall dist
-	double	wall_x;
-	double	tex_x;
 	int		hit; 
 	int		side; // hit NS OR EW wall?
 	double	mspeed; // movement speed

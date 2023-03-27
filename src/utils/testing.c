@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:43:42 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/26 16:20:20 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/27 15:09:40 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	test_values(t_m *m)
 	printf("MAP SIDEHIT: %i\n", m->camera->side);
 	printf("MAP PERP_WD: %f\n", m->camera->perp_wd);
 	printf("-------------------------------------------\n");
-	printf("CAM DIR:  X:%f: Y:%f: Z:%f\n", m->camera->ray_dir.x, m->camera->ray_dir.y, m->camera->ray_dir.z);
 	printf("CAM ray_dir:  X:%f: Y:%f: Z:%f\n", m->camera->ray_dir.x, m->camera->ray_dir.y, m->camera->ray_dir.z);
 	printf("CAM PLANE:X:%f: Y:%f: Z:%f\n", m->camera->plane.x, m->camera->plane.y, m->camera->plane.z);
 	printf("CAM POS:  X:%f: Y:%f: Z:%f\n", m->camera->pos.x, m->camera->pos.y, m->camera->pos.z);
