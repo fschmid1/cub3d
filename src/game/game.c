@@ -183,31 +183,32 @@ void	game_loop(void *param)
 
 	movspeed(m);
 	movement(m);
+	// 	test_values(m);
 	// if (m->x == 0)
 	// {
-	// 	test_values(m);	
+	// 	test_values(m);
 	// 	if (m->map->img)
 	// 		mlx_delete_image(m->map->mlx, m->map->img);
 	// 	m->map->img = mlx_new_image(m->map->mlx, m->window_w, m->window_h);
 	// }
-	while (m->x < m->window_w)
-	{
-		// printf("BROKE AT VALUES\n");
-		set_values(m);
-		// test_values(m);
-		// printf("BROKE AT DELTASTEP\n");
-		delta_step(m);
-		// test_values(m);
-		// printf("BROKE AT DDA\n");
-		dda(m);
-		// test_values(m);
-		// printf("BROKE AT PER_WD\n");
-		perp_wd(m);
-		// test_values(m);
-		// printf("BROKE AT DRAW LINES\n");
-		draw_lines(m);
-		m->x++;
-	}
+	// while (m->x < m->window_w)
+	// {
+	// 	// printf("BROKE AT VALUES\n");
+	// 	set_values(m);
+	// 	// test_values(m);
+	// 	// printf("BROKE AT DELTASTEP\n");
+	// 	delta_step(m);
+	// 	// test_values(m);
+	// 	// printf("BROKE AT DDA\n");
+	// 	dda(m);
+	// 	// test_values(m);
+	// 	// printf("BROKE AT PER_WD\n");
+	// 	perp_wd(m);
+	// 	// test_values(m);
+	// 	// printf("BROKE AT DRAW LINES\n");
+	// 	draw_lines(m);
+	// 	m->x++;
+	// }
 	minimap(m);
 	// mlx_image_to_window(m->map->mlx, m->map->img, 0, 0);
 }
