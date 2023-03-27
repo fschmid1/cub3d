@@ -13,7 +13,7 @@ INPUT_FILES		= input.c tex_col.c map.c player.c
 
 MLX				= $(addprefix $(MLX_DIR), $(MLX_FILES))
 MLX_DIR			= src/mlx/
-MLX_FILES		= window.c setup.c draw.c
+MLX_FILES		= window.c setup.c draw.c load_wall.c
 
 GAME			= $(addprefix $(GAME_DIR), $(GAME_FILES))
 GAME_DIR		= src/game/
