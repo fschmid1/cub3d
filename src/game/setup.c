@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:33:21 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/27 17:21:32 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/27 18:20:48 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ t_camera	*setup_camera(t_m *m)
 	cam->delta_dist = (t_vec){0, 0, 0};
 	cam->ray_dir = (t_vec){-1, 0, 0};
 	cam->old_ray_dir = (t_vec){0, 0, 0};
-	cam->ray_pos = (t_vec){m->p->pos_p.x, m->p->pos_p.y, 0};
+	cam->ray_pos = (t_vec){m->p->pos_p.y, m->p->pos_p.x, 0};
 	cam->side = 0;
 	cam->perp_wd = 0;
 	cam->hit = 0;
-	cam->pos = (t_vec){m->p->pos_p.x, m->p->pos_p.y, 0};
+	cam->pos = (t_vec){m->p->pos_p.y, m->p->pos_p.x, 0};
 	return (cam);
 }

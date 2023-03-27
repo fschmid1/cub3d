@@ -173,8 +173,45 @@ typedef struct	s_texim
 	mlx_image_t		*ea_img;
 } t_texim;
 
+typedef	struct	s_test
+{
+	double	camerax;
+	double	raydirx;
+	double	raydiry;
+	double	posx;
+	double	posy;
+	int		mapx;
+	int		mapy;
+	double	dirx;
+	double	diry;
+	double	sidedistx;
+	double	sidedisty;
+	double	deltadistx;
+	double	deltadisty;
+	double	pwd;
+	int		hit;
+	int		side;
+	int		stepx;
+	int		stepy;
+	double	planex;
+	double	planey;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+	int		**map;
+	double	time;
+	double	old_time;
+	double	frametime;
+	double	movspeed;
+	double	rotspeed;
+	double	olddirx;
+	double	oldplanex;
+} t_t;
+
+
 typedef	struct	s_main
 {
+	t_t			*t;
 	t_texim		*texim;
 	t_menu		*men; //menu animation struct
 	t_map		*map; //makes the cub 3d
