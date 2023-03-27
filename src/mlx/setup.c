@@ -64,6 +64,7 @@ t_map	*setup_map(void)
 	map->mlx = NULL;
 	map->img = NULL;
 	map->color = 0xFFFFFF;
+	map->minmap_scale = 0;
 	map->colorc = 0xa29a9a;
 	map->colorf = 0x721818;
 	return (map);

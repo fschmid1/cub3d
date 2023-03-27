@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 
-#include "../include/cub3d.h"
+#include "../../include/cub3d.h"
 
 void	set_values(t_m *m)
 {
@@ -91,7 +91,7 @@ void	draw_wall(t_m *m, int x, int start, int end)
 void	draw_ceiling(t_m *m, int x, int start, int end)
 {
 	int i;
-	
+
 	i = 0;
 	while (i < m->window_h)
 	{
@@ -108,7 +108,7 @@ void	draw_lines(t_m *m)
 	int	line_height;
 	int draw_start;
 	int draw_end;
-	
+
 	line_height = 0;
 	draw_start = 0;
 	draw_end = 0;
@@ -208,5 +208,6 @@ void	game_loop(void *param)
 		draw_lines(m);
 		m->x++;
 	}
+	minimap(m);
 	// mlx_image_to_window(m->map->mlx, m->map->img, 0, 0);
 }
