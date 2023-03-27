@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 19:37:45 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/27 10:36:46 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/27 12:44:48 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 void	set_values(t_m *m)
 {
-	m->camera->pos.x = 2 * m->x / m->window_w - 1;
+	m->camera->pos.x = 2 * m->x / m->window_w - 1; //pos = camera_x
 	m->camera->ray_dir.x = m->camera->ray_dir.x + m->camera->plane.x * m->camera->pos.x;
 	m->camera->ray_dir.y = m->camera->ray_dir.y + m->camera->plane.y * m->camera->pos.x;
-	m->camera->map_x = (int)m->p->pos_p.x;
-	m->camera->map_y = (int)m->p->pos_p.y;
+	m->camera->map_x = (int)m->camera->ray_pos.x;
+	m->camera->map_y = (int)m->camera->ray_pos.y;
 }
 
 void	delta_step(t_m *m)
@@ -30,22 +30,22 @@ void	delta_step(t_m *m)
 	if (m->camera->ray_dir.x < 0)
 	{
 		m->camera->step.x = -1;
-		m->camera->side_dist.x = (m->camera->pos.x - m->camera->map_x) * m->camera->delta_dist.x;
+		m->camera->side_dist.x = (m->camera->ray_pos.x - m->camera->map_x) * m->camera->delta_dist.x;
 	}
 	else
 	{
 		m->camera->step.x = 1;
-		m->camera->side_dist.x = (m->camera->map_x + 1.0 - m->camera->pos.x) * m->camera->delta_dist.x;
+		m->camera->side_dist.x = (m->camera->map_x + 1.0 - m->camera->ray_pos.x) * m->camera->delta_dist.x;
 	}
 	if (m->camera->ray_dir.y < 0)
 	{
 		m->camera->step.y = -1;
-		m->camera->side_dist.y = (m->camera->pos.y - m->camera->map_y) * m->camera->delta_dist.y;
+		m->camera->side_dist.y = (m->camera->ray_pos.y - m->camera->map_y) * m->camera->delta_dist.y;
 	}
 	else
 	{
 		m->camera->step.y = 1;
-		m->camera->side_dist.y = (m->camera->map_y + 1.0 - m->camera->pos.y) * m->camera->delta_dist.y;
+		m->camera->side_dist.y = (m->camera->map_y + 1.0 - m->camera->ray_pos.y) * m->camera->delta_dist.y;
 	}
 }
 
@@ -112,12 +112,12 @@ void	draw_lines(t_m *m)
 	line_height = 0;
 	draw_start = 0;
 	draw_end = 0;
-	printf("LINE HEIGHT: %i P_WD.%f \nDRAW START %i DRAW END %i\n", line_height, m->camera->perp_wd, draw_start, draw_end);
+	// printf("LINE HEIGHT: %i P_WD.%f \nDRAW START %i DRAW END %i\n", line_height, m->camera->perp_wd, draw_start, draw_end);
 	line_height = (int)(m->window_h / m->camera->perp_wd);
 	draw_start = -line_height / 2 + m->window_h / 2;
 	draw_end = line_height / 2 + m->window_h / 2;
 	if (draw_start < 0)
-		draw_start = 0;
+		draw_start = 0 + 1;
 	if (draw_end >= m->window_h)
 		draw_end = m->window_h - 1;
 	// if (m->camera->side == 1)
@@ -132,28 +132,26 @@ void	movspeed(t_m *m)
 	m->time = mlx_get_time();
 	m->frametime = (m->time - m->old_time) / 1000;
 	// printf("FPS:%f\n", (1.0/m->frametime));
-	m->camera->mspeed = m->frametime * 0.5;
-	m->camera->rspeed = m->frametime * 0.3;
+	m->camera->mspeed = m->frametime * 0.1;
+	m->camera->rspeed = m->frametime * 0.01;
 }
 
 void	movement(t_m *m)
 {
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_UP))
 	{
-		// printf("XPOS:%f\n",m->camera->pos.x );
-		// printf("%i && %i\n", (int)(m->camera->pos.x + m->camera->ray_dir.x * m->camera->mspeed), (int)m->camera->pos.y);
-		// printf("or\n");
-		// printf("%i && %i\n", (int)m->camera->pos.x, (int)(m->camera->pos.y + m->camera->ray_dir.y * m->camera->mspeed));
-		if (m->map->map[(int)(m->camera->pos.x + m->camera->ray_dir.x * m->camera->mspeed)][(int)m->camera->pos.y] == FALSE)
-			m->camera->pos.x += m->camera->ray_dir.x * m->camera->mspeed;
+		if (m->map->map[(int)(m->map->player->pos.x + m->camera->ray_dir.x * m->camera->mspeed)][(int)m->camera->pos.y] == FALSE)
+			m->map->player->pos.x += m->camera->ray_dir.x * m->camera->mspeed;
 		if (m->map->map[(int)m->camera->pos.x][(int)(m->camera->pos.y + m->camera->ray_dir.y * m->camera->mspeed)] == FALSE)
-			m->camera->pos.y += m->camera->pos.x - m->camera->ray_dir.y * m->camera->mspeed;
-		// m->camera->pos.x = m->camera->pos.x - m->camera->ray_dir.x * m->camera->mspeed;
+			m->map->player->pos.y += m->map->player->pos.y - m->camera->ray_dir.y * m->camera->mspeed;
 		m->x = 0;
 	}
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_DOWN))
 	{
-		m->camera->pos.x = m->camera->pos.x + m->camera->step.x * m->camera->mspeed;
+		if (m->map->map[(int)(m->map->player->pos.x - m->camera->ray_dir.x * m->camera->mspeed)][(int)m->camera->pos.y] == FALSE)
+			m->map->player->pos.x -= m->camera->ray_dir.x * m->camera->mspeed;
+		if (m->map->map[(int)m->camera->pos.x][(int)(m->camera->pos.y - m->camera->ray_dir.y * m->camera->mspeed)] == FALSE)
+			m->map->player->pos.y -= m->map->player->pos.y - m->camera->ray_dir.y * m->camera->mspeed;
 		m->x = 0;
 	}
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_LEFT))
@@ -187,26 +185,26 @@ void	game_loop(void *param)
 	movement(m);
 	if (m->x == 0)
 	{
-		// test_values(m);	
+		test_values(m);	
 		if (m->map->img)
 			mlx_delete_image(m->map->mlx, m->map->img);
 		m->map->img = mlx_new_image(m->map->mlx, m->window_w, m->window_h);
 	}
 	while (m->x < m->window_w)
 	{
-		printf("BROKE AT VALUES\n");
+		// printf("BROKE AT VALUES\n");
 		set_values(m);
 		// test_values(m);
-		printf("BROKE AT DELTASTEP\n");
+		// printf("BROKE AT DELTASTEP\n");
 		delta_step(m);
 		// test_values(m);
-		printf("BROKE AT DDA\n");
+		// printf("BROKE AT DDA\n");
 		dda(m);
 		// test_values(m);
-		printf("BROKE AT PER_WD\n");
+		// printf("BROKE AT PER_WD\n");
 		perp_wd(m);
 		// test_values(m);
-		printf("BROKE AT DRAW LINES\n");
+		// printf("BROKE AT DRAW LINES\n");
 		draw_lines(m);
 		m->x++;
 	}
