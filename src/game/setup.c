@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+#include <stdio.h>
 
 t_player	*setup_player(t_m *m)
 {
@@ -21,7 +22,7 @@ t_player	*setup_player(t_m *m)
 	if (!player)
 		return (NULL);
 	player->pos = m->p->pos_p;
-	dir = m->p->map[(int)m->p->pos_p.x][(int)m->p->pos_p.y];
+	dir = m->p->map[(int)m->p->pos_p.y][(int)m->p->pos_p.x];
 	if (dir == 'W')
 		player->dir = (t_vec) {-1, 0, 0};
 	else if (dir == 'E')
