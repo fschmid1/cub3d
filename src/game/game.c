@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 19:37:45 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/27 15:34:32 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/27 16:58:35 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,13 +183,13 @@ void	game_loop(void *param)
 
 	movspeed(m);
 	movement(m);
-	// if (m->x == 0)
-	// {
-	// 	test_values(m);	
-	// 	if (m->map->img)
-	// 		mlx_delete_image(m->map->mlx, m->map->img);
-	// 	m->map->img = mlx_new_image(m->map->mlx, m->window_w, m->window_h);
-	// }
+	if (m->x == 0)
+	{
+		test_values(m);	
+		// if (m->map->img)
+		// 	mlx_delete_image(m->map->mlx, m->map->img);
+		// m->map->img = mlx_new_image(m->map->mlx, m->window_w, m->window_h);
+	}
 	while (m->x < m->window_w)
 	{
 		// printf("BROKE AT VALUES\n");

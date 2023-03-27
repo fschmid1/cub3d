@@ -75,12 +75,12 @@ static void	draw_player(t_m *m)
 	int	rh;
 	int	rw;
 
-	mh = m->map->minmap_scale * m->p->size.x;
-	mw = m->map->minmap_scale * m->p->size.y;
-	rh = mh / m->p->size.x;
-	rw = mw / m->p->size.y;
+	mh = m->map->minmap_scale * m->p->size.y;
+	mw = m->map->minmap_scale * m->p->size.x;
+	rh = mh / m->p->size.y;
+	rw = mw / m->p->size.x;
 
-	draw_triangle(m, (m->camera->pos.x * rw) + m->map->minmap_scale + 20,
+	draw_triangle(m, (m->map->player->pos.x * rw) + m->map->minmap_scale + 20,
 			(m->camera->pos.y * rh) + m->map->minmap_scale + 20, 10, to_angle(m->map->player->dir));
 }
 
@@ -95,10 +95,10 @@ void	minimap(t_m	*m)
 	x = 0;
 	y = 0;
 	m->map->minmap_scale = 200 / m->p->size.x;
-	while (i < m->p->size.x)
+	while (i < m->p->size.y)
 	{
 		j = 0;
-		while (j < m->p->size.y)
+		while (j < m->p->size.x)
 		{
 			if (m->p->map[i][j] == '1')
 				draw_square(m, x, y, m->map->color);
