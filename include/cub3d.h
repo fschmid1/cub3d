@@ -127,6 +127,11 @@ typedef	struct	s_player
 	t_vec	dir; // player dir
 }	t_player;
 
+typedef struct	s_idata
+{
+	mlx_get_data_addr()
+}
+
 typedef struct	s_camera
 {
 	t_vec	old_ray_dir;
@@ -140,6 +145,8 @@ typedef struct	s_camera
 	t_vec	delta_dist; // delta ray dir
 	t_vec	step; //stepX // stepY
 	double	perp_wd; // perp wall dist
+	double	wall_x;
+	double	tex_x;
 	int		hit; 
 	int		side; // hit NS OR EW wall?
 	double	mspeed; // movement speed
@@ -157,8 +164,21 @@ typedef struct	s_map
 	uint32_t	colorf;
 }	t_map;
 
+typedef struct	s_texim
+{
+	mlx_texture_t	*no_tex;
+	mlx_image_t		*no_img;
+	mlx_texture_t	*so_tex;
+	mlx_image_t		*so_img;
+	mlx_texture_t	*we_tex;
+	mlx_image_t		*we_img;
+	mlx_texture_t	*ea_tex;
+	mlx_image_t		*ea_img;
+} t_texim;
+
 typedef	struct	s_main
 {
+	t_texim		*texim;
 	t_menu		*men; //menu animation struct
 	t_map		*map; //makes the cub 3d
 	t_camera	*camera; //camera infos
@@ -261,5 +281,8 @@ void	draw_msg(t_m *m);
 void	msg_tex_to_im(t_m *m);
 void	msg_alloc_tex_im(t_m *m);
 void	msg_load_textures(t_m *m, char *path);
-
+//==============================================================================
+//--------------------------------------LOAD_WALL.c-------------------------------------
+//==============================================================================
+void	load_wall(t_m *m);
 #endif

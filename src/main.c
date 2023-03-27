@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:17 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/26 16:01:50 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/26 18:24:00 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ int	main(int argc, char **argv)
 	printf("--------------------TESTING DONE----------------\n");
 	setup_window(m);
 	printf("--------------------WINDOW DONE----------------\n");
+	if (!TESTING)
+		load_wall(m);
+	printf("--------------------WALLS DONE----------------\n");
 	// draw_msg(m);
 	// draw_menu(m);
 	m->map->map = dblcpy_to_int(m->p->intmap, m->p->size.x, m->p->size.y);
