@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:43:42 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/27 15:09:40 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/27 16:41:42 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	testing(t_p *main)
 	printf("C:%d\n", main->c[1]);
 	printf("C:%d\n", main->c[2]);
 	printf("INTMAP:\n");
-	dprinti(main->intmap, main->size.x, main->size.y);
+	dprint(main->map);
 	printf("PLAYER x:%f\n", main->pos_p.x);
 	printf("PLAYER y:%f\n", main->pos_p.y);
 	printf("MAP CHECK: %i (1==MAP OK)\n", main->status);
@@ -60,7 +60,7 @@ void	test_values(t_m *m)
 {
 	dprinti(m->map->map, m->p->size.x, m->p->size.y);
 	printf("----------------PARSE-------------------\n");
-	printf("MAP PLAYER POS :X:%f: Y:%f: Z:%f\n", m->p->pos_p.x, m->p->pos_p.y, m->p->pos_p.z);
+	printf("MAP SIZE :X:%f: Y:%f: Z:%f\n", m->p->size.x, m->p->size.y, m->p->size.z);
 	printf("MAP PLAYER POS :X:%i: Y:%i: Z:%i\n", (int)m->p->pos_p.x, (int)m->p->pos_p.y, (int)m->p->pos_p.z);
 	printf("----------------PLAYER-------------------\n");
 	printf("MAP PLAYER POS :X:%f: Y:%f: Z:%f\n", m->map->player->pos.x, m->map->player->pos.y, m->map->player->pos.z);
