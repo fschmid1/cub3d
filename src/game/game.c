@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 19:37:45 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/27 16:58:35 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/27 17:18:28 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 void	set_values(t_m *m)
 {
 	m->camera->pos.x = 2 * m->x / (double)m->window_w - 1; //pos = camera_x
-	m->camera->ray_dir.x = m->camera->ray_dir.x + m->camera->plane.x * m->camera->pos.x;
-	m->camera->ray_dir.y = m->camera->ray_dir.y + m->camera->plane.y * m->camera->pos.y;
+	m->camera->ray_dir.x = m->map->player->dir.x + m->camera->plane.x * m->camera->pos.x;
+	m->camera->ray_dir.y = m->map->player->dir.y + m->camera->plane.y * m->camera->pos.y;
 	m->camera->map_x = (int)m->camera->ray_pos.x;
 	m->camera->map_y = (int)m->camera->ray_pos.y;
 }
@@ -132,8 +132,8 @@ void	movspeed(t_m *m)
 	m->time = mlx_get_time();
 	m->frametime = (m->time - m->old_time) / 1000;
 	// printf("FPS:%f\n", (1.0/m->frametime));
-	m->camera->mspeed = m->frametime * 0.5;
-	m->camera->rspeed = m->frametime * 0.3;
+	m->camera->mspeed = m->frametime * 5;
+	m->camera->rspeed = m->frametime * 3;
 }
 
 void	movement(t_m *m)
@@ -156,9 +156,9 @@ void	movement(t_m *m)
 	}
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_LEFT))
 	{
-		m->camera->old_ray_dir.x = m->camera->ray_dir.x;
-		m->camera->ray_dir.x = m->camera->ray_dir.x * cos(-m->camera->rspeed) - m->camera->ray_dir.y * sin(-m->camera->rspeed);
-		m->camera->ray_dir.y = m->camera->old_ray_dir.x * sin(-m->camera->rspeed) + m->camera->ray_dir.y * cos(-m->camera->rspeed);
+		m->camera->old_ray_dir.x = m->map->player->dir.x;
+		m->map->player->dir.x = m->map->player->dir.x * cos(-m->camera->rspeed) - m->map->player->dir.y * sin(-m->camera->rspeed);
+		m->map->player->dir.y = m->camera->old_ray_dir.x * sin(-m->camera->rspeed) + m->map->player->dir.y * cos(-m->camera->rspeed);
 		m->camera->old_plane.x = m->camera->plane.x;
 		m->camera->plane.x = m->camera->plane.x * cos(m->camera->rspeed) - m->camera->plane.y * sin(m->camera->rspeed);
 		m->camera->plane.y = m->camera->old_plane.x * sin(m->camera->rspeed) + m->camera->plane.y * cos(m->camera->rspeed);
@@ -166,9 +166,9 @@ void	movement(t_m *m)
 	}
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_RIGHT))
 	{
-		m->camera->old_ray_dir.x = m->camera->ray_dir.x;
-		m->camera->ray_dir.x = m->camera->ray_dir.x * cos(m->camera->rspeed) - m->camera->ray_dir.y * sin(m->camera->rspeed);
-		m->camera->ray_dir.y = m->camera->old_ray_dir.x * sin(m->camera->rspeed) + m->camera->ray_dir.y * cos(m->camera->rspeed);
+		m->camera->old_ray_dir.x = m->map->player->dir.x;
+		m->map->player->dir.x = m->map->player->dir.x * cos(m->camera->rspeed) - m->map->player->dir.y * sin(m->camera->rspeed);
+		m->map->player->dir.y = m->camera->old_ray_dir.x * sin(m->camera->rspeed) + m->map->player->dir.y * cos(m->camera->rspeed);
 		m->camera->old_plane.x = m->camera->plane.x;
 		m->camera->plane.x = m->camera->plane.x * cos(m->camera->rspeed) - m->camera->plane.y * sin(m->camera->rspeed);
 		m->camera->plane.y = m->camera->old_plane.x * sin(m->camera->rspeed) + m->camera->plane.y * cos(m->camera->rspeed);
@@ -183,6 +183,10 @@ void	game_loop(void *param)
 
 	movspeed(m);
 	movement(m);
+	if (m->x == 0)
+	{
+		// test_values(m);	
+	}
 	while (m->x < m->window_w)
 	{
 		// printf("BROKE AT VALUES\n");

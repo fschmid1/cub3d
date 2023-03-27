@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:33:21 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/27 15:06:39 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/27 17:21:32 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_player	*setup_player(t_m *m)
 t_camera	*setup_camera(t_m *m)
 {
 	t_camera *cam;
-	char		dir;
 
 	cam = malloc(sizeof(t_camera));
 	cam->step = (t_vec){0.1, 0.1, 0};
@@ -52,14 +51,5 @@ t_camera	*setup_camera(t_m *m)
 	cam->perp_wd = 0;
 	cam->hit = 0;
 	cam->pos = (t_vec){m->p->pos_p.x, m->p->pos_p.y, 0};
-	dir = m->p->map[(int)m->p->pos_p.x][(int)m->p->pos_p.y];
-	if (dir == 'W')
-		cam->ray_dir = (t_vec) {-1, 0, 0};
-	else if (dir == 'E')
-		cam->ray_dir = (t_vec) {1, 0, 0};
-	else if (dir == 'S')
-		cam->ray_dir = (t_vec) {0, 1, 0};
-	else if (dir == 'N')
-		cam->ray_dir = (t_vec) {-1, 0, 0};
 	return (cam);
 }
