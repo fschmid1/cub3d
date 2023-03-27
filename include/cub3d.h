@@ -118,7 +118,7 @@ typedef struct s_parse
     int     f[3]; //floor color as RGB
     int     c[3]; //sky color as RGB
     t_vec	pos_p; //player position on matrix
-    t_vec	size; 
+    t_vec	size;
 	t_m		*main;
 } t_p;
 
@@ -145,7 +145,7 @@ typedef struct	s_camera
 	double	perp_wd; // perp wall dist
 	double	wall_x;
 	double	tex_x;
-	int		hit; 
+	int		hit;
 	int		side; // hit NS OR EW wall?
 	double	mspeed; // movement speed
 	double	rspeed; // rotation speed
@@ -160,6 +160,7 @@ typedef struct	s_map
 	uint32_t	color;
 	uint32_t	colorc;
 	uint32_t	colorf;
+	int			minmap_scale;
 }	t_map;
 
 typedef struct	s_texim
@@ -283,4 +284,8 @@ void	msg_load_textures(t_m *m, char *path);
 //--------------------------------------LOAD_WALL.c-------------------------------------
 //==============================================================================
 void	load_wall(t_m *m);
+//==============================================================================
+//--------------------------------------MINIMAP.c--------------------------------------
+//==============================================================================
+void	minimap(t_m *m);
 #endif

@@ -17,7 +17,7 @@ MLX_FILES		= window.c setup.c draw.c load_wall.c
 
 GAME			= $(addprefix $(GAME_DIR), $(GAME_FILES))
 GAME_DIR		= src/game/
-GAME_FILES		= setup.c game.c
+GAME_FILES		= setup.c game.c minimap.c
 
 UTILS			= $(addprefix $(UTILS_DIR), $(UTILS_FILES))
 UTILS_DIR		= src/utils/
@@ -110,10 +110,10 @@ re:
 				@make all
 
 run:			$(NAME)
-				./$(NAME) maps/tiny.cub
+				./$(NAME) maps/huge.cub
 
 lrun:			lsan
-				./$(NAME) maps/tiny.cub
+				./$(NAME) maps/huge.cub
 
 
 .PHONY:			all clean fclean re lsan run
