@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:33:21 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/27 10:35:07 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/03/27 12:32:25 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_player	*setup_player(t_m *m)
 	if (!player)
 		return (NULL);
 	player->pos = m->p->pos_p;
-	dir = m->p->map[(int)m->p->pos_p.y][(int)m->p->pos_p.x];
+	dir = m->p->map[(int)m->p->pos_p.x][(int)m->p->pos_p.y];
 	if (dir == 'W')
 		player->dir = (t_vec) {-1, 0, 0};
 	else if (dir == 'O')
@@ -44,7 +44,9 @@ t_camera	*setup_camera(t_m *m)
 	cam->plane = (t_vec){0, 0.66, 0};
 	cam->side_dist = (t_vec){0, 0, 0};
 	cam->delta_dist = (t_vec){0, 0, 0};
+	cam->ray_dir = (t_vec){-1, 0, 0};
 	cam->old_ray_dir = (t_vec){0, 0, 0};
+	cam->ray_pos = (t_vec){m->p->pos_p.x, m->p->pos_p.y, 0};
 	cam->side = 0;
 	cam->perp_wd = 0;
 	cam->hit = 0;
