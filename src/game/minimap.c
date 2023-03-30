@@ -1,4 +1,5 @@
 #include "../../include/cub3d.h"
+#include <stdio.h>
 
 static void	draw_square(t_m *m, int x, int y, int color)
 {
@@ -28,29 +29,29 @@ static bool	is_in_triangle(t_point p1, t_point p2, t_point p3, t_point p)
 
 static void draw_triangle(t_m *m, int x, int y, int size, double dir)
 {
-    double angle = dir * M_PI / 180.0;
-    double cos_a = cos(angle);
-    double sin_a = sin(angle);
     int half_size = size / 2;
 	x -= half_size;
 	y -= half_size;
+    double radians = dir * M_PI / 180.0;
+    t_point p1 = {x + half_size * cos(radians), y + half_size * sin(radians)};
+    t_point p2 = {x - half_size * cos(radians + M_PI / 6), y - half_size * sin(radians + M_PI / 6)};
+    t_point p3 = {x - half_size * cos(radians - M_PI / 6), y - half_size * sin(radians - M_PI / 6)};
 
-	t_point p1 = {x + (int)round(half_size * cos_a) * 1.75, y + (int)round(half_size * sin_a) * 1.75};
-	t_point p2 = {x + (int)round(half_size * cos(angle + 2*M_PI/3)), y + (int)round(half_size * sin(angle + 2*M_PI/3))};
-	t_point p3 = {x - 1 + (int)round(half_size * cos(angle + 5*M_PI/3)), y - 1 + (int)round(half_size * sin(angle + 4*M_PI/3))};
-	t_point min = {fmin(fmin(p1.x, p2.x), p3.x), fmin(fmin(p1.y, p2.y), p3.y)};
-	t_point max = {fmax(fmax(p1.x, p2.x), p3.x), fmax(fmax(p1.y, p2.y), p3.y)};
-    int i = min.x;
-    while (i <= max.x)
-    {
-        int j = min.y;
-        while (j <= max.y)
-        {
-            if (is_in_triangle(p1, p2, p3, (t_point){i, j}))
-				draw_pixel(m, i, j, 0xFF0000FF);
-            j++;
+    int minX = fmin(p1.x, fmin(p2.x, p3.x));
+    int minY = fmin(p1.y, fmin(p2.y, p3.y));
+    int maxX = fmax(p1.x, fmax(p2.x, p3.x));
+    int maxY = fmax(p1.y, fmax(p2.y, p3.y));
+
+    t_point current;
+    current.y = minY;
+    while(current.y <= maxY) {
+        current.x = minX;
+        while(current.x <= maxX) {
+			if (is_in_triangle(p1, p2, p3, current))
+                draw_pixel(m, current.x, current.y, 0xFF0000FF);
+            current.x++;
         }
-        i++;
+        current.y++;
     }
 }
 
@@ -71,10 +72,10 @@ static void	draw_player(t_m *m)
 	int	rh;
 	int	rw;
 
-	mh = m->map->minmap_scale * m->p->size.y;
-	mw = m->map->minmap_scale * m->p->size.x;
-	rh = mh / m->p->size.y;
-	rw = mw / m->p->size.x;
+	mh = m->map->minmap_scale * m->p->size.x;
+	mw = m->map->minmap_scale * m->p->size.y;
+	rh = mh / m->p->size.x;
+	rw = mw / m->p->size.y;
 	draw_triangle(m, (m->t->posx * rw) + m->map->minmap_scale + 20,
 			(m->t->posy * rh) + m->map->minmap_scale + 20, 10, to_angle(m));
 }

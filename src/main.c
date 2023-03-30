@@ -18,8 +18,8 @@ void	set_position(t_m *m)
 {
 	m->t = malloc(sizeof(t_t));
 	m->t->map = dblcpy_to_int(m->p->intmap, m->p->size.x, m->p->size.y);
-	m->t->posx = m->map->player->pos.y;
-	m->t->posy = m->map->player->pos.x;
+	m->t->posx = m->map->player->pos.x;
+	m->t->posy = m->map->player->pos.y;
 	m->t->dirx = m->map->player->dir.y;
 	m->t->diry = m->map->player->dir.x;
 	m->t->planex = 0.0;
