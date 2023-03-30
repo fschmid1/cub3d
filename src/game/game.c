@@ -106,7 +106,7 @@ void	draw_ceiling(t_m *m)
 	{
 		if (i < m->t->draw_start)
 			draw_pixel(m, m->x, i, m->map->colorc);
-		else if (i < m->t->draw_end)
+		else if (i > m->t->draw_end)
 			draw_pixel(m, m->x, i, m->map->colorf);
 		i++;
 	}
@@ -208,7 +208,9 @@ void	game_loop(void *param)
 	{
 	// 	printf("POSX:%f POSY%f\n", m->t->posx, m->t->posy);
 	// printf("DIRX:%f DIRY%f\n", m->t->dirx, m->t->diry);
-		// test_values(m);	
+		// test_values(m);
+		//
+		//oo
 	}
 	while (m->x < m->window_w)
 	{
