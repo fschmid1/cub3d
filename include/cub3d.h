@@ -46,10 +46,16 @@
 // "src/menu/dream/" // 1 = dream // NUMOFFILES 3
 // "src/menu/city/"  // 2 = city // NUMOFFILES 51
 //-------------------------------MENU_MSG------------------------------------
-#define MSG_P "src/menu/msg/"
+#define MSG_P "src/menu/cubed/"
+#define MSG_STARTB "src/menu/start/b"
+#define MSG_STARTG "src/menu/start/g"
+#define MSG_MAPSB "src/menu/maps/b"
+#define MSG_MAPSG "src/menu/maps/g"
+#define MSG_SETTINGSB "src/menu/settings/b"
+#define MSG_SETTINGSG "src/menu/settings/g"
+#define BLUE 0
+#define GREEN 1
 #define MSG_NOF 19
-#define MSG_H 270
-#define MSG_W 670
 
 //==============================================================================
 //----------------------------------STRUCTS-------------------------------------
@@ -73,6 +79,8 @@ typedef enum e_gstate
 	START,
 	PAUSE,
 	GAME,
+	MAPS,
+	SETTINGS,
 	DEAD,
 	EXIT,
 } t_gstate;
@@ -88,8 +96,10 @@ typedef enum e_gwall
 //------------------------------------MENU--------------------------------------
 typedef struct s_msg
 {
-	mlx_texture_t **tex;
-	mlx_image_t **img;
+	mlx_texture_t **cubed;
+	mlx_texture_t ***start;
+	mlx_texture_t ***maps;
+	mlx_texture_t ***settings;
 	int 		num_of_f;
 	int			i;
 } t_msg;
@@ -221,6 +231,7 @@ typedef	struct	s_main
 	t_gstate		g_state; //current state
 	t_gstate		prev_state; //save of previous state
 	int				x; //used for action iteration in game loop
+	int				selection; //used for menu cycle
 }	t_m;
 //==============================================================================
 //----------------------------------WINDOW.c------------------------------------
@@ -303,14 +314,13 @@ void	max_val(t_p *m);
 void	draw_menu(t_m *m);
 void	tex_to_im(t_m *m);
 void	alloc_tex_im(t_m *m);
-void	load_textures(t_m *m, char *path);
 //==============================================================================
 //--------------------------------------MSG.c-------------------------------------
 //==============================================================================
 void	draw_msg(t_m *m);
 void	msg_tex_to_im(t_m *m);
 void	msg_alloc_tex_im(t_m *m);
-void	msg_load_textures(t_m *m, char *path);
+void	msg_load_textures(t_m *m, mlx_texture_t **dest, char *path);
 //==============================================================================
 //--------------------------------------LOAD_WALL.c-------------------------------------
 //==============================================================================

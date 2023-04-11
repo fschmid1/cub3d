@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:17 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/11 16:55:32 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/11 20:19:56 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,16 @@ int	main(int argc, char **argv)
 	printf("--------------------WINDOW DONE----------------\n");
 	load_wall(m);
 	printf("--------------------WALLS DONE----------------\n");
-	// draw_msg(m);
-	// draw_menu(m);
+	draw_msg(m);
+	draw_menu(m);
 	m->map->map = dblcpy_to_int(m->p->intmap, m->p->size.y, m->p->size.x);
 	m->map->player = setup_player(m);
 	printf("--------------------PLAYER SETUP ----------------\n");
-	// m->camera = setup_camera(m);
+	m->camera = setup_camera(m);
 	printf("--------------------T SETUP ----------------\n");
-	// test_values(m);
 	set_position(m);
 	printf("--------------------POSITION SETUP----------------\n");
-	game_loop(m);
+	// game_loop(m);
 	printf("--------------------GAME LOOP RUNNING ONCE----------------\n");
 	register_hooks(m);
 	mlx_loop(m->map->mlx);
