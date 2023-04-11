@@ -219,6 +219,7 @@ typedef	struct	s_main
 {
 	t_t				*t;
 	mlx_texture_t	**tex;
+	mlx_texture_t	*cross;
 	t_menu			*men; //menu animation struct
 	t_map			*map; //makes the cub 3d
 	t_camera		*camera; //camera infos

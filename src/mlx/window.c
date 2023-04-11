@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:53:00 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/11 20:26:44 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/11 20:40:14 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,15 +139,16 @@ void	key(mlx_key_data_t keydata, void *param)
 	t_m	*m;
 	m = param;
 
-	printf("%u\n", m->g_state);
-	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
+	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS
+		&& m->g_state == START)
 	{
 		if (m->selection == 0)
 			m->selection = 2;
 		else
 			m->selection -= 1;
 	}
-	if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
+	if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS 
+		&& m->g_state == START)
 	{
 		if (m->selection == 2)
 			m->selection = 0;
@@ -173,7 +174,6 @@ void	key(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_ENTER && keydata.action == MLX_PRESS
 		&& m->selection == 2)
 		m->g_state = SETTINGS;
-	printf("%u\n", m->g_state);
 }
 
 void	menu_hook(void *param)
@@ -207,6 +207,5 @@ void	menu_hook(void *param)
 
 void	register_hooks(t_m *m)
 {
-	// mlx_loop_hook(m->map->mlx, &game_loop, m);
 	mlx_loop_hook(m->map->mlx, &menu_hook, m);
 }
