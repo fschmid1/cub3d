@@ -215,6 +215,31 @@ void	value(t_m *m)
 	printf("RAYDIRX:%f RAYDIRY%f\n", m->t->raydirx, m->t->raydiry);
 }
 
+void	crosshair(t_m *m)
+{
+	unsigned int i;
+	unsigned int c;
+	int pos;
+
+	i = 0;
+	c = 0;
+	pos = m->window_h / 2 * m->window_w / 1.2 + 820;
+	while (i++ < (m->cross->width * m->cross->height))
+	{
+		if (c == m->cross->width)
+		{
+			c = 0;
+			pos += m->men->tex[0]->width - m->cross->width;
+		}
+		c++;
+		if(m->cross->pixels[(i) * 4] != 0)
+		{
+			ft_memcpy(&m->map->img->pixels[(pos + i) * 4],
+				&m->cross->pixels[(i) * 4], 4);
+		}
+	}
+}
+
 void	game_loop(void *param)
 {
 	t_m	*m;
@@ -252,5 +277,6 @@ void	game_loop(void *param)
 		draw_lines(m);
 		m->x++;
 	}
+	crosshair(m);
 	minimap(m);
 }
