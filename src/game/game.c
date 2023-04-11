@@ -137,17 +137,17 @@ void	movement(t_m *m)
 {
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_UP))
 	{
-		if (m->t->map[(int)(m->t->posx + m->t->dirx * m->t->movspeed)][(int)m->t->posy] == FALSE)
+		if (m->t->map[(int)m->t->posy][(int)(m->t->posx + m->t->dirx * m->t->movspeed)] == FALSE)
 			m->t->posx += m->t->dirx * m->t->movspeed;
-		if (m->t->map[(int)(m->t->posx)][(int)(m->t->posy + m->t->diry * m->t->movspeed)] == FALSE)
+		if (m->t->map[(int)(m->t->posy + m->t->diry * m->t->movspeed)][(int)(m->t->posx)] == FALSE)
 			m->t->posy += m->t->diry * m->t->movspeed;
 		m->x = 0;
 	}
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_DOWN))
 	{
-		if (m->t->map[(int)(m->t->posx - m->t->dirx * m->t->movspeed)][(int)m->t->posy] == FALSE)
+		if (m->t->map[(int)m->t->posy][(int)(m->t->posx - m->t->dirx * m->t->movspeed)] == FALSE)
 			m->t->posx -= m->t->dirx * m->t->movspeed;
-		if (m->t->map[(int)(m->t->posx)][(int)(m->t->posy - m->t->diry * m->t->movspeed)] == FALSE)
+		if (m->t->map[(int)(m->t->posy - m->t->diry * m->t->movspeed)][(int)(m->t->posx)] == FALSE)
 			m->t->posy -= m->t->diry * m->t->movspeed;
 		m->x = 0;
 	}
