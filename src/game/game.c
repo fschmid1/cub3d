@@ -1,17 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   game.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/25 19:37:45 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/11 13:23:04 by pgorner          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-
-#include "../../include/cub3d.h"
+#include "../include/cub3d.h"
 
 void	set_values(t_m *m)
 {
@@ -78,6 +65,7 @@ void	dda(t_m *m)
 // 	else
 // 		m->t->pwd = (m->t->mapy - m->t->posy + (1 - m->t->stepy) / 2) / m->t->diry;
 // }
+
 void	perp_wd(t_m *m)
 {
 	if (m->t->side == 0)
@@ -124,8 +112,10 @@ void	draw_lines(t_m *m)
 		m->t->draw_start = 0;
 	if (m->t->draw_end >= m->window_h)
 		m->t->draw_end = m->window_h - 1;
-	if (m->camera->side == 1)
-		m->map->color = 0x333333FF;
+	// if (m->t->side == 1)
+	// 	m->map->color = 0x333333FF;
+	// else
+	// 	m->map->color = 0xFFFFFFFF;
 	// printf("LINE HEIGHT: %i P_WD.%f \nDRAW START %i DRAW END %i\n", m->t->line_height, m->t->pwd, m->t->draw_start, m->t->draw_end);
 	// printf("BROKE AT CEILING\n");
 	draw_ceiling(m);
@@ -161,7 +151,7 @@ void	movement(t_m *m)
 			m->t->posy -= m->t->diry * m->t->movspeed;
 		m->x = 0;
 	}
-	if (mlx_is_key_down(m->map->mlx, MLX_KEY_RIGHT))
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_LEFT))
 	{
 		m->t->olddirx = m->t->dirx;
 		m->t->dirx = m->t->dirx * cos(-m->t->rotspeed) - m->t->diry * sin(-m->t->rotspeed);
@@ -171,7 +161,7 @@ void	movement(t_m *m)
 		m->t->planey = m->t->oldplanex * sin(-m->t->rotspeed) + m->t->planey * cos(-m->t->rotspeed);
 		m->x = 0;
 	}
-	if (mlx_is_key_down(m->map->mlx, MLX_KEY_LEFT))
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_RIGHT))
 	{
 		m->t->olddirx = m->t->dirx;
 		m->t->dirx = m->t->dirx * cos(m->t->rotspeed) - m->t->diry * sin(m->t->rotspeed);
@@ -206,11 +196,11 @@ void	game_loop(void *param)
 	movement(m);
 	if (m->x == 0)
 	{
+		ft_memset(m->map->img->pixels, 0,
+		m->window_w * m->window_h * sizeof(int32_t));
 	// 	printf("POSX:%f POSY%f\n", m->t->posx, m->t->posy);
 	// printf("DIRX:%f DIRY%f\n", m->t->dirx, m->t->diry);
-		// test_values(m);
-		//
-		//oo
+		// test_values(m);	
 	}
 	while (m->x < m->window_w)
 	{
@@ -233,5 +223,4 @@ void	game_loop(void *param)
 		m->x++;
 	}
 	minimap(m);
-	// mlx_image_to_window(m->map->mlx, m->map->img, 0, 0);
 }

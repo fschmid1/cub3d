@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:43:42 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/27 17:08:57 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/11 13:43:03 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	testing(t_p *main)
 	dprint(main->map);
 	printf("PLAYER x:%f\n", main->pos_p.x);
 	printf("PLAYER y:%f\n", main->pos_p.y);
+	printf("MAP HEIGHT: Y:%f\n", main->size.y);
+	printf("MAP WIDTH: X:%f\n", main->size.x);
 	printf("MAP CHECK: %i (1==MAP OK)\n", main->status);
 }
 

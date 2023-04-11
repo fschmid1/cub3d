@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 11:49:51 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/27 18:08:37 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/11 14:29:56 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void	map_to_int(t_p *m)
 	i = -1;
 	j = 0;
 	m->intmap = malloc(sizeof(int *) * m->size.x + 1);
-	while (++i < m->size.x)
+	while (++i < m->size.y)
 	{
 		j = 0;
  		m->intmap[i] = ft_calloc(sizeof(int), m->size.y + 1);

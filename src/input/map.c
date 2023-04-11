@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:54:02 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/27 16:49:39 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/11 14:27:59 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,33 @@
 
 void	resize_map(t_p *m)
 {
-	int		i;
-	int		j;
+	int		x;
+	int		y;
 	char	**new;
 
-	i = 0;
-	new = ft_calloc(sizeof(char *), m->size.x + 1);
-	while (i < m->size.x)
-		new[i++] = ft_calloc(sizeof(char), m->size.y + 1);
-	i = -1;
-	while(++i < m->size.x)
+	y = 0;
+	new = ft_calloc(sizeof(char *), m->size.y + 1);
+	while (y < m->size.y)
+		new[y++] = ft_calloc(sizeof(char), m->size.x + 1);
+	y = -1;
+	while(++y < m->size.y)
 	{
-		j = 0;
-		while (j < m->size.y)
+		x = 0;
+		while (x < m->size.x)
 		{
-			if ((m->map[i][j] != '1' 
-			&& m->map[i][j] != '0'
-			&& ispos_p(m->map[i][j]) == 0)
-			|| j >= (int)ft_strlen(m->map[i]))
-				new[i][j] = '1';
+			if ((m->map[y][x] != '1' 
+			&& m->map[y][x] != '0'
+			&& ispos_p(m->map[y][x]) == 0)
+			|| x >= (int)ft_strlen(m->map[y]))
+				new[y][x] = '1';
 			else
-				new[i][j] = m->map[i][j];
-			j++;
+				new[y][x] = m->map[y][x];
+			x++;
 		}
-		new[i][j] = '\0';
+		new[y][x] = '\0';
 	}
 	free_string_array(m->map);
-	m->map = doublcpy(new, m->size.x);
+	m->map = doublcpy(new, m->size.y);
 	free_string_array(new);
 }
 
@@ -57,24 +57,24 @@ void	max_val(t_p *m)
 			w = ft_strlen(m->map[h]);
 		h++;
 	}
-	m->size = (t_vec){h, w, 0};
+	m->size = (t_vec){w, h, 0};
 }
 
 void	fill(t_p *m, t_point cur, char to_fill)
 {
-	if ((m->fmap[cur.x][cur.y] != '1'
-		&& m->fmap[cur.x][cur.y] != '0'
-		&& m->fmap[cur.x][cur.y] != 'F')
-		|| (m->fmap[0][cur.y] == '0'))
+	if ((m->fmap[cur.y][cur.x] != '1'
+		&& m->fmap[cur.y][cur.x] != '0'
+		&& m->fmap[cur.y][cur.x] != 'F')
+		|| (m->fmap[0][cur.x] == '0'))
 		{
 			printf("%i:%i\n", cur.x, cur.y);
 			m->status = FALSE;
 		}
 	else if (cur.x < 0 || cur.x >= (int)ft_strlen(m->fmap[cur.y])
 		|| cur.y < 0 || cur.y >= m->size.y
-		|| m->fmap[cur.x][cur.y] != to_fill)
+		|| m->fmap[cur.y][cur.x] != to_fill)
 		return ;
-	m->fmap[cur.x][cur.y] = 'F';
+	m->fmap[cur.y][cur.x] = 'F';
 	fill(m, (t_point){cur.x - 1, cur.y}, to_fill);
 	fill(m, (t_point){cur.x + 1, cur.y}, to_fill);
 	fill(m, (t_point){cur.x, cur.y - 1}, to_fill);
@@ -87,17 +87,17 @@ void	check_map(t_p *m)
 	t_point	size;
 
 	i = 0;
-	while (i < m->size.x)
+	while (i < m->size.y)
 		if(m->map[0][i++] == '0')
 			err_exit(m, MH);
 	size = (t_point){m->size.x, m->size.y};
 	m->fmap = doublcpy(m->map, m->size.y);
-	dprint(m->fmap);
+	// dprint(m->fmap);
 	m->fmap[(int)m->pos_p.y][(int)m->pos_p.x] = '0';
-	dprint(m->fmap);
+	// dprint(m->fmap);
 	size = (t_point){(int)m->pos_p.x, (int)m->pos_p.y};
 	fill(m, size, '0');
-	dprint(m->fmap);
+	// dprint(m->fmap);
 	if (m->status == FALSE)
 		err_exit(m, MH);
 	resize_map(m);
