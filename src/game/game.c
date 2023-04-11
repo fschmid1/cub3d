@@ -102,17 +102,20 @@ void	draw_ceiling(t_m *m)
 
 int	calc_tex(t_m *m)
 {
+	int ret;
+
+	ret = 0;
 	if (m->t->wall == NO)
-		return((int)(m->t->posy + m->t->pwd * m->t->diry) * m->tex[NO]->width);
+		ret = (int)(m->t->posy + m->t->pwd * m->t->diry) * m->tex[NO]->width;
 	if (m->t->wall == SO)
-		return((int)(m->t->posy + m->t->pwd * m->t->diry) * m->tex[SO]->width);
+		ret = (int)(m->t->posy + m->t->pwd * m->t->diry) * m->tex[SO]->width;
 	if (m->t->wall == WE)
-		return((int)(m->t->posx + m->t->pwd * m->t->dirx) * m->tex[WE]->width);
+		ret = (int)(m->t->posx + m->t->pwd * m->t->dirx) * m->tex[WE]->width;
 	if (m->t->wall == EA)
-		return((int)(m->t->posx + m->t->pwd * m->t->dirx) * m->tex[EA]->width);
-	// if (t->which_card_pt == NO || t->which_card_pt == WE)
-	// 	tex_x = tex->width - tex_x - 1;		
-	return (0);
+		ret = (int)(m->t->posx + m->t->pwd * m->t->dirx) * m->tex[EA]->width;
+	if (m->t->wall == NO || m->t->wall == WE)
+		ret = (int)(m->t->posx + m->t->pwd * m->t->dirx) - ret - 1;		
+	return (ret);
 }
 
 void	draw_textures(t_m *m)
@@ -121,18 +124,17 @@ void	draw_textures(t_m *m)
 	double	position;
 	int	tex;
 	int	tey;
-	int	i;
 
-	what = 1 * 32 / m->t->line_height;
+	what = 1.00 * 32 / m->t->line_height;
 	position = (m->t->draw_start - (m->window_h + m->t->line_height) /2) * what; 
 	tex = calc_tex(m);
-	i = m->t->draw_start;
-	while(i <= m->t->draw_end)
+	while(m->t->draw_start <= m->t->draw_end)
 	{
-		tey = position + (32 - 1);
+		tey = (int)position + (32.0 - 1.0);
 		position += what;
-		ft_memcpy(&m->map->img[(i * (int)m->window_w + m->x) * 4], &m->tex[m->t->wall]->pixels[(tey * 32 + tex) * 4], 4);
-		i++;
+		ft_memcpy(&m->map->img->pixels[(m->t->draw_start * m->window_w + m->x) * 4],
+			&m->tex[m->t->wall]->pixels[(tey * 32 + tex) * 4], 4);
+		m->t->draw_start++;
 	}
 }
 
@@ -146,7 +148,7 @@ void	draw_lines(t_m *m)
 	if (m->t->draw_end >= m->window_h)
 		m->t->draw_end = m->window_h - 1;
 	draw_ceiling(m);
-	draw_wall(m);
+	// draw_wall(m);
 	draw_textures(m);
 }
 
