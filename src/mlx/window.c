@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:53:00 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/26 15:40:39 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/11 16:35:42 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ void	mmsg_hook(void *param)
 
 void	register_hooks(t_m *m)
 {
-	mlx_loop_hook(m->map->mlx, &main_hooks, m);
-	mlx_loop_hook(m->map->mlx, &game_loop, m);
+	// mlx_loop_hook(m->map->mlx, &main_hooks, m);
+	// mlx_loop_hook(m->map->mlx, &game_loop, m);
 	// mlx_loop_hook(m->map->mlx, &mmsg_hook, m);
-	// mlx_loop_hook(m->map->mlx, &menu_hook, m);
+	mlx_loop_hook(m->map->mlx, &menu_hook, m);
 }

@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:17 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/11 15:05:37 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/11 16:36:17 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ void	set_position(t_m *m)
 	m->t->stepy = 0;
 	m->t->sidedistx = 0;
 	m->t->sidedisty = 0;
+	m->t->line_height = 0;
+	m->t->draw_start = 0;
+	m->t->draw_end = 0;
 }
 
 int	main(int argc, char **argv)

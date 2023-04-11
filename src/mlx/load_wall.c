@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 18:04:43 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/26 18:11:06 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/11 16:47:18 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,9 @@
 
 void	load_wall(t_m *m)
 {
-	m->texim->no_tex = mlx_load_png(m->p->no);
-	m->texim->so_tex = mlx_load_png(m->p->so);
-	m->texim->we_tex = mlx_load_png(m->p->we);
-	m->texim->ea_tex = mlx_load_png(m->p->ea);
-	m->texim->no_img = mlx_texture_to_image(m->map->mlx, m->texim->no_tex);
-	m->texim->so_img = mlx_texture_to_image(m->map->mlx, m->texim->so_tex);
-	m->texim->we_img = mlx_texture_to_image(m->map->mlx, m->texim->we_tex);
-	m->texim->ea_img = mlx_texture_to_image(m->map->mlx, m->texim->ea_tex);
+	m->tex = malloc(sizeof(mlx_texture_t *) * 4);
+	m->tex[NO] = mlx_load_png(m->p->no);
+	m->tex[SO] = mlx_load_png(m->p->so);
+	m->tex[WE] = mlx_load_png(m->p->we);
+	m->tex[EA] = mlx_load_png(m->p->ea);
 }
