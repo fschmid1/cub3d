@@ -11,8 +11,8 @@ void	set_values(t_m *m)
 
 void	delta_step(t_m *m)
 {
-	m->t->deltadistx = /* m->t->raydirx == 0 ? INT_MAX :  */fabs(1 / m->t->raydirx); //DIFF
-	m->t->deltadisty = /* m->t->raydiry == 0 ? INT_MAX :  */fabs(1 / m->t->raydiry);
+	m->t->deltadistx = fabs(1 / m->t->raydirx);
+	m->t->deltadisty = fabs(1 / m->t->raydiry);
 	m->t->hit = 0;
 	if (m->t->raydirx < 0)
 	{
@@ -113,8 +113,8 @@ int	calc_tex(t_m *m)
 		ret = (int)(m->t->posx + m->t->pwd * m->t->dirx) * m->tex[WE]->width;
 	if (m->t->wall == EA)
 		ret = (int)(m->t->posx + m->t->pwd * m->t->dirx) * m->tex[EA]->width;
-	if (m->t->wall == NO || m->t->wall == WE)
-		ret = (int)(m->t->posx + m->t->pwd * m->t->dirx) - ret - 1;		
+	// if (m->t->wall == NO || m->t->wall == WE)
+	// 	ret = (int)(m->t->posx + m->t->pwd * m->t->dirx) - ret - 1;		
 	return (ret);
 }
 
@@ -148,8 +148,8 @@ void	draw_lines(t_m *m)
 	if (m->t->draw_end >= m->window_h)
 		m->t->draw_end = m->window_h - 1;
 	draw_ceiling(m);
-	draw_wall(m);
 	draw_textures(m);
+	// draw_wall(m);
 }
 
 void	movspeed(t_m *m)
