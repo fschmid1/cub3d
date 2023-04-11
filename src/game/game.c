@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 19:37:45 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/27 20:43:38 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/11 13:23:04 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ void	dda(t_m *m)
 		else
 		{
 			m->t->sidedisty += m->t->deltadisty;
-			m->t->mapy += m->camera->step.y;
+			m->t->mapy += m->t->stepy;
 			m->t->side = 1;
 		}
-		if (m->t->map[m->t->mapx][m->t->mapy] > 0)
+		if (m->t->map[m->t->mapy][m->t->mapx] > 0)
 			m->t->hit = 1;
 	}
 }
@@ -74,9 +74,9 @@ void	dda(t_m *m)
 // void	perp_wd(t_m *m)
 // {
 // 	if (m->camera->side == 0)
-// 		m->camera->perp_wd = (m->camera->map_x - m->camera->pos.x + (1 - m->camera->step.x) / 2) / m->camera->ray_dir.x;
+// 		m->t->pwd = (m->t->mapx - m->t->posx + (1 - m->t->stepx) / 2) / m->t->dirx;
 // 	else
-// 		m->camera->perp_wd = (m->camera->map_y - m->camera->pos.y + (1 - m->camera->step.y) / 2) / m->camera->ray_dir.y;
+// 		m->t->pwd = (m->t->mapy - m->t->posy + (1 - m->t->stepy) / 2) / m->t->diry;
 // }
 void	perp_wd(t_m *m)
 {
@@ -161,17 +161,17 @@ void	movement(t_m *m)
 			m->t->posy -= m->t->diry * m->t->movspeed;
 		m->x = 0;
 	}
-	if (mlx_is_key_down(m->map->mlx, MLX_KEY_LEFT))
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_RIGHT))
 	{
 		m->t->olddirx = m->t->dirx;
 		m->t->dirx = m->t->dirx * cos(-m->t->rotspeed) - m->t->diry * sin(-m->t->rotspeed);
 		m->t->diry = m->t->olddirx * sin(-m->t->rotspeed) + m->t->diry * cos(-m->t->rotspeed);
 		m->t->oldplanex = m->t->planex;
-		m->t->planex = m->t->planex * cos(m->t->rotspeed) - m->t->planey * sin(m->t->rotspeed);
-		m->t->planey = m->t->oldplanex * sin(m->t->rotspeed) + m->t->planey * cos(m->t->rotspeed);
+		m->t->planex = m->t->planex * cos(-m->t->rotspeed) - m->t->planey * sin(-m->t->rotspeed);
+		m->t->planey = m->t->oldplanex * sin(-m->t->rotspeed) + m->t->planey * cos(-m->t->rotspeed);
 		m->x = 0;
 	}
-	if (mlx_is_key_down(m->map->mlx, MLX_KEY_RIGHT))
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_LEFT))
 	{
 		m->t->olddirx = m->t->dirx;
 		m->t->dirx = m->t->dirx * cos(m->t->rotspeed) - m->t->diry * sin(m->t->rotspeed);
