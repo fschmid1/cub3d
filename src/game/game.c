@@ -38,7 +38,6 @@ void	delta_step(t_m *m)
 
 void	dda(t_m *m)
 {
-		// printf("MAP SIDE DIST:X:%f: Y:%f:\n", m->t->sidedistx, m->t->sidedisty);
 	while(m->t->hit == 0)
 	{
 		if (m->t->sidedistx < m->t->sidedisty)
@@ -46,25 +45,23 @@ void	dda(t_m *m)
 			m->t->sidedistx += m->t->deltadistx;
 			m->t->mapx += m->t->stepx;
 			m->t->side = 0;
+			m->t->wall = WE;
+			if (m->t->dirx < 0)
+				m->t->wall = EA;
 		}
 		else
 		{
 			m->t->sidedisty += m->t->deltadisty;
 			m->t->mapy += m->t->stepy;
 			m->t->side = 1;
+			m->t->wall = NO;
+			if (m->t->dirx < 0)
+				m->t->wall = SO;
 		}
 		if (m->t->map[m->t->mapy][m->t->mapx] > 0)
 			m->t->hit = 1;
 	}
 }
-
-// void	perp_wd(t_m *m)
-// {
-// 	if (m->camera->side == 0)
-// 		m->t->pwd = (m->t->mapx - m->t->posx + (1 - m->t->stepx) / 2) / m->t->dirx;
-// 	else
-// 		m->t->pwd = (m->t->mapy - m->t->posy + (1 - m->t->stepy) / 2) / m->t->diry;
-// }
 
 void	perp_wd(t_m *m)
 {
@@ -81,7 +78,10 @@ void	draw_wall(t_m *m)
 	i = m->t->draw_start;
 	while (i < m->t->draw_end)
 	{
-		draw_pixel(m, m->x, i, m->map->color);
+		if(m->t->side == 1) 
+			draw_pixel(m, m->x, i, ((m->map->color >> 1) & 8355711));
+		else
+			draw_pixel(m, m->x, i, m->map->color);
 		i++;
 	}
 }
@@ -100,11 +100,46 @@ void	draw_ceiling(t_m *m)
 	}
 }
 
+int	calc_tex(t_m *m)
+{
+	int ret;
+
+	ret = 0;
+	if (m->t->wall == NO)
+		ret = (int)(m->t->posy + m->t->pwd * m->t->diry) * m->tex[NO]->width;
+	if (m->t->wall == SO)
+		ret = (int)(m->t->posy + m->t->pwd * m->t->diry) * m->tex[SO]->width;
+	if (m->t->wall == WE)
+		ret = (int)(m->t->posx + m->t->pwd * m->t->dirx) * m->tex[WE]->width;
+	if (m->t->wall == EA)
+		ret = (int)(m->t->posx + m->t->pwd * m->t->dirx) * m->tex[EA]->width;
+	if (m->t->wall == NO || m->t->wall == WE)
+		ret = (int)(m->t->posx + m->t->pwd * m->t->dirx) - ret - 1;		
+	return (ret);
+}
+
+void	draw_textures(t_m *m)
+{
+	double	what;
+	double	position;
+	int	tex;
+	int	tey;
+
+	what = 1.00 * 32 / m->t->line_height;
+	position = (m->t->draw_start - (m->window_h + m->t->line_height) /2) * what; 
+	tex = calc_tex(m);
+	while(m->t->draw_start <= m->t->draw_end)
+	{
+		tey = (int)position + (32.0 - 1.0);
+		position += what;
+		ft_memcpy(&m->map->img->pixels[(m->t->draw_start * m->window_w + m->x) * 4],
+			&m->tex[m->t->wall]->pixels[(tey * 32 + tex) * 4], 4);
+		m->t->draw_start++;
+	}
+}
+
 void	draw_lines(t_m *m)
 {
-	m->t->line_height = 0;
-	m->t->draw_start = 0;
-	m->t->draw_end = 0;
 	m->t->line_height = (int)(m->window_h / m->t->pwd);
 	m->t->draw_start = -m->t->line_height / 2 + m->window_h / 2;
 	m->t->draw_end = m->t->line_height / 2 + m->window_h / 2;
@@ -112,15 +147,9 @@ void	draw_lines(t_m *m)
 		m->t->draw_start = 0;
 	if (m->t->draw_end >= m->window_h)
 		m->t->draw_end = m->window_h - 1;
-	// if (m->t->side == 1)
-	// 	m->map->color = 0x333333FF;
-	// else
-	// 	m->map->color = 0xFFFFFFFF;
-	// printf("LINE HEIGHT: %i P_WD.%f \nDRAW START %i DRAW END %i\n", m->t->line_height, m->t->pwd, m->t->draw_start, m->t->draw_end);
-	// printf("BROKE AT CEILING\n");
 	draw_ceiling(m);
-	draw_wall(m);
-	// printf("BROKE AT WALL\n");
+	// draw_wall(m);
+	draw_textures(m);
 }
 
 void	movspeed(t_m *m)

@@ -18,7 +18,7 @@
 //==============================================================================
 //-------------------------------DEFINED_VALUES---------------------------------
 //==============================================================================
-#define TESTING 1
+#define TESTING 0
 #define TRUE 1
 #define FALSE 0
 //---------------------------------TEX/COL--------------------------------------
@@ -76,6 +76,14 @@ typedef enum e_gstate
 	DEAD,
 	EXIT,
 } t_gstate;
+
+typedef enum e_gwall
+{
+	NO,
+	SO,
+	WE,
+	EA,
+} t_gwall;
 
 //------------------------------------MENU--------------------------------------
 typedef struct s_msg
@@ -161,18 +169,6 @@ typedef struct	s_map
 	int			minmap_scale;
 }	t_map;
 
-typedef struct	s_texim
-{
-	mlx_texture_t	*no_tex;
-	mlx_image_t		*no_img;
-	mlx_texture_t	*so_tex;
-	mlx_image_t		*so_img;
-	mlx_texture_t	*we_tex;
-	mlx_image_t		*we_img;
-	mlx_texture_t	*ea_tex;
-	mlx_image_t		*ea_img;
-} t_texim;
-
 typedef	struct	s_test
 {
 	double	camerax;
@@ -206,25 +202,25 @@ typedef	struct	s_test
 	double	rotspeed;
 	double	olddirx;
 	double	oldplanex;
+	int		wall;
 } t_t;
-
 
 typedef	struct	s_main
 {
-	t_t			*t;
-	t_texim		*texim;
-	t_menu		*men; //menu animation struct
-	t_map		*map; //makes the cub 3d
-	t_camera	*camera; //camera infos
-	t_p			*p; // parsed
-	int			window_w; //window width
-	int			window_h; //window height
-	double		time; //time of current frame
-	double		old_time; //time of previous frame
-	double		frametime; //time of previous frame
-	t_gstate	g_state; //current state
-	t_gstate	prev_state; //save of previous state
-	int			x; //used for action iteration in game loop
+	t_t				*t;
+	mlx_texture_t	**tex;
+	t_menu			*men; //menu animation struct
+	t_map			*map; //makes the cub 3d
+	t_camera		*camera; //camera infos
+	t_p				*p; // parsed
+	int				window_w; //window width
+	int				window_h; //window height
+	double			time; //time of current frame
+	double			old_time; //time of previous frame
+	double			frametime; //time of previous frame
+	t_gstate		g_state; //current state
+	t_gstate		prev_state; //save of previous state
+	int				x; //used for action iteration in game loop
 }	t_m;
 //==============================================================================
 //----------------------------------WINDOW.c------------------------------------

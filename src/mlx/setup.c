@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:40 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/27 12:12:22 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/11 16:48:55 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_m	*setup_main(void)
 	m->p = setup_parse(m);
 	m->map = setup_map();
 	m->men = setup_menu();
-	m->texim = malloc(sizeof(t_texim));
 	m->men->msg = setup_msg();
 	m->time = 0;
 	m->old_time = 0;
