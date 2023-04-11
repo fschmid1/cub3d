@@ -109,7 +109,7 @@ typedef struct s_parse
     char    **input; // full file
     char    *file; // full file as one continous string
     char    **map; // only the map as a char matrix
-    int    **intmap; // only the map as a char matrix
+    int		**intmap; // only the map as a char matrix
     char    **fmap; // only the map for floodfill in struct
     char    *no; //path to NORTH texture
     char    *so; //path to SOUTH texture

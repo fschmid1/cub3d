@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:39:22 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/27 16:44:52 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/11 13:50:12 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*find_player(t_p *m)
 	int	j;
 
 	i = -1;
-	while (++i < m->size.x)
+	while (++i < m->size.y)
 	{
 		j = 0;
 		while (m->map[i][j])
