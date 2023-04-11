@@ -148,7 +148,7 @@ void	draw_lines(t_m *m)
 	if (m->t->draw_end >= m->window_h)
 		m->t->draw_end = m->window_h - 1;
 	draw_ceiling(m);
-	// draw_wall(m);
+	draw_wall(m);
 	draw_textures(m);
 }
 
@@ -206,6 +206,7 @@ void	movement(t_m *m)
 void	value(t_m *m)
 {
 	printf("-----------------------------------------\n");
+	printf("m->X = %i\n", m->x);
 	printf("POSX:%f POSY%f\n", m->t->posx, m->t->posy);
 	printf("DIRX:%f DIRY%f\n", m->t->dirx, m->t->diry);
 	printf("SIDEDISTX:%f SIDEDISTY%f\n", m->t->sidedistx, m->t->sidedisty);
@@ -225,8 +226,8 @@ void	game_loop(void *param)
 	movement(m);
 	if (m->x == 0)
 	{
-		ft_memset(m->map->img->pixels, 0,
-		m->window_w * m->window_h * sizeof(int32_t));
+		// ft_memset(m->map->img->pixels, 0,
+		// m->window_w * m->window_h * sizeof(int32_t));
 	// 	printf("POSX:%f POSY%f\n", m->t->posx, m->t->posy);
 	// printf("DIRX:%f DIRY%f\n", m->t->dirx, m->t->diry);
 		// test_values(m);	
