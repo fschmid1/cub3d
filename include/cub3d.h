@@ -161,7 +161,7 @@ typedef struct	s_camera
 	t_vec	delta_dist; // delta ray dir
 	t_vec	step; //stepX // stepY
 	double	perp_wd; // perp wall dist
-	int		hit; 
+	int		hit;
 	int		side; // hit NS OR EW wall?
 	double	mspeed; // movement speed
 	double	rspeed; // rotation speed
@@ -177,6 +177,7 @@ typedef struct	s_map
 	uint32_t	colorc;
 	uint32_t	colorf;
 	int			minmap_scale;
+	mlx_image_t	*fps;
 }	t_map;
 
 typedef	struct	s_test
@@ -213,6 +214,7 @@ typedef	struct	s_test
 	double	olddirx;
 	double	oldplanex;
 	int		wall;
+	t_vec	mouse;
 } t_t;
 
 typedef	struct	s_main

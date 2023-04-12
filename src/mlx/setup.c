@@ -68,6 +68,7 @@ t_map	*setup_map(void)
 	map->minmap_scale = 0;
 	map->colorc = 0xa29a9aFF;
 	map->colorf = 0x721818FF;
+	map->fps = NULL;
 	return (map);
 }
 
@@ -150,6 +151,8 @@ void	free_main(t_m *m)
 	free_string_array(m->p->map);
 	free_string_array(m->p->fmap);
 	free_string_array(m->p->input);
+	mlx_delete_image(m->map->mlx, m->map->fps);
+	mlx_delete_image(m->map->mlx, m->map->img);
 	free(m->p->no);
 	free(m->p->so);
 	free(m->p->we);
