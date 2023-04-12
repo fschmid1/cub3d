@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:17 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/11 20:19:56 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/12 11:28:20 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,6 @@ int	main(int argc, char **argv)
 	m->camera = setup_camera(m);
 	printf("--------------------T SETUP ----------------\n");
 	set_position(m);
-	printf("--------------------POSITION SETUP----------------\n");
-	// game_loop(m);
-	printf("--------------------GAME LOOP RUNNING ONCE----------------\n");
 	register_hooks(m);
 	mlx_loop(m->map->mlx);
 	mlx_terminate(m->map->mlx);

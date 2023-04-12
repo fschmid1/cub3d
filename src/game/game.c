@@ -45,18 +45,18 @@ void	dda(t_m *m)
 			m->t->sidedistx += m->t->deltadistx;
 			m->t->mapx += m->t->stepx;
 			m->t->side = 0;
-			m->t->wall = WE;
-			if (m->t->dirx < 0)
-				m->t->wall = EA;
+			m->t->wall = EA;
+			if (m->t->raydirx < 0)
+				m->t->wall = WE;
 		}
 		else
 		{
 			m->t->sidedisty += m->t->deltadisty;
 			m->t->mapy += m->t->stepy;
 			m->t->side = 1;
-			m->t->wall = NO;
-			if (m->t->dirx < 0)
-				m->t->wall = SO;
+			m->t->wall = SO;
+			if (m->t->raydiry < 0)
+				m->t->wall = NO;
 		}
 		if (m->t->map[m->t->mapy][m->t->mapx] > 0)
 			m->t->hit = 1;
@@ -103,18 +103,17 @@ void	draw_ceiling(t_m *m)
 int	calc_tex(t_m *m)
 {
 	int ret;
+	double wallx;
 
 	ret = 0;
-	if (m->t->wall == NO)
-		ret = (int)(m->t->posy + m->t->pwd * m->t->diry) * m->tex[NO]->width;
-	if (m->t->wall == SO)
-		ret = (int)(m->t->posy + m->t->pwd * m->t->diry) * m->tex[SO]->width;
-	if (m->t->wall == WE)
-		ret = (int)(m->t->posx + m->t->pwd * m->t->dirx) * m->tex[WE]->width;
-	if (m->t->wall == EA)
-		ret = (int)(m->t->posx + m->t->pwd * m->t->dirx) * m->tex[EA]->width;
-	// if (m->t->wall == NO || m->t->wall == WE)
-	// 	ret = (int)(m->t->posx + m->t->pwd * m->t->dirx) - ret - 1;		
+	if (m->t->wall == EA || m->t->wall == WE)
+		wallx = (m->t->posy + m->t->pwd * m->t->raydiry);
+	if (m->t->wall == SO || m->t->wall == NO)
+		wallx = (m->t->posx + m->t->pwd * m->t->raydirx);
+	wallx -= floor(wallx);
+	ret = (int)(wallx * (double)(m->tex[m->t->wall]->width));
+	if (m->t->wall == WE || m->t->wall == SO)
+		ret = m->tex[m->t->wall]->width - ret - 1;
 	return (ret);
 }
 
@@ -124,16 +123,17 @@ void	draw_textures(t_m *m)
 	double	position;
 	int	tex;
 	int	tey;
+	int width = m->tex[NO]->height;
 
-	what = 1.00 * 32 / m->t->line_height;
+	what = 1.00 * width / m->t->line_height;
 	position = (m->t->draw_start - (m->window_h + m->t->line_height) /2) * what; 
 	tex = calc_tex(m);
 	while(m->t->draw_start <= m->t->draw_end)
 	{
-		tey = (int)position + (32.0 - 1.0);
+		tey = (int)position + (width - 1);
 		position += what;
 		ft_memcpy(&m->map->img->pixels[(m->t->draw_start * m->window_w + m->x) * 4],
-			&m->tex[m->t->wall]->pixels[(tey * 32 + tex) * 4], 4);
+			&m->tex[m->t->wall]->pixels[(tey * width + tex) * 4], 4);
 		m->t->draw_start++;
 	}
 }
@@ -157,9 +157,11 @@ void	movspeed(t_m *m)
 	m->t->old_time = m->t->time;
 	m->t->time = mlx_get_time();
 	m->t->frametime = (m->t->time - m->t->old_time) / 1000;
-	// printf("FPS:%f\n", (1.0/m->frametime));
+	// printf("TIME: %f, FRAME°TI°ME: %f\n", m->t->time, m->t->frametime * 1000000);
+	// mlx_put_string(m->map->mlx, "FPS", 1800, 50);
 	m->t->movspeed = m->t->frametime * 5000;
 	m->t->rotspeed = m->t->frametime * 3000;
+	// printf("FPS:%f\n", (1.0/(m->t->frametime * 1000)));
 }
 
 void	movement(t_m *m)
@@ -245,38 +247,24 @@ void	game_loop(void *param)
 	t_m	*m;
 	m = param;
 
-	// printf("BROKE AT MOVSPEED\n");
-	movspeed(m);
-	// printf("BROKE AT MOVEMENT\n");
 	movement(m);
+	movspeed(m);
 	if (m->x == 0)
 	{
-		// ft_memset(m->map->img->pixels, 0,
-		// m->window_w * m->window_h * sizeof(int32_t));
-	// 	printf("POSX:%f POSY%f\n", m->t->posx, m->t->posy);
-	// printf("DIRX:%f DIRY%f\n", m->t->dirx, m->t->diry);
-		// test_values(m);	
+		ft_memset(m->map->img->pixels, 0,
+		m->window_w * m->window_h * sizeof(int32_t));
 	}
-	while (m->x < m->window_w)
+	while (m->x <= m->window_w)
 	{
-		// value(m);
-		// printf("BROKE AT VALUES\n");
 		set_values(m);
-		// value(m);
-		// printf("BROKE AT DELTASTEP\n");
 		delta_step(m);
-		// value(m);
-		// test_values(m);
-		// printf("BROKE AT DDA\n");
 		dda(m);
-		// test_values(m);
-		// printf("BROKE AT PER_WD\n");
 		perp_wd(m);
-		// test_values(m);
-		// printf("BROKE AT DRAW LINES\n");
 		draw_lines(m);
 		m->x++;
 	}
-	crosshair(m);
+	// if (m->x == m->window_w + 1)
+	// 	mlx_put_string(m->map->mlx, ft_strjoin("FPS", ft_itoa((int)((1.0/(m->t->frametime * 1000))))), 1800, 50);
+	// crosshair(m);
 	minimap(m);
 }
