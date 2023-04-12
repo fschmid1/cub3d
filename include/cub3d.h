@@ -220,6 +220,8 @@ typedef	struct	s_main
 	t_t				*t;
 	mlx_texture_t	**tex;
 	mlx_texture_t	*cross;
+	mlx_texture_t	*gun;
+	mlx_texture_t	*muzzle;
 	t_menu			*men; //menu animation struct
 	t_map			*map; //makes the cub 3d
 	t_camera		*camera; //camera infos
@@ -233,6 +235,7 @@ typedef	struct	s_main
 	t_gstate		prev_state; //save of previous state
 	int				x; //used for action iteration in game loop
 	int				selection; //used for menu cycle
+	int				firing;
 }	t_m;
 //==============================================================================
 //----------------------------------WINDOW.c------------------------------------
