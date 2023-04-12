@@ -34,6 +34,7 @@ void	set_position(t_m *m)
 	m->t->line_height = 0;
 	m->t->draw_start = 0;
 	m->t->draw_end = 0;
+	m->t->mouse = (t_vec) {0, 0, 0};
 }
 
 int	main(int argc, char **argv)
