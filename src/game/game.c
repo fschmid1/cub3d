@@ -1,4 +1,4 @@
-#include "../include/cub3d.h"
+#include "../../include/cub3d.h"
 
 void	set_values(t_m *m)
 {
@@ -78,7 +78,7 @@ void	draw_wall(t_m *m)
 	i = m->t->draw_start;
 	while (i < m->t->draw_end)
 	{
-		if(m->t->side == 1) 
+		if(m->t->side == 1)
 			draw_pixel(m, m->x, i, ((m->map->color >> 1) & 8355711));
 		else
 			draw_pixel(m, m->x, i, m->map->color);
@@ -126,7 +126,7 @@ void	draw_textures(t_m *m)
 	int width = m->tex[NO]->height;
 
 	what = 1.00 * width / m->t->line_height;
-	position = (m->t->draw_start - (m->window_h + m->t->line_height) /2) * what; 
+	position = (m->t->draw_start - (m->window_h + m->t->line_height) /2) * what;
 	tex = calc_tex(m);
 	while(m->t->draw_start <= m->t->draw_end)
 	{
@@ -166,7 +166,7 @@ void	movspeed(t_m *m)
 
 void	movement(t_m *m)
 {
-	if (mlx_is_key_down(m->map->mlx, MLX_KEY_UP))
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_W))
 	{
 		if (m->t->map[(int)m->t->posy][(int)(m->t->posx + m->t->dirx * m->t->movspeed)] == FALSE)
 			m->t->posx += m->t->dirx * m->t->movspeed;
@@ -174,7 +174,7 @@ void	movement(t_m *m)
 			m->t->posy += m->t->diry * m->t->movspeed;
 		m->x = 0;
 	}
-	if (mlx_is_key_down(m->map->mlx, MLX_KEY_DOWN))
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_S))
 	{
 		if (m->t->map[(int)m->t->posy][(int)(m->t->posx - m->t->dirx * m->t->movspeed)] == FALSE)
 			m->t->posx -= m->t->dirx * m->t->movspeed;
@@ -182,24 +182,20 @@ void	movement(t_m *m)
 			m->t->posy -= m->t->diry * m->t->movspeed;
 		m->x = 0;
 	}
-	if (mlx_is_key_down(m->map->mlx, MLX_KEY_LEFT))
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_A))
 	{
-		m->t->olddirx = m->t->dirx;
-		m->t->dirx = m->t->dirx * cos(-m->t->rotspeed) - m->t->diry * sin(-m->t->rotspeed);
-		m->t->diry = m->t->olddirx * sin(-m->t->rotspeed) + m->t->diry * cos(-m->t->rotspeed);
-		m->t->oldplanex = m->t->planex;
-		m->t->planex = m->t->planex * cos(-m->t->rotspeed) - m->t->planey * sin(-m->t->rotspeed);
-		m->t->planey = m->t->oldplanex * sin(-m->t->rotspeed) + m->t->planey * cos(-m->t->rotspeed);
+		if (m->t->map[(int)m->t->posy][(int)(m->t->posx - m->t->planex * m->t->movspeed)] == FALSE)
+			m->t->posx -= m->t->planex * m->t->movspeed;
+		if (m->t->map[(int)(m->t->posy - m->t->planey * m->t->movspeed)][(int)(m->t->posx)] == FALSE)
+			m->t->posy -= m->t->planey * m->t->movspeed;
 		m->x = 0;
 	}
-	if (mlx_is_key_down(m->map->mlx, MLX_KEY_RIGHT))
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_D))
 	{
-		m->t->olddirx = m->t->dirx;
-		m->t->dirx = m->t->dirx * cos(m->t->rotspeed) - m->t->diry * sin(m->t->rotspeed);
-		m->t->diry = m->t->olddirx * sin(m->t->rotspeed) + m->t->diry * cos(m->t->rotspeed);
-		m->t->oldplanex = m->t->planex;
-		m->t->planex = m->t->planex * cos(m->t->rotspeed) - m->t->planey * sin(m->t->rotspeed);
-		m->t->planey = m->t->oldplanex * sin(m->t->rotspeed) + m->t->planey * cos(m->t->rotspeed);
+		if (m->t->map[(int)m->t->posy][(int)(m->t->posx + m->t->planex * m->t->movspeed)] == FALSE)
+			m->t->posx += m->t->planex * m->t->movspeed;
+		if (m->t->map[(int)(m->t->posy + m->t->planey * m->t->movspeed)][(int)(m->t->posx)] == FALSE)
+			m->t->posy += m->t->planey * m->t->movspeed;
 		m->x = 0;
 	}
 }
@@ -265,6 +261,6 @@ void	game_loop(void *param)
 	}
 	// if (m->x == m->window_w + 1)
 	// 	mlx_put_string(m->map->mlx, ft_strjoin("FPS", ft_itoa((int)((1.0/(m->t->frametime * 1000))))), 1800, 50);
-	// crosshair(m);
+	crosshair(m);
 	minimap(m);
 }
