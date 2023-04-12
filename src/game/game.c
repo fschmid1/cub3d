@@ -261,6 +261,6 @@ void	game_loop(void *param)
 	}
 	// if (m->x == m->window_w + 1)
 	// 	mlx_put_string(m->map->mlx, ft_strjoin("FPS", ft_itoa((int)((1.0/(m->t->frametime * 1000))))), 1800, 50);
-	// crosshair(m);
+	crosshair(m);
 	minimap(m);
 }
