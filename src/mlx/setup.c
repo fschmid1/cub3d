@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:40 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/11 20:39:13 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/12 15:43:54 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_m	*setup_main(void)
 	m->time = mlx_get_time();
 	m->x = 0;
 	m->selection = 0;
+	m->firing = 0;
 	return (m);
 }
 
@@ -97,6 +98,53 @@ t_menu	*setup_menu(void)
 	return (menu);
 }
 
+void	free_parse(t_m *m)
+{
+	int i = 0;
+	while (i < m->p->size.x)
+	{
+		// while(j < m->p->size.x)
+		// {
+			free(m->p->intmap[i++]);
+		// }
+	}
+
+}
+
+void	free_msg(t_m *m)
+{
+	int i;
+	int j;
+	
+	i = 0;
+	while (i < m->men->msg->num_of_f)
+	{
+		free(m->men->tex[i]);
+		free(m->men->msg->cubed[i++]);
+	}
+	free(m->men->tex);
+	free(m->men->img);
+	free(m->men->msg->cubed);
+    // Free start, maps, and settings arrays
+	while (i <= 2) 
+	{
+		j =0 ;
+		while (j < MSG_NOF)
+		{
+        	free(m->men->msg->start[i][j]);
+        	free(m->men->msg->maps[i][j]);
+        	free(m->men->msg->settings[i][j++]);
+		}
+        free(m->men->msg->start[i]);
+        free(m->men->msg->maps[i]);
+        free(m->men->msg->settings[i++]);
+    }
+    // Free start, maps, and settings pointers
+    free(m->men->msg->start);
+    free(m->men->msg->maps);
+    free(m->men->msg->settings);
+}
+
 void	free_main(t_m *m)
 {
 	free(m->p->file);
@@ -109,5 +157,8 @@ void	free_main(t_m *m)
 	free(m->p->so);
 	free(m->p->we);
 	free(m->p->ea);
+	free(m->t->map);
+	free_msg(m);
+	free_parse(m);
 	free(m);
 }

@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:16 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/12 11:28:28 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/12 14:44:36 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,19 @@ void	load_textures(t_m *m, char *path)
 {
 	int		i;
 	char	*tmp;
+	char	*num;
 	char	*cur_path;
 	
 	i = 0;
 	while (i < m->men->num_of_f)
 	{
-		tmp = ft_strjoin(path, ft_itoa(i));
+		num = ft_itoa(i);
+		tmp = ft_strjoin(path, num);
 		cur_path = ft_strjoin(tmp, PNG);
 		m->men->tex[i] = mlx_load_png(cur_path);
+		free(num);
+		free(tmp);
+		free(cur_path);
 		i++;
 	}
 }

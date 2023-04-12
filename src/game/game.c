@@ -198,6 +198,13 @@ void	movement(t_m *m)
 			m->t->posy += m->t->planey * m->t->movspeed;
 		m->x = 0;
 	}
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_SPACE))
+	{
+		m->firing = 1;
+		m->x = 0;
+	}
+	else
+		m->firing = 0;
 }
 
 
@@ -237,6 +244,67 @@ void	crosshair(t_m *m)
 		}
 	}
 }
+void	muzzle(t_m *m)
+{
+	unsigned int i;
+	unsigned int c;
+	int pos;
+
+	i = 0;
+	c = 0;
+	pos = m->window_h / 2 * m->window_w / 1.21 + 115;
+	while (i++ < (m->muzzle->width * m->muzzle->height))
+	{
+		if (c == m->muzzle->width)
+		{
+			c = 0;
+			pos += m->men->tex[0]->width - m->muzzle->width;
+		}
+		c++;
+		if(m->muzzle->pixels[(i) * 4] != 0)
+		{
+			ft_memcpy(&m->map->img->pixels[(pos + i) * 4],
+				&m->muzzle->pixels[(i) * 4], 4);
+		}
+	}
+}
+void gun(t_m *m)
+{
+
+    unsigned int x, y;
+    int pos;
+
+    x = 0;
+    y = 0;
+    pos = m->window_h / 1.7 * m->window_w / 1.2 - 100;
+    unsigned int copy_width = m->gun->width;
+    unsigned int copy_height = m->gun->height;
+    unsigned int max_x = copy_width;
+    unsigned int max_y = copy_height;
+	if (m->firing == 1)
+		muzzle(m);
+    while (y < max_y)
+    {
+        x = 0;
+        while (x < max_x)
+        {
+            if((m->gun->pixels[(y * m->gun->width + x) * 4] != 0) 
+			&& (pos + y * m->men->tex[0]->width + x) < (unsigned int)(m->window_h * m->window_w))
+            {
+                ft_memcpy(&m->map->img->pixels[(pos + y * m->men->tex[0]->width + x) * 4],
+                          &m->gun->pixels[(y * m->gun->width + x) * 4], 4);
+            }
+            x++;
+        }
+        y++;
+    }
+	if (m->firing == 1)
+	{
+		m->firing = 0;
+		m->x = 0;
+	}
+}
+
 
 void	fps_counter(t_m *m)
 {
@@ -272,6 +340,7 @@ void	game_loop(void *param)
 		draw_lines(m);
 		m->x++;
 	}
+  gun(m);
 	fps_counter(m);
 	crosshair(m);
 	minimap(m);
