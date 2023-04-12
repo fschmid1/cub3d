@@ -1,4 +1,4 @@
-#include "../include/cub3d.h"
+#include "../../include/cub3d.h"
 
 void	set_values(t_m *m)
 {
@@ -78,7 +78,7 @@ void	draw_wall(t_m *m)
 	i = m->t->draw_start;
 	while (i < m->t->draw_end)
 	{
-		if(m->t->side == 1) 
+		if(m->t->side == 1)
 			draw_pixel(m, m->x, i, ((m->map->color >> 1) & 8355711));
 		else
 			draw_pixel(m, m->x, i, m->map->color);
@@ -126,7 +126,7 @@ void	draw_textures(t_m *m)
 	int width = m->tex[NO]->height;
 
 	what = 1.00 * width / m->t->line_height;
-	position = (m->t->draw_start - (m->window_h + m->t->line_height) /2) * what; 
+	position = (m->t->draw_start - (m->window_h + m->t->line_height) /2) * what;
 	tex = calc_tex(m);
 	while(m->t->draw_start <= m->t->draw_end)
 	{
@@ -166,7 +166,7 @@ void	movspeed(t_m *m)
 
 void	movement(t_m *m)
 {
-	if (mlx_is_key_down(m->map->mlx, MLX_KEY_UP))
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_W))
 	{
 		if (m->t->map[(int)m->t->posy][(int)(m->t->posx + m->t->dirx * m->t->movspeed)] == FALSE)
 			m->t->posx += m->t->dirx * m->t->movspeed;
@@ -174,12 +174,28 @@ void	movement(t_m *m)
 			m->t->posy += m->t->diry * m->t->movspeed;
 		m->x = 0;
 	}
-	if (mlx_is_key_down(m->map->mlx, MLX_KEY_DOWN))
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_S))
 	{
 		if (m->t->map[(int)m->t->posy][(int)(m->t->posx - m->t->dirx * m->t->movspeed)] == FALSE)
 			m->t->posx -= m->t->dirx * m->t->movspeed;
 		if (m->t->map[(int)(m->t->posy - m->t->diry * m->t->movspeed)][(int)(m->t->posx)] == FALSE)
 			m->t->posy -= m->t->diry * m->t->movspeed;
+		m->x = 0;
+	}
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_A))
+	{
+		if (m->t->map[(int)m->t->posy][(int)(m->t->posx - m->t->planex * m->t->movspeed)] == FALSE)
+			m->t->posx -= m->t->planex * m->t->movspeed;
+		if (m->t->map[(int)(m->t->posy - m->t->planey * m->t->movspeed)][(int)(m->t->posx)] == FALSE)
+			m->t->posy -= m->t->planey * m->t->movspeed;
+		m->x = 0;
+	}
+	if (mlx_is_key_down(m->map->mlx, MLX_KEY_D))
+	{
+		if (m->t->map[(int)m->t->posy][(int)(m->t->posx + m->t->planex * m->t->movspeed)] == FALSE)
+			m->t->posx += m->t->planex * m->t->movspeed;
+		if (m->t->map[(int)(m->t->posy + m->t->planey * m->t->movspeed)][(int)(m->t->posx)] == FALSE)
+			m->t->posy += m->t->planey * m->t->movspeed;
 		m->x = 0;
 	}
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_LEFT))
