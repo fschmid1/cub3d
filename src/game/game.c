@@ -198,7 +198,7 @@ void	movement(t_m *m)
 			m->t->posy += m->t->planey * m->t->movspeed;
 		m->x = 0;
 	}
-	if (mlx_is_key_down(m->map->mlx, MLX_KEY_SPACE))
+	if (mlx_is_mouse_down(m->map->mlx, MLX_MOUSE_BUTTON_LEFT))
 	{
 		m->firing = 1;
 		m->x = 0;
@@ -288,7 +288,7 @@ void gun(t_m *m)
         x = 0;
         while (x < max_x)
         {
-            if((m->gun->pixels[(y * m->gun->width + x) * 4] != 0) 
+            if((m->gun->pixels[(y * m->gun->width + x) * 4] != 0)
 			&& (pos + y * m->men->tex[0]->width + x) < (unsigned int)(m->window_h * m->window_w))
             {
                 ft_memcpy(&m->map->img->pixels[(pos + y * m->men->tex[0]->width + x) * 4],
@@ -340,8 +340,8 @@ void	game_loop(void *param)
 		draw_lines(m);
 		m->x++;
 	}
-  gun(m);
+	gun(m);
 	fps_counter(m);
-	crosshair(m);
+	// crosshair(m);
 	minimap(m);
 }

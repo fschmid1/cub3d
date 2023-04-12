@@ -34,7 +34,7 @@ void	set_position(t_m *m)
 	m->t->line_height = 0;
 	m->t->draw_start = 0;
 	m->t->draw_end = 0;
-	m->t->mouse = (t_vec) {0, 0, 0};
+	m->t->mouse = (t_vec) {m->window_w / 2, m->window_h / 2, 0};
 }
 
 int	main(int argc, char **argv)
@@ -50,6 +50,7 @@ int	main(int argc, char **argv)
 	printf("--------------------WINDOW DONE----------------\n");
 	load_wall(m);
 	printf("--------------------WALLS DONE----------------\n");
+	mlx_set_mouse_pos(m->map->mlx, m->window_w / 2, m->window_h / 2);
 	draw_msg(m);
 	draw_menu(m);
 	m->map->map = dblcpy_to_int(m->p->intmap, m->p->size.y, m->p->size.x);
