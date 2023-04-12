@@ -238,6 +238,19 @@ void	crosshair(t_m *m)
 	}
 }
 
+void	fps_counter(t_m *m)
+{
+	char	*fps;
+	char	*num;
+
+	mlx_delete_image(m->map->mlx, m->map->fps);
+	num = ft_itoa((int)((1.0/(m->t->frametime * 1000))));
+	fps = ft_strjoin("FPS ", num);
+	m->map->fps = mlx_put_string(m->map->mlx, fps, 1800, 50);
+	free(num);
+	free(fps);
+}
+
 void	game_loop(void *param)
 {
 	t_m	*m;
@@ -259,8 +272,7 @@ void	game_loop(void *param)
 		draw_lines(m);
 		m->x++;
 	}
-	// if (m->x == m->window_w + 1)
-	// 	mlx_put_string(m->map->mlx, ft_strjoin("FPS", ft_itoa((int)((1.0/(m->t->frametime * 1000))))), 1800, 50);
+	fps_counter(m);
 	crosshair(m);
 	minimap(m);
 }
