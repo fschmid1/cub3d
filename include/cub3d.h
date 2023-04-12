@@ -177,6 +177,7 @@ typedef struct	s_map
 	uint32_t	colorc;
 	uint32_t	colorf;
 	int			minmap_scale;
+	mlx_image_t	*fps;
 }	t_map;
 
 typedef	struct	s_test
