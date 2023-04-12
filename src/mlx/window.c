@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:53:00 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/11 20:40:14 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/12 11:28:10 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,10 @@ void	key(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
 		if (m->g_state == GAME)
+		{
+			draw_menu(m);
 			m->g_state = START;
+		}
 		else
 			mlx_close_window(m->map->mlx);
 	}
@@ -166,6 +169,7 @@ void	key(mlx_key_data_t keydata, void *param)
 		&& m->selection == 0)
 		{
 			m->g_state = GAME;
+			close_menu(m);
 			mlx_image_to_window(m->map->mlx, m->map->img, 0, 0);
 		}
 	if (keydata.key == MLX_KEY_ENTER && keydata.action == MLX_PRESS

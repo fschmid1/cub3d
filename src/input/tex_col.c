@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:01:46 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/24 19:14:58 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/12 12:20:14 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*find_texture(char *file, char *find)
 
 	i = 0;
 	res = ft_strdup("");
-	while ((file[i] != find[0] && file[i + 1] != find[1]) && file[i])
+	while (!(file[i] == find[0] && file[i + 1] == find[1]) && file[i])
 		i++;
 	while (file[i] != '\n' && file[i] != '.' && file[i])
 		i++;
