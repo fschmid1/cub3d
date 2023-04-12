@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../../include/cub3d.h"
 
 int	setup_window(t_m *m)
 {
@@ -35,7 +35,7 @@ void	make_cubed(t_m *m)
 
 	i = 0;
 	c = 0;
-	while (i++ < (m->men->msg->cubed[m->men->msg->i]->width 
+	while (i++ < (m->men->msg->cubed[m->men->msg->i]->width
 		* m->men->msg->cubed[m->men->msg->i]->height))
 	{
 		if (c == m->men->msg->cubed[m->men->msg->i]->width)
@@ -64,7 +64,7 @@ void	make_start(t_m *m)
 		color = GREEN;
 	else
 		color = BLUE;
-	while (i++ < (m->men->msg->start[color][m->men->msg->i]->width 
+	while (i++ < (m->men->msg->start[color][m->men->msg->i]->width
 		* m->men->msg->start[color][m->men->msg->i]->height))
 	{
 		if (c == m->men->msg->start[color][m->men->msg->i]->width)
@@ -91,7 +91,7 @@ void	make_maps(t_m *m)
 		color = BLUE;
 	i = 0;
 	c = 0;
-	while (i++ < (m->men->msg->maps[color][m->men->msg->i]->width 
+	while (i++ < (m->men->msg->maps[color][m->men->msg->i]->width
 		* m->men->msg->maps[color][m->men->msg->i]->height))
 	{
 		if (c == m->men->msg->maps[color][m->men->msg->i]->width)
@@ -119,7 +119,7 @@ void	make_settings(t_m *m)
 		color = BLUE;
 	i = 0;
 	c = 0;
-	while (i++ < (m->men->msg->settings[color][m->men->msg->i]->width 
+	while (i++ < (m->men->msg->settings[color][m->men->msg->i]->width
 		* m->men->msg->settings[color][m->men->msg->i]->height))
 	{
 		if (c == m->men->msg->settings[color][m->men->msg->i]->width)
@@ -147,7 +147,7 @@ void	key(mlx_key_data_t keydata, void *param)
 		else
 			m->selection -= 1;
 	}
-	if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS 
+	if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS
 		&& m->g_state == START)
 	{
 		if (m->selection == 2)
@@ -185,7 +185,7 @@ void	menu_hook(void *param)
 	t_m	*m;
 	m = param;
 	double	time;
-	
+
 	time = mlx_get_time();
 	mlx_key_hook(m->map->mlx, key, m);
 	if (time - m->men->t > m->men->speed && m->g_state == START)
@@ -209,7 +209,44 @@ void	menu_hook(void *param)
 		game_loop(m);
 }
 
+void	mouse_hook(double x, double y, void *param)
+{
+	t_m	*m;
+	double	ra;
+	double	mouse_movement;
+
+	(void) y;
+	m = param;
+	if (m->g_state != GAME)
+		return ;
+	mouse_movement = x - m->t->mouse.x;
+    m->t->mouse.x = x;
+	ra = 0.0174532925 * 0.075;
+    if (mouse_movement > 0) // mouse moved right
+    {
+        m->t->olddirx = m->t->dirx;
+        m->t->dirx = m->t->dirx * cos(mouse_movement * ra) - m->t->diry * sin(mouse_movement * ra);
+        m->t->diry = m->t->olddirx * sin(mouse_movement * ra) + m->t->diry * cos(mouse_movement * ra);
+        m->t->oldplanex = m->t->planex;
+        m->t->planex = m->t->planex * cos(mouse_movement * ra) - m->t->planey * sin(mouse_movement * ra);
+        m->t->planey = m->t->oldplanex * sin(mouse_movement * ra) + m->t->planey * cos(mouse_movement * ra);
+        m->x = 0;
+    }
+    else if (mouse_movement < 0) // mouse moved left
+    {
+        m->t->olddirx = m->t->dirx;
+        m->t->dirx = m->t->dirx * cos(mouse_movement * ra) - m->t->diry * sin(mouse_movement * ra);
+        m->t->diry = m->t->olddirx * sin(mouse_movement * ra) + m->t->diry * cos(mouse_movement * ra);
+        m->t->oldplanex = m->t->planex;
+        m->t->planex = m->t->planex * cos(mouse_movement * ra) - m->t->planey * sin(mouse_movement * ra);
+        m->t->planey = m->t->oldplanex * sin(mouse_movement * ra) + m->t->planey * cos(mouse_movement * ra);
+        m->x = 0;
+    }
+}
+
 void	register_hooks(t_m *m)
 {
 	mlx_loop_hook(m->map->mlx, &menu_hook, m);
+	mlx_cursor_hook(m->map->mlx, &mouse_hook, m);
+	mlx_set_cursor_mode(m->map->mlx, MLX_MOUSE_DISABLED);
 }
