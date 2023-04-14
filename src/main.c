@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:17 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/12 14:22:15 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/14 14:00:13 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int argc, char **argv)
 	set_position(m);
 	register_hooks(m);
 	mlx_loop(m->map->mlx);
-	mlx_terminate(m->map->mlx);
 	free_main(m);
+	mlx_terminate(m->map->mlx);
 	return (0);
 }
