@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:17 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/14 14:00:13 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/14 15:10:17 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	main(int argc, char **argv)
 	setup_window(m);
 	printf("--------------------WINDOW DONE----------------\n");
 	load_wall(m);
+	alloc_tex_im(m);
+	load_textures(m, PATH);
 	printf("--------------------WALLS DONE----------------\n");
 	mlx_set_mouse_pos(m->map->mlx, m->window_w / 2, m->window_h / 2);
 	draw_msg(m);

@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:16 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/12 14:44:36 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/14 14:50:40 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	load_textures(t_m *m, char *path)
 	}
 }
 
-void	tex_to_im(t_m *m)
+void	draw_menu(t_m *m)
 {
 	int	i;
 	
@@ -47,15 +47,8 @@ void	tex_to_im(t_m *m)
 
 void	alloc_tex_im(t_m *m)
 {
-	m->men->tex = malloc(sizeof(mlx_texture_t) * m->men->num_of_f);
-	m->men->img = malloc(sizeof(mlx_image_t) * m->men->num_of_f);
-}
-
-void	draw_menu(t_m *m)
-{
-	alloc_tex_im(m);
-	load_textures(m, PATH);
-	tex_to_im(m);
+	m->men->tex = malloc(sizeof(mlx_texture_t *) * m->men->num_of_f);
+	m->men->img = malloc(sizeof(mlx_image_t *) * m->men->num_of_f);
 }
 
 void	close_menu(t_m *m)
