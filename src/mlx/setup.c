@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:40 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/12 15:43:54 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/14 14:14:32 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	free_msg(t_m *m)
 	i = 0;
 	while (i < m->men->msg->num_of_f)
 	{
-		free(m->men->tex[i]);
+		mlx_delete_texture(m->men->tex[i]);
 		free(m->men->msg->cubed[i++]);
 	}
 	free(m->men->tex);
@@ -129,15 +129,15 @@ void	free_msg(t_m *m)
 	while (i <= 2)
 	{
 		j =0 ;
-		while (j < MSG_NOF)
+		while (j <= MSG_NOF)
 		{
-        	free(m->men->msg->start[i][j]);
-        	free(m->men->msg->maps[i][j]);
-        	free(m->men->msg->settings[i][j++]);
+        	mlx_delete_texture(m->men->msg->start[i][j]);
+        	mlx_delete_texture(m->men->msg->maps[i][j]);
+        	mlx_delete_texture(m->men->msg->settings[i][j++]);
 		}
-        free(m->men->msg->start[i]);
-        free(m->men->msg->maps[i]);
-        free(m->men->msg->settings[i++]);
+        mlx_delete_texture(*m->men->msg->start[i]);
+        mlx_delete_texture(*m->men->msg->maps[i]);
+        mlx_delete_texture(*m->men->msg->settings[i++]);
     }
     // Free start, maps, and settings pointers
     free(m->men->msg->start);
@@ -145,9 +145,22 @@ void	free_msg(t_m *m)
     free(m->men->msg->settings);
 	free(m->men->msg);
 	free(m->men);
-
 }
 
+
+void	free_map(t_m *m)
+{
+	int	i;
+
+	i = 0;
+	while (i < m->p->size.y)
+	{
+		free(m->map->map[i]);
+		free(m->t->map[i++]);
+	}
+	free(m->map->map);
+	free(m->t->map);
+}
 void	free_main(t_m *m)
 {
 	free(m->p->file);
@@ -156,12 +169,12 @@ void	free_main(t_m *m)
 	free_string_array(m->p->input);
 	mlx_delete_image(m->map->mlx, m->map->fps);
 	mlx_delete_image(m->map->mlx, m->map->img);
+	free_map(m);
 	free(m->p->no);
 	free(m->p->so);
 	free(m->p->we);
 	free(m->p->ea);
-	free(m->t->map);
-	free_msg(m);
 	free_parse(m);
+	free_msg(m);
 	free(m);
 }
