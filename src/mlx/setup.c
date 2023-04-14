@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:40 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/14 15:06:13 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/14 17:31:04 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,11 @@ void	free_msg(t_m *m)
 		mlx_delete_texture(m->men->msg->cubed[i++]);
 	}
 	free(m->men->msg->cubed);
-    // Free start, maps, and settings arrays
-	while (i <= 2)
+	i = 0;
+	while (i < 2)
 	{
-		j =0 ;
-		while (j <= MSG_NOF)
+		j = 0;
+		while (j < MSG_NOF)
 		{
         	mlx_delete_texture(m->men->msg->start[i][j]);
         	mlx_delete_texture(m->men->msg->maps[i][j]);
@@ -136,7 +136,6 @@ void	free_msg(t_m *m)
         free(m->men->msg->maps[i]);
         free(m->men->msg->settings[i++]);
     }
-    // Free start, maps, and settings pointers
     free(m->men->msg->start);
     free(m->men->msg->maps);
     free(m->men->msg->settings);
