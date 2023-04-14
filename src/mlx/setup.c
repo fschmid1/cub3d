@@ -108,14 +108,14 @@ void	free_parse(t_m *m)
 			free(m->p->intmap[i++]);
 		// }
 	}
-
+	free(m->p);
 }
 
 void	free_msg(t_m *m)
 {
 	int i;
 	int j;
-	
+
 	i = 0;
 	while (i < m->men->msg->num_of_f)
 	{
@@ -126,7 +126,7 @@ void	free_msg(t_m *m)
 	free(m->men->img);
 	free(m->men->msg->cubed);
     // Free start, maps, and settings arrays
-	while (i <= 2) 
+	while (i <= 2)
 	{
 		j =0 ;
 		while (j < MSG_NOF)
@@ -143,6 +143,9 @@ void	free_msg(t_m *m)
     free(m->men->msg->start);
     free(m->men->msg->maps);
     free(m->men->msg->settings);
+	free(m->men->msg);
+	free(m->men);
+
 }
 
 void	free_main(t_m *m)
