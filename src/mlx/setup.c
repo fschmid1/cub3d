@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:40 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/14 14:14:32 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/14 15:06:13 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,8 @@ void	free_msg(t_m *m)
 	i = 0;
 	while (i < m->men->msg->num_of_f)
 	{
-		mlx_delete_texture(m->men->tex[i]);
-		free(m->men->msg->cubed[i++]);
+		mlx_delete_texture(m->men->msg->cubed[i++]);
 	}
-	free(m->men->tex);
-	free(m->men->img);
 	free(m->men->msg->cubed);
     // Free start, maps, and settings arrays
 	while (i <= 2)
@@ -135,9 +132,9 @@ void	free_msg(t_m *m)
         	mlx_delete_texture(m->men->msg->maps[i][j]);
         	mlx_delete_texture(m->men->msg->settings[i][j++]);
 		}
-        mlx_delete_texture(*m->men->msg->start[i]);
-        mlx_delete_texture(*m->men->msg->maps[i]);
-        mlx_delete_texture(*m->men->msg->settings[i++]);
+        free(m->men->msg->start[i]);
+        free(m->men->msg->maps[i]);
+        free(m->men->msg->settings[i++]);
     }
     // Free start, maps, and settings pointers
     free(m->men->msg->start);
@@ -147,6 +144,17 @@ void	free_msg(t_m *m)
 	free(m->men);
 }
 
+
+void	free_load_wall(t_m *m)
+{
+	mlx_delete_texture(m->tex[NO]);
+	mlx_delete_texture(m->tex[SO]);
+	mlx_delete_texture(m->tex[WE]);
+	mlx_delete_texture(m->tex[EA]);
+	mlx_delete_texture(m->cross);
+	mlx_delete_texture(m->gun);
+	mlx_delete_texture(m->muzzle);
+}
 
 void	free_map(t_m *m)
 {
@@ -161,6 +169,20 @@ void	free_map(t_m *m)
 	free(m->map->map);
 	free(m->t->map);
 }
+
+void	free_menu(t_m *m)
+{
+	int i;
+
+	i = 0;
+	while (i <= m->men->msg->num_of_f)
+	{
+		mlx_delete_texture(m->men->tex[i++]);
+	}
+	free(m->men->tex);
+	free(m->men->img);
+}
+
 void	free_main(t_m *m)
 {
 	free(m->p->file);
@@ -170,11 +192,15 @@ void	free_main(t_m *m)
 	mlx_delete_image(m->map->mlx, m->map->fps);
 	mlx_delete_image(m->map->mlx, m->map->img);
 	free_map(m);
+	free_load_wall(m);
 	free(m->p->no);
 	free(m->p->so);
 	free(m->p->we);
 	free(m->p->ea);
+	free(m->camera);
+	free(m->map->player);
 	free_parse(m);
+	free_menu(m);
 	free_msg(m);
 	free(m);
 }
