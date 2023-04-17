@@ -6,13 +6,12 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:33:21 by pgorner           #+#    #+#             */
-/*   Updated: 2023/03/27 18:20:48 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 15:15:26 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 #include <stdio.h>
-
 
 void	set_dir(t_m *m)
 {

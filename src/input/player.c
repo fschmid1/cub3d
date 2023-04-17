@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:39:22 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/11 13:50:12 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 15:24:17 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ char	*find_player(t_p *m)
 				if (m->pos_p.x != -1 || m->pos_p.y != -1)
 					return (MP);
 				else
-					m->pos_p = (t_vec){j++ , i, 0};
+					m->pos_p = (t_vec){j++, i, 0};
 			}
 			else if (is_whitespace(m->map[i][j]) || ft_isdigit(m->map[i][j])
-					|| ft_strchr("dD", m->map[i][j]))
+					|| ft_strchr("dD012345678", m->map[i][j]))
 				j++;
 			else
 				return (IM);
