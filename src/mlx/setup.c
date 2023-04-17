@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:40 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 11:40:41 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 11:51:43 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ t_msg	*setup_msg(void)
 	msg = malloc(sizeof(t_msg));
 	if (!msg)
 		return (NULL);
-	msg->num_of_f = MSG_NOF;
 	msg->i = 0;
 	return (msg);
 }
@@ -91,7 +90,6 @@ t_menu	*setup_menu(void)
 	menu = malloc(sizeof(t_menu));
 	if (!menu)
 		return (NULL);
-	menu->num_of_f = NUMOFFILES;
 	menu->t = 0;
 	menu->i = 0;
 	menu->speed = SPEED;
@@ -102,12 +100,7 @@ void	free_parse(t_m *m)
 {
 	int i = 0;
 	while (i < m->p->size.x)
-	{
-		// while(j < m->p->size.x)
-		// {
-			free(m->p->intmap[i++]);
-		// }
-	}
+		free(m->p->intmap[i++]);
 	free(m->p);
 }
 
@@ -117,16 +110,14 @@ void	free_msg(t_m *m)
 	int j;
 
 	i = 0;
-	while (i < m->men->msg->num_of_f)
-	{
+	while (i <= MSG_NOF)
 		mlx_delete_texture(m->men->msg->cubed[i++]);
-	}
 	free(m->men->msg->cubed);
 	i = 0;
 	while (i < 2)
 	{
 		j = 0;
-		while (j < MSG_NOF)
+		while (j <= MSG_NOF)
 		{
         	mlx_delete_texture(m->men->msg->start[i][j]);
         	mlx_delete_texture(m->men->msg->maps[i][j]);
@@ -175,10 +166,8 @@ void	free_menu(t_m *m)
 	int i;
 
 	i = 0;
-	while (i < NUMOFFILES)
-	{
+	while (i <= NUMOFFILES)
 		mlx_delete_texture(m->men->tex[i++]);
-	}
 	free(m->men->tex);
 }
 

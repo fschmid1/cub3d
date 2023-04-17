@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:53:00 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 11:41:57 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 12:01:02 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,10 +158,7 @@ void	key(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
 		if (m->g_state == GAME)
-		{
-			// draw_menu(m);
 			m->g_state = START;
-		}
 		else
 			mlx_close_window(m->map->mlx);
 	}
@@ -169,7 +166,6 @@ void	key(mlx_key_data_t keydata, void *param)
 		&& m->selection == 0)
 		{
 			m->g_state = GAME;
-			// close_menu(m);
 			mlx_image_to_window(m->map->mlx, m->map->img, 0, 0);
 		}
 	if (keydata.key == MLX_KEY_ENTER && keydata.action == MLX_PRESS
@@ -204,15 +200,14 @@ void	menu_hook(void *param)
 	{
 		ft_memset(m->map->img->pixels, 0,
 			m->window_w * m->window_h * sizeof(int32_t));
-		if (m->men->i < m->men->num_of_f - 1)
+		if (m->men->i < 10)
 			m->men->i++;
 		else
 			m->men->i = 0;
-		if (m->men->msg->i < m->men->msg->num_of_f - 1)
+		if (m->men->msg->i < MSG_NOF)
 			m->men->msg->i++;
 		else
 			m->men->msg->i = 0;
-		
 		draw_image(m);
 		make_start(m);
 		make_maps(m);
