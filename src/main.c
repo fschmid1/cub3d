@@ -38,7 +38,8 @@ void	set_position(t_m *m)
 
 int	main(int argc, char **argv)
 {
-	t_m	*m;
+	t_m		*m;
+	mlx_t	*mlx;
 
 	m = setup_main();
 	input_check(m->p, argc, argv);
@@ -58,8 +59,8 @@ int	main(int argc, char **argv)
 	set_position(m);
 	register_hooks(m);
 	mlx_loop(m->map->mlx);
+	mlx = m->map->mlx;
 	free_main(m);
-	mlx_terminate(m->map->mlx);
-	// system("leaks cub3D");
+	mlx_terminate(mlx);
 	return (0);
 }
