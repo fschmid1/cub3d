@@ -70,10 +70,10 @@ void	dda(t_m *m)
 			if (m->t->raydiry < 0)
 				m->t->wall = NO;
 		}
-		if (m->t->map[m->t->mapy][m->t->mapx] > 0
-			&& m->t->map[m->t->mapy][m->t->mapx] != DOOR_OPEN)
+		if (m->t->map[m->t->mapy][m->t->mapx] > 0)
 		{
-			m->t->hit = 1;
+			if (m->t->map[m->t->mapy][m->t->mapx] != DOOR_OPEN)
+				m->t->hit = 1;
 			if (m->t->map[m->t->mapy][m->t->mapx] == DOOR_CLOSED
 				|| m->t->map[m->t->mapy][m->t->mapx] == DOOR_OPEN)
 			{

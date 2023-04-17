@@ -200,7 +200,7 @@ void	draw_image(t_m *m)
 	unsigned int	i;
 
 	i = 0;
-	while (i++ < (m->window_h * m->window_w - 1))
+	while (i++ < (unsigned int) (m->window_h * m->window_w - 1))
 	{
 		ft_memcpy(&m->map->img->pixels[(i) * 4],
 			&m->men->tex[m->men->i]->pixels[i * 4], 4);
