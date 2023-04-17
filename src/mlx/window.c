@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:53:00 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/14 17:50:01 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 11:41:57 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ void	menu_hook(void *param)
 			m->men->msg->i++;
 		else
 			m->men->msg->i = 0;
-		printf("m->men->i %i\n", m->men->i);
+		
 		draw_image(m);
 		make_start(m);
 		make_maps(m);
