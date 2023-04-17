@@ -1,7 +1,7 @@
 NAME			= cub3D
 CC				= cc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror -g
+CFLAGS			= -Wall -Wextra -Werror -g -O3
 
 SRC				= $(addprefix $(SRC_DIR), $(SRC_FILES))
 SRC_DIR			= src/
@@ -17,7 +17,7 @@ MLX_FILES		= draw.c free_stuff.c load_wall.c make.c setup.c setup2.c window.c
 
 GAME			= $(addprefix $(GAME_DIR), $(GAME_FILES))
 GAME_DIR		= src/game/
-GAME_FILES		= calculations.c draw.c game.c minimap.c setup.c
+GAME_FILES		= calculations.c draw.c game.c minimap.c setup.c triangle.c
 
 UTILS			= $(addprefix $(UTILS_DIR), $(UTILS_FILES))
 UTILS_DIR		= src/utils/
