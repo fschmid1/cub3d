@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:53:00 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/14 17:22:25 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/14 17:50:01 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	make_cubed(t_m *m)
 		}
 		c++;
 		if(m->men->msg->cubed[m->men->msg->i]->pixels[(i) * 4] != 0)
-			ft_memcpy(&m->men->img[m->men->i]->pixels[(i + pos) * 4],
+			ft_memcpy(&m->map->img->pixels[(i + pos) * 4],
 				&m->men->msg->cubed[m->men->msg->i]->pixels[(i) * 4], 4);
 	}
 }
@@ -74,7 +74,7 @@ void	make_start(t_m *m)
 		}
 		c++;
 		if(m->men->msg->start[color][m->men->msg->i]->pixels[(i) * 4] != 0)
-			ft_memcpy(&m->men->img[m->men->i]->pixels[(i + pos) * 4],
+			ft_memcpy(&m->map->img->pixels[(i + pos) * 4],
 				&m->men->msg->start[color][m->men->msg->i]->pixels[(i) * 4], 4);
 	}
 }
@@ -101,7 +101,7 @@ void	make_maps(t_m *m)
 		}
 		c++;
 		if(m->men->msg->maps[color][m->men->msg->i]->pixels[(i) * 4] != 0)
-			ft_memcpy(&m->men->img[m->men->i]->pixels[(i + pos) * 4],
+			ft_memcpy(&m->map->img->pixels[(i + pos) * 4],
 				&m->men->msg->maps[color][m->men->msg->i]->pixels[(i) * 4], 4);
 	}
 }
@@ -129,7 +129,7 @@ void	make_settings(t_m *m)
 		}
 		c++;
 		if(m->men->msg->settings[color][m->men->msg->i]->pixels[(i) * 4] != 0)
-			ft_memcpy(&m->men->img[m->men->i]->pixels[(i + pos) * 4],
+			ft_memcpy(&m->map->img->pixels[(i + pos) * 4],
 				&m->men->msg->settings[color][m->men->msg->i]->pixels[(i) * 4], 4);
 	}
 }
@@ -159,7 +159,7 @@ void	key(mlx_key_data_t keydata, void *param)
 	{
 		if (m->g_state == GAME)
 		{
-			draw_menu(m);
+			// draw_menu(m);
 			m->g_state = START;
 		}
 		else
@@ -169,7 +169,7 @@ void	key(mlx_key_data_t keydata, void *param)
 		&& m->selection == 0)
 		{
 			m->g_state = GAME;
-			close_menu(m);
+			// close_menu(m);
 			mlx_image_to_window(m->map->mlx, m->map->img, 0, 0);
 		}
 	if (keydata.key == MLX_KEY_ENTER && keydata.action == MLX_PRESS
@@ -178,6 +178,18 @@ void	key(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_ENTER && keydata.action == MLX_PRESS
 		&& m->selection == 2)
 		m->g_state = SETTINGS;
+}
+
+void	draw_image(t_m *m)
+{
+	unsigned int i;
+
+	i = 0;
+	while (i++ < (1920*1080 - 1))
+	{
+		ft_memcpy(&m->map->img->pixels[(i) * 4],
+			&m->men->tex[m->men->i]->pixels[i * 4], 4);
+	}
 }
 
 void	menu_hook(void *param)
@@ -190,6 +202,8 @@ void	menu_hook(void *param)
 	mlx_key_hook(m->map->mlx, key, m);
 	if (time - m->men->t > m->men->speed && m->g_state == START)
 	{
+		ft_memset(m->map->img->pixels, 0,
+			m->window_w * m->window_h * sizeof(int32_t));
 		if (m->men->i < m->men->num_of_f - 1)
 			m->men->i++;
 		else
@@ -198,10 +212,11 @@ void	menu_hook(void *param)
 			m->men->msg->i++;
 		else
 			m->men->msg->i = 0;
-		mlx_image_to_window(m->map->mlx, m->men->img[m->men->i], 0, 0);
-		make_cubed(m);
+		printf("m->men->i %i\n", m->men->i);
+		draw_image(m);
 		make_start(m);
 		make_maps(m);
+		make_cubed(m);
 		make_settings(m);
 		m->men->t = time;
 	}

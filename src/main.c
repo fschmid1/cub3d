@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:17 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/14 16:53:13 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/14 17:42:02 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	main(int argc, char **argv)
 	printf("--------------------WALLS DONE----------------\n");
 	mlx_set_mouse_pos(m->map->mlx, m->window_w / 2, m->window_h / 2);
 	draw_msg(m);
-	draw_menu(m);
+	// draw_menu(m);
 	m->map->map = dblcpy_to_int(m->p->intmap, m->p->size.y, m->p->size.x);
 	m->map->player = setup_player(m);
 	printf("--------------------PLAYER SETUP ----------------\n");

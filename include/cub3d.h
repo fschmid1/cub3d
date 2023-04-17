@@ -107,7 +107,6 @@ typedef struct s_msg
 typedef struct s_menu
 {
 	mlx_texture_t **tex;
-	mlx_image_t **img;
 	int 		num_of_f;
 	double		t;
 	int			i;

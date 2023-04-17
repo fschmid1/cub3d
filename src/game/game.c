@@ -132,6 +132,8 @@ void	draw_textures(t_m *m)
 	{
 		tey = (int)position + (width - 1);
 		position += what;
+		if (((unsigned int)(tey * width + tex) <= (unsigned int)(m->tex[m->t->wall]->width * m->tex[m->t->wall]->height)) &&
+			((unsigned int)(m->t->draw_start * m->window_w)+ m->x < m->map->img->width * m->map->img->height))
 		ft_memcpy(&m->map->img->pixels[(m->t->draw_start * m->window_w + m->x) * 4],
 			&m->tex[m->t->wall]->pixels[(tey * width + tex) * 4], 4);
 		m->t->draw_start++;
