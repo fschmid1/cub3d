@@ -35,7 +35,8 @@ char	*find_player(t_p *m)
 				else
 					m->pos_p = (t_vec){j++ , i, 0};
 			}
-			else if (is_whitespace(m->map[i][j]) || ft_isdigit(m->map[i][j]))
+			else if (is_whitespace(m->map[i][j]) || ft_isdigit(m->map[i][j])
+					|| ft_strchr("dD", m->map[i][j]))
 				j++;
 			else
 				return (IM);

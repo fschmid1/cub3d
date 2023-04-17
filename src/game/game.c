@@ -58,8 +58,20 @@ void	dda(t_m *m)
 			if (m->t->raydiry < 0)
 				m->t->wall = NO;
 		}
-		if (m->t->map[m->t->mapy][m->t->mapx] > 0)
+		if (m->t->map[m->t->mapy][m->t->mapx] > 0 && m->t->map[m->t->mapy][m->t->mapx] != DOOR_OPEN)
+		{
 			m->t->hit = 1;
+			if (m->t->map[m->t->mapy][m->t->mapx] == DOOR_CLOSED || m->t->map[m->t->mapy][m->t->mapx] == DOOR_OPEN)
+			{
+				m->t->door_dist = m->t->pwd;
+				m->t->door_pos = (t_point) {m->t->mapx, m->t->mapy};
+			}
+			if (m->t->map[m->t->mapy][m->t->mapx] == DOOR_CLOSED)
+				m->t->is_door = true;
+			else
+				m->t->is_door = false;
+
+		}
 	}
 }
 
@@ -134,8 +146,14 @@ void	draw_textures(t_m *m)
 		position += what;
 		if (((unsigned int)(tey * width + tex) <= (unsigned int)(m->tex[m->t->wall]->width * m->tex[m->t->wall]->height)) &&
 			((unsigned int)(m->t->draw_start * m->window_w)+ m->x < m->map->img->width * m->map->img->height))
-		ft_memcpy(&m->map->img->pixels[(m->t->draw_start * m->window_w + m->x) * 4],
-			&m->tex[m->t->wall]->pixels[(tey * width + tex) * 4], 4);
+			{
+				if (m->t->is_door)
+					ft_memcpy(&m->map->img->pixels[(m->t->draw_start * m->window_w + m->x) * 4],
+							&m->tex[DOOR]->pixels[(tey * width + tex) * 4], 4);
+				else
+					ft_memcpy(&m->map->img->pixels[(m->t->draw_start * m->window_w + m->x) * 4],
+							&m->tex[m->t->wall]->pixels[(tey * width + tex) * 4], 4);
+			}
 		m->t->draw_start++;
 	}
 }
@@ -170,33 +188,33 @@ void	movement(t_m *m)
 {
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_W))
 	{
-		if (m->t->map[(int)m->t->posy][(int)(m->t->posx + m->t->dirx * m->t->movspeed)] == FALSE)
+		if (m->t->map[(int)m->t->posy][(int)(m->t->posx + m->t->dirx * m->t->movspeed)] == WALKABLE || m->t->map[(int)m->t->posy][(int)(m->t->posx + m->t->dirx * m->t->movspeed)] == DOOR_OPEN)
 			m->t->posx += m->t->dirx * m->t->movspeed;
-		if (m->t->map[(int)(m->t->posy + m->t->diry * m->t->movspeed)][(int)(m->t->posx)] == FALSE)
+		if (m->t->map[(int)(m->t->posy + m->t->diry * m->t->movspeed)][(int)(m->t->posx)] == WALKABLE || m->t->map[(int)(m->t->posy + m->t->diry * m->t->movspeed)][(int)(m->t->posx)] == DOOR_OPEN)
 			m->t->posy += m->t->diry * m->t->movspeed;
 		m->x = 0;
 	}
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_S))
 	{
-		if (m->t->map[(int)m->t->posy][(int)(m->t->posx - m->t->dirx * m->t->movspeed)] == FALSE)
+		if (m->t->map[(int)m->t->posy][(int)(m->t->posx - m->t->dirx * m->t->movspeed)] == WALKABLE || m->t->map[(int)m->t->posy][(int)(m->t->posx - m->t->dirx * m->t->movspeed)] == DOOR_OPEN)
 			m->t->posx -= m->t->dirx * m->t->movspeed;
-		if (m->t->map[(int)(m->t->posy - m->t->diry * m->t->movspeed)][(int)(m->t->posx)] == FALSE)
+		if (m->t->map[(int)(m->t->posy - m->t->diry * m->t->movspeed)][(int)(m->t->posx)] == WALKABLE || m->t->map[(int)(m->t->posy - m->t->diry * m->t->movspeed)][(int)(m->t->posx)] == DOOR_OPEN)
 			m->t->posy -= m->t->diry * m->t->movspeed;
 		m->x = 0;
 	}
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_A))
 	{
-		if (m->t->map[(int)m->t->posy][(int)(m->t->posx - m->t->planex * m->t->movspeed)] == FALSE)
+		if (m->t->map[(int)m->t->posy][(int)(m->t->posx - m->t->planex * m->t->movspeed)] == WALKABLE || m->t->map[(int)m->t->posy][(int)(m->t->posx - m->t->planex * m->t->movspeed)] == DOOR_OPEN)
 			m->t->posx -= m->t->planex * m->t->movspeed;
-		if (m->t->map[(int)(m->t->posy - m->t->planey * m->t->movspeed)][(int)(m->t->posx)] == FALSE)
+		if (m->t->map[(int)(m->t->posy - m->t->planey * m->t->movspeed)][(int)(m->t->posx)] == WALKABLE || m->t->map[(int)(m->t->posy - m->t->planey * m->t->movspeed)][(int)(m->t->posx)] == DOOR_OPEN)
 			m->t->posy -= m->t->planey * m->t->movspeed;
 		m->x = 0;
 	}
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_D))
 	{
-		if (m->t->map[(int)m->t->posy][(int)(m->t->posx + m->t->planex * m->t->movspeed)] == FALSE)
+		if (m->t->map[(int)m->t->posy][(int)(m->t->posx + m->t->planex * m->t->movspeed)] == WALKABLE || m->t->map[(int)m->t->posy][(int)(m->t->posx + m->t->planex * m->t->movspeed)] == DOOR_OPEN)
 			m->t->posx += m->t->planex * m->t->movspeed;
-		if (m->t->map[(int)(m->t->posy + m->t->planey * m->t->movspeed)][(int)(m->t->posx)] == FALSE)
+		if (m->t->map[(int)(m->t->posy + m->t->planey * m->t->movspeed)][(int)(m->t->posx)] == WALKABLE || m->t->map[(int)(m->t->posy + m->t->planey * m->t->movspeed)][(int)(m->t->posx)] == DOOR_OPEN)
 			m->t->posy += m->t->planey * m->t->movspeed;
 		m->x = 0;
 	}

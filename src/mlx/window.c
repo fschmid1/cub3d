@@ -178,6 +178,16 @@ void	key(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_ENTER && keydata.action == MLX_PRESS
 		&& m->selection == 2)
 		m->g_state = SETTINGS;
+	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS
+		&& m->g_state == GAME)
+		if (m->t->door_dist < 1.5)
+		{
+			if (m->t->map[m->t->door_pos.y][m->t->door_pos.x] == DOOR_CLOSED)
+				m->t->map[m->t->door_pos.y][m->t->door_pos.x] = DOOR_OPEN;
+			else if (m->t->map[m->t->door_pos.y][m->t->door_pos.x] == DOOR_OPEN)
+				m->t->map[m->t->door_pos.y][m->t->door_pos.x] = DOOR_CLOSED;
+			m->x = 0;
+		}
 }
 
 void	draw_image(t_m *m)
@@ -212,7 +222,7 @@ void	menu_hook(void *param)
 			m->men->msg->i++;
 		else
 			m->men->msg->i = 0;
-		
+
 		draw_image(m);
 		make_start(m);
 		make_maps(m);
