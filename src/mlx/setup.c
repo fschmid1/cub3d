@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:40 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/14 17:34:45 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 11:40:41 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ void	free_menu(t_m *m)
 	int i;
 
 	i = 0;
-	while (i <= m->men->msg->num_of_f)
+	while (i < NUMOFFILES)
 	{
 		mlx_delete_texture(m->men->tex[i++]);
 	}

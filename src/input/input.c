@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 11:49:51 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/14 16:01:51 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 11:41:48 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ char	*find_values(t_p *m)
 	m->so = find_texture(m->file, "SO");
 	m->we = find_texture(m->file, "WE");
 	m->ea = find_texture(m->file, "EA");
-	printf("%s\n", m->no);
 	if (TESTING != 1)
 	{
 	err = check_textures(m);
