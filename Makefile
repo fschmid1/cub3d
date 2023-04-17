@@ -13,16 +13,15 @@ INPUT_FILES		= input.c tex_col.c map.c player.c
 
 MLX				= $(addprefix $(MLX_DIR), $(MLX_FILES))
 MLX_DIR			= src/mlx/
-MLX_FILES		= window.c setup.c draw.c load_wall.c
+MLX_FILES		= draw.c free_stuff.c load_wall.c make.c setup.c setup2.c window.c
 
 GAME			= $(addprefix $(GAME_DIR), $(GAME_FILES))
 GAME_DIR		= src/game/
-GAME_FILES		= setup.c game.c minimap.c
+GAME_FILES		= calculations.c draw.c game.c minimap.c setup.c
 
 UTILS			= $(addprefix $(UTILS_DIR), $(UTILS_FILES))
 UTILS_DIR		= src/utils/
 UTILS_FILES		= utils.c testing.c error.c
-
 
 MENU			= $(addprefix $(MENU_DIR), $(MENU_FILES))
 MENU_DIR		= src/menu/

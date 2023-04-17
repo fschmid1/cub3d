@@ -6,34 +6,47 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:17 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 11:43:04 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 17:08:39 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 #include <stdio.h>
 
-
-void	set_position(t_m *m)
+void	free_main(t_m *m)
 {
-	m->t = malloc(sizeof(t_t));
-	m->t->map = dblcpy_to_int(m->p->intmap, m->p->size.y, m->p->size.x);
-	m->t->posx = m->p->pos_p.x;
-	m->t->posy = m->p->pos_p.y;
-	m->t->planex = 0.66;
-	m->t->planey = 0.00;
-	m->t->time = 0;
-	m->t->old_time = 0;
-	m->t->hit = 0;
-	m->t->stepx = 0;
-	m->t->stepy = 0;
-	m->t->sidedistx = 0;
-	m->t->sidedisty = 0;
-	m->t->line_height = 0;
-	m->t->draw_start = 0;
-	m->t->draw_end = 0;
-	set_dir(m);
-	m->t->mouse = (t_vec) {m->window_w / 2, m->window_h / 2, 0};
+	free(m->p->file);
+	free_string_array(m->p->map);
+	free_string_array(m->p->fmap);
+	free_string_array(m->p->input);
+	if (m->map->mlx)
+	{
+		mlx_delete_image(m->map->mlx, m->map->fps);
+		mlx_delete_image(m->map->mlx, m->map->img);
+	}
+	free_map(m);
+	free_load_wall(m);
+	free_parse(m);
+	free_menu(m);
+	free(m->t);
+	free(m);
+}
+
+void	input_check(t_p *m, int argc, char **argv)
+{
+	if (ft_strnstr(argv[1], ".cub", ft_strlen(argv[1])) == 0)
+		err_exit(m, ME);
+	if (argc == 2 && open(argv[1], O_RDONLY) > 0)
+	{
+		m->fd = open(argv[1], O_RDONLY);
+		if (get_input(m) == FALSE)
+			err_exit(m, MNF);
+		err_exit(m, find_values(m));
+		check_map(m);
+		map_to_int(m);
+	}
+	else
+		err_exit(m, "INPUT IS A FILE");
 }
 
 int	main(int argc, char **argv)

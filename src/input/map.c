@@ -6,11 +6,38 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:54:02 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 15:22:53 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 17:08:00 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+void	map_to_int(t_p *m)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	j = 0;
+	m->intmap = malloc(sizeof(int *) * m->size.y + 1);
+	while (++i < m->size.y)
+	{
+		j = 0;
+		m->intmap[i] = ft_calloc(sizeof(int), m->size.x + 1);
+		while (m->map[i][j])
+		{
+			if (ispos_p(m->map[i][j]) == TRUE || m->map[i][j] == '0')
+				m->intmap[i][j] = WALKABLE;
+			else if (m->map[i][j] == '1')
+				m->intmap[i][j] = WALL;
+			else if (m->map[i][j] == 'd')
+				m->intmap[i][j] = DOOR_OPEN;
+			else if (m->map[i][j] == 'D')
+				m->intmap[i][j] = DOOR_CLOSED;
+			j++;
+		}
+	}
+}
 
 void	resize_map(t_p *m)
 {
