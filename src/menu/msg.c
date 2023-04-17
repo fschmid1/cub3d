@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:16 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 11:50:44 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 15:25:41 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	msg_load_textures(mlx_texture_t **dest, char *path, int all)
 	char	*tmp;
 	char	*num;
 	char	*cur_path;
-	
+
 	i = 0;
 	while (i <= all)
 	{
@@ -35,8 +35,8 @@ void	msg_load_textures(mlx_texture_t **dest, char *path, int all)
 
 void	msg_alloc_tex_im(t_m *m)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	m->men->msg->cubed = malloc(sizeof(mlx_texture_t) * MSG_NOF);
 	m->men->msg->start = malloc(sizeof(mlx_texture_t *) * 2);

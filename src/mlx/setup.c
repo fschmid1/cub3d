@@ -36,7 +36,7 @@ t_m	*setup_main(void)
 	return (m);
 }
 
-t_p		*setup_parse(t_m *main)
+t_p	*setup_parse(t_m *main)
 {
 	t_p	*m;
 
@@ -124,8 +124,8 @@ void	free_parse(t_m *m)
 
 void	free_msg(t_m *m)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	if (!m->men || !m->men->msg)
@@ -139,18 +139,17 @@ void	free_msg(t_m *m)
 		j = 0;
 		while (j <= MSG_NOF)
 		{
-        	mlx_delete_texture(m->men->msg->start[i][j]);
-        	mlx_delete_texture(m->men->msg->maps[i][j]);
-        	mlx_delete_texture(m->men->msg->settings[i][j++]);
+			mlx_delete_texture(m->men->msg->start[i][j]);
+			mlx_delete_texture(m->men->msg->maps[i][j]);
+			mlx_delete_texture(m->men->msg->settings[i][j++]);
 		}
         free(m->men->msg->start[i]);
         free(m->men->msg->maps[i]);
         free(m->men->msg->settings[i++]);
-    }
+  }
 	return (free(m->men->msg->start), free(m->men->msg->maps), free(m->men->msg->settings),
 				free(m->men->msg));
 }
-
 
 void	free_load_wall(t_m *m)
 {
@@ -187,7 +186,7 @@ void	free_map(t_m *m)
 
 void	free_menu(t_m *m)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!m->men)

@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:53:00 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 12:01:02 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 15:37:52 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,24 @@ int	setup_window(t_m *m)
 
 void	make_cubed(t_m *m)
 {
-	unsigned int i;
-	unsigned int c;
-	int pos = m->window_h / 2 * m->window_w / 2 + 19860;
+	unsigned int	i;
+	unsigned int	c;
+	int				pos;
 
 	i = 0;
 	c = 0;
+	pos = m->window_h / 2 * m->window_w / 2 + 19860;
 	while (i++ < (m->men->msg->cubed[m->men->msg->i]->width
-		* m->men->msg->cubed[m->men->msg->i]->height))
+			* m->men->msg->cubed[m->men->msg->i]->height))
 	{
 		if (c == m->men->msg->cubed[m->men->msg->i]->width)
 		{
 			c = 0;
-			pos += m->men->tex[0]->width - m->men->msg->cubed[m->men->msg->i]->width;
+			pos += m->men->tex[0]->width
+				- m->men->msg->cubed[m->men->msg->i]->width;
 		}
 		c++;
-		if(m->men->msg->cubed[m->men->msg->i]->pixels[(i) * 4] != 0)
+		if (m->men->msg->cubed[m->men->msg->i]->pixels[(i) * 4] != 0)
 			ft_memcpy(&m->map->img->pixels[(i + pos) * 4],
 				&m->men->msg->cubed[m->men->msg->i]->pixels[(i) * 4], 4);
 	}
@@ -52,10 +54,10 @@ void	make_cubed(t_m *m)
 
 void	make_start(t_m *m)
 {
-	unsigned int i;
-	unsigned int c;
-	int pos;
-	int color;
+	unsigned int	i;
+	unsigned int	c;
+	int				pos;
+	int				color;
 
 	i = 0;
 	c = 0;
@@ -70,21 +72,24 @@ void	make_start(t_m *m)
 		if (c == m->men->msg->start[color][m->men->msg->i]->width)
 		{
 			c = 0;
-			pos += m->men->tex[0]->width - m->men->msg->start[color][m->men->msg->i]->width;
+			pos += m->men->tex[0]->width
+				- m->men->msg->start[color][m->men->msg->i]->width;
 		}
 		c++;
-		if(m->men->msg->start[color][m->men->msg->i]->pixels[(i) * 4] != 0)
+		if (m->men->msg->start[color][m->men->msg->i]->pixels[(i) * 4] != 0)
 			ft_memcpy(&m->map->img->pixels[(i + pos) * 4],
 				&m->men->msg->start[color][m->men->msg->i]->pixels[(i) * 4], 4);
 	}
 }
+
 void	make_maps(t_m *m)
 {
-	unsigned int i;
-	unsigned int c;
-	int pos = m->window_h / 2 * m->window_w / 1.3 + 46150;
-	int color = 0;
+	unsigned int	i;
+	unsigned int	c;
+	int				pos;
+	int				color;
 
+	pos = m->window_h / 2 * m->window_w / 1.3 + 46150;
 	if (m->selection == 1)
 		color = GREEN;
 	else
@@ -97,10 +102,11 @@ void	make_maps(t_m *m)
 		if (c == m->men->msg->maps[color][m->men->msg->i]->width)
 		{
 			c = 0;
-			pos += m->men->tex[0]->width - m->men->msg->maps[color][m->men->msg->i]->width;
+			pos += m->men->tex[0]->width
+				- m->men->msg->maps[color][m->men->msg->i]->width;
 		}
 		c++;
-		if(m->men->msg->maps[color][m->men->msg->i]->pixels[(i) * 4] != 0)
+		if (m->men->msg->maps[color][m->men->msg->i]->pixels[(i) * 4] != 0)
 			ft_memcpy(&m->map->img->pixels[(i + pos) * 4],
 				&m->men->msg->maps[color][m->men->msg->i]->pixels[(i) * 4], 4);
 	}
@@ -108,11 +114,13 @@ void	make_maps(t_m *m)
 
 void	make_settings(t_m *m)
 {
-	unsigned int i;
-	unsigned int c;
-	int pos = m->window_h / 2 * m->window_w / 1.15 + 49567;
-	int color = 0;
+	unsigned int	i;
+	unsigned int	c;
+	int				pos;
+	int				color;
 
+	color = 0;
+	pos = m->window_h / 2 * m->window_w / 1.15 + 49567;
 	if (m->selection == 2)
 		color = GREEN;
 	else
@@ -125,20 +133,22 @@ void	make_settings(t_m *m)
 		if (c == m->men->msg->settings[color][m->men->msg->i]->width)
 		{
 			c = 0;
-			pos += m->men->tex[0]->width - m->men->msg->settings[color][m->men->msg->i]->width;
+			pos += m->men->tex[0]->width
+				- m->men->msg->settings[color][m->men->msg->i]->width;
 		}
 		c++;
-		if(m->men->msg->settings[color][m->men->msg->i]->pixels[(i) * 4] != 0)
+		if (m->men->msg->settings[color][m->men->msg->i]->pixels[i * 4] != 0)
 			ft_memcpy(&m->map->img->pixels[(i + pos) * 4],
-				&m->men->msg->settings[color][m->men->msg->i]->pixels[(i) * 4], 4);
+				&m->men->msg->settings[color][m->men->msg->i]->pixels[(i)
+				* 4], 4);
 	}
 }
 
 void	key(mlx_key_data_t keydata, void *param)
 {
 	t_m	*m;
-	m = param;
 
+	m = param;
 	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS
 		&& m->g_state == START)
 	{
@@ -164,10 +174,10 @@ void	key(mlx_key_data_t keydata, void *param)
 	}
 	if (keydata.key == MLX_KEY_ENTER && keydata.action == MLX_PRESS
 		&& m->selection == 0)
-		{
-			m->g_state = GAME;
-			mlx_image_to_window(m->map->mlx, m->map->img, 0, 0);
-		}
+	{
+		m->g_state = GAME;
+		mlx_image_to_window(m->map->mlx, m->map->img, 0, 0);
+	}
 	if (keydata.key == MLX_KEY_ENTER && keydata.action == MLX_PRESS
 		&& m->selection == 1)
 		m->g_state = MAPS;
@@ -175,23 +185,22 @@ void	key(mlx_key_data_t keydata, void *param)
 		&& m->selection == 2)
 		m->g_state = SETTINGS;
 	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS
-		&& m->g_state == GAME)
-		if (m->t->door_dist < 1.5)
-		{
-			if (m->t->map[m->t->door_pos.y][m->t->door_pos.x] == DOOR_CLOSED)
-				m->t->map[m->t->door_pos.y][m->t->door_pos.x] = DOOR_OPEN;
-			else if (m->t->map[m->t->door_pos.y][m->t->door_pos.x] == DOOR_OPEN)
-				m->t->map[m->t->door_pos.y][m->t->door_pos.x] = DOOR_CLOSED;
-			m->x = 0;
-		}
+		&& m->g_state == GAME && m->t->door_dist < 1.5)
+	{
+		if (m->t->map[m->t->door_pos.y][m->t->door_pos.x] == DOOR_CLOSED)
+			m->t->map[m->t->door_pos.y][m->t->door_pos.x] = DOOR_OPEN;
+		else if (m->t->map[m->t->door_pos.y][m->t->door_pos.x] == DOOR_OPEN)
+			m->t->map[m->t->door_pos.y][m->t->door_pos.x] = DOOR_CLOSED;
+		m->x = 0;
+	}
 }
 
 void	draw_image(t_m *m)
 {
-	unsigned int i;
+	unsigned int	i;
 
 	i = 0;
-	while (i++ < (1920*1080 - 1))
+	while (i++ < (m->window_h * m->window_w - 1))
 	{
 		ft_memcpy(&m->map->img->pixels[(i) * 4],
 			&m->men->tex[m->men->i]->pixels[i * 4], 4);
@@ -200,10 +209,10 @@ void	draw_image(t_m *m)
 
 void	menu_hook(void *param)
 {
-	t_m	*m;
-	m = param;
+	t_m		*m;
 	double	time;
 
+	m = param;
 	time = mlx_get_time();
 	mlx_key_hook(m->map->mlx, key, m);
 	if (time - m->men->t > m->men->speed && m->g_state == START)
@@ -231,7 +240,7 @@ void	menu_hook(void *param)
 
 void	mouse_hook(double x, double y, void *param)
 {
-	t_m	*m;
+	t_m		*m;
 	double	ra;
 	double	mouse_movement;
 
@@ -240,28 +249,36 @@ void	mouse_hook(double x, double y, void *param)
 	if (m->g_state != GAME)
 		return ;
 	mouse_movement = x - m->t->mouse.x;
-    m->t->mouse.x = x;
+	m->t->mouse.x = x;
 	ra = 0.0174532925 * 0.075;
-    if (mouse_movement > 0) // mouse moved right
-    {
-        m->t->olddirx = m->t->dirx;
-        m->t->dirx = m->t->dirx * cos(mouse_movement * ra) - m->t->diry * sin(mouse_movement * ra);
-        m->t->diry = m->t->olddirx * sin(mouse_movement * ra) + m->t->diry * cos(mouse_movement * ra);
-        m->t->oldplanex = m->t->planex;
-        m->t->planex = m->t->planex * cos(mouse_movement * ra) - m->t->planey * sin(mouse_movement * ra);
-        m->t->planey = m->t->oldplanex * sin(mouse_movement * ra) + m->t->planey * cos(mouse_movement * ra);
-        m->x = 0;
-    }
-    else if (mouse_movement < 0) // mouse moved left
-    {
-        m->t->olddirx = m->t->dirx;
-        m->t->dirx = m->t->dirx * cos(mouse_movement * ra) - m->t->diry * sin(mouse_movement * ra);
-        m->t->diry = m->t->olddirx * sin(mouse_movement * ra) + m->t->diry * cos(mouse_movement * ra);
-        m->t->oldplanex = m->t->planex;
-        m->t->planex = m->t->planex * cos(mouse_movement * ra) - m->t->planey * sin(mouse_movement * ra);
-        m->t->planey = m->t->oldplanex * sin(mouse_movement * ra) + m->t->planey * cos(mouse_movement * ra);
-        m->x = 0;
-    }
+	if (mouse_movement > 0)
+	{
+		m->t->olddirx = m->t->dirx;
+		m->t->dirx = m->t->dirx * cos(mouse_movement * ra)
+			- m->t->diry * sin(mouse_movement * ra);
+		m->t->diry = m->t->olddirx * sin(mouse_movement * ra)
+			+ m->t->diry * cos(mouse_movement * ra);
+		m->t->oldplanex = m->t->planex;
+		m->t->planex = m->t->planex * cos(mouse_movement * ra)
+			- m->t->planey * sin(mouse_movement * ra);
+		m->t->planey = m->t->oldplanex * sin(mouse_movement * ra)
+			+ m->t->planey * cos(mouse_movement * ra);
+		m->x = 0;
+	}
+	else if (mouse_movement < 0)
+	{
+		m->t->olddirx = m->t->dirx;
+		m->t->dirx = m->t->dirx * cos(mouse_movement * ra)
+			- m->t->diry * sin(mouse_movement * ra);
+		m->t->diry = m->t->olddirx * sin(mouse_movement * ra)
+			+ m->t->diry * cos(mouse_movement * ra);
+		m->t->oldplanex = m->t->planex;
+		m->t->planex = m->t->planex * cos(mouse_movement * ra)
+			- m->t->planey * sin(mouse_movement * ra);
+		m->t->planey = m->t->oldplanex * sin(mouse_movement * ra)
+			+ m->t->planey * cos(mouse_movement * ra);
+		m->x = 0;
+	}
 }
 
 void	register_hooks(t_m *m)

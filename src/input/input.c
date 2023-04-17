@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 11:49:51 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 11:41:48 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 15:20:08 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,8 @@ void	map_to_int(t_p *m)
 	while (++i < m->size.y)
 	{
 		j = 0;
- 		m->intmap[i] = ft_calloc(sizeof(int), m->size.x + 1);
-		while(m->map[i][j])
+		m->intmap[i] = ft_calloc(sizeof(int), m->size.x + 1);
+		while (m->map[i][j])
 		{
 			if (ispos_p(m->map[i][j]) == TRUE || m->map[i][j] == '0')
 				m->intmap[i][j] = WALKABLE;

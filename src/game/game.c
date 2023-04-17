@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   game.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/17 14:11:31 by pgorner           #+#    #+#             */
+/*   Updated: 2023/04/17 15:17:37 by pgorner          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/cub3d.h"
 
 void	set_values(t_m *m)
 {
-	m->t->camerax = 2 * m->x / (double)m->window_w - 1; //pos = camera_x
+	m->t->camerax = 2 * m->x / (double)m->window_w - 1;
 	m->t->raydirx = m->t->dirx + m->t->planex * m->t->camerax;
 	m->t->raydiry = m->t->diry + m->t->planey * m->t->camerax;
 	m->t->mapx = (int)m->t->posx;
@@ -38,7 +50,7 @@ void	delta_step(t_m *m)
 
 void	dda(t_m *m)
 {
-	while(m->t->hit == 0)
+	while (m->t->hit == 0)
 	{
 		if (m->t->sidedistx < m->t->sidedisty)
 		{
@@ -58,20 +70,20 @@ void	dda(t_m *m)
 			if (m->t->raydiry < 0)
 				m->t->wall = NO;
 		}
-		if (m->t->map[m->t->mapy][m->t->mapx] > 0)
+		if (m->t->map[m->t->mapy][m->t->mapx] > 0
+			&& m->t->map[m->t->mapy][m->t->mapx] != DOOR_OPEN)
 		{
-			if (m->t->map[m->t->mapy][m->t->mapx] != DOOR_OPEN)
-				m->t->hit = 1;
-			if (m->t->map[m->t->mapy][m->t->mapx] == DOOR_CLOSED || m->t->map[m->t->mapy][m->t->mapx] == DOOR_OPEN)
+			m->t->hit = 1;
+			if (m->t->map[m->t->mapy][m->t->mapx] == DOOR_CLOSED
+				|| m->t->map[m->t->mapy][m->t->mapx] == DOOR_OPEN)
 			{
 				m->t->door_dist = m->t->pwd;
-				m->t->door_pos = (t_point) {m->t->mapx, m->t->mapy};
+				m->t->door_pos = (t_point){m->t->mapx, m->t->mapy};
 			}
 			if (m->t->map[m->t->mapy][m->t->mapx] == DOOR_CLOSED)
 				m->t->is_door = true;
 			else
 				m->t->is_door = false;
-
 		}
 	}
 }
@@ -86,21 +98,22 @@ void	perp_wd(t_m *m)
 
 void	draw_wall(t_m *m)
 {
-	int i;
+	int	i;
 
 	i = m->t->draw_start;
 	while (i < m->t->draw_end)
 	{
-		if(m->t->side == 1)
+		if (m->t->side == 1)
 			draw_pixel(m, m->x, i, ((m->map->color >> 1) & 8355711));
 		else
 			draw_pixel(m, m->x, i, m->map->color);
 		i++;
 	}
 }
+
 void	draw_ceiling(t_m *m)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < m->window_h)
@@ -115,8 +128,8 @@ void	draw_ceiling(t_m *m)
 
 int	calc_tex(t_m *m)
 {
-	int ret;
-	double wallx;
+	int		ret;
+	double	wallx;
 
 	ret = 0;
 	if (m->t->wall == EA || m->t->wall == WE)
@@ -132,29 +145,35 @@ int	calc_tex(t_m *m)
 
 void	draw_textures(t_m *m)
 {
-	double	what;
+	double	offset;
 	double	position;
-	int	tex;
-	int	tey;
-	int width = m->tex[NO]->height;
+	int		tex;
+	int		tey;
+	int		width;
 
-	what = 1.00 * width / m->t->line_height;
-	position = (m->t->draw_start - (m->window_h + m->t->line_height) /2) * what;
+	width = m->tex[m->t->wall]->height;
+	offset = 1.00 * width / m->t->line_height;
+	position = (m->t->draw_start - (m->window_h + m->t->line_height) / 2)
+		* offset;
 	tex = calc_tex(m);
-	while(m->t->draw_start <= m->t->draw_end)
+	while (m->t->draw_start <= m->t->draw_end)
 	{
 		tey = (int)position + (width - 1);
-		position += what;
-		if (((unsigned int)(tey * width + tex) <= (unsigned int)(m->tex[m->t->wall]->width * m->tex[m->t->wall]->height)) &&
-			((unsigned int)(m->t->draw_start * m->window_w)+ m->x < m->map->img->width * m->map->img->height))
-			{
-				if (m->t->is_door)
-					ft_memcpy(&m->map->img->pixels[(m->t->draw_start * m->window_w + m->x) * 4],
-							&m->tex[DOOR]->pixels[(tey * width + tex) * 4], 4);
-				else
-					ft_memcpy(&m->map->img->pixels[(m->t->draw_start * m->window_w + m->x) * 4],
-							&m->tex[m->t->wall]->pixels[(tey * width + tex) * 4], 4);
-			}
+		position += offset;
+		if (((unsigned int)(tey * width + tex)
+			<= m->tex[m->t->wall]->width * m->tex[m->t->wall]->height) &&
+			((unsigned int)(m->t->draw_start * m->window_w)
+			+ m->x < m->map->img->width * m->map->img->height))
+		{
+			if (m->t->is_door)
+				ft_memcpy(&m->map->img->pixels[(m->t->draw_start
+						* m->window_w + m->x) * 4],
+					&m->tex[DOOR]->pixels[(tey * width + tex) * 4], 4);
+			else
+				ft_memcpy(&m->map->img->pixels[(m->t->draw_start
+						* m->window_w + m->x) * 4],
+					&m->tex[m->t->wall]->pixels[(tex * width + tex) * 4], 4);
+		}
 		m->t->draw_start++;
 	}
 }
@@ -170,23 +189,15 @@ void	draw_lines(t_m *m)
 		m->t->draw_end = m->window_h - 1;
 	draw_ceiling(m);
 	draw_textures(m);
-	// draw_wall(m);
-}
-
-void	movspeed(t_m *m)
-{
-	m->t->old_time = m->t->time;
-	m->t->time = mlx_get_time();
-	m->t->frametime = (m->t->time - m->t->old_time) / 1000;
-	// printf("TIME: %f, FRAME°TI°ME: %f\n", m->t->time, m->t->frametime * 1000000);
-	// mlx_put_string(m->map->mlx, "FPS", 1800, 50);
-	m->t->movspeed = m->t->frametime * 5000;
-	m->t->rotspeed = m->t->frametime * 3000;
-	// printf("FPS:%f\n", (1.0/(m->t->frametime * 1000)));
 }
 
 void	movement(t_m *m)
 {
+	m->t->old_time = m->t->time;
+	m->t->time = mlx_get_time();
+	m->t->frametime = (m->t->time - m->t->old_time) / 1000;
+	m->t->movspeed = m->t->frametime * 5000;
+	m->t->rotspeed = m->t->frametime * 3000;
 	if (mlx_is_key_down(m->map->mlx, MLX_KEY_W))
 	{
 		if (m->t->map[(int)m->t->posy][(int)(m->t->posx + m->t->dirx * m->t->movspeed)] == WALKABLE || m->t->map[(int)m->t->posy][(int)(m->t->posx + m->t->dirx * m->t->movspeed)] == DOOR_OPEN)
@@ -228,7 +239,6 @@ void	movement(t_m *m)
 		m->firing = 0;
 }
 
-
 void	value(t_m *m)
 {
 	printf("-----------------------------------------\n");
@@ -243,9 +253,9 @@ void	value(t_m *m)
 
 void	crosshair(t_m *m)
 {
-	unsigned int i;
-	unsigned int c;
-	int pos;
+	int				pos;
+	unsigned int	i;
+	unsigned int	c;
 
 	i = 0;
 	c = 0;
@@ -258,18 +268,19 @@ void	crosshair(t_m *m)
 			pos += m->men->tex[0]->width - m->cross->width;
 		}
 		c++;
-		if(m->cross->pixels[(i) * 4] != 0)
+		if (m->cross->pixels[(i) * 4] != 0)
 		{
 			ft_memcpy(&m->map->img->pixels[(pos + i) * 4],
 				&m->cross->pixels[(i) * 4], 4);
 		}
 	}
 }
+
 void	muzzle(t_m *m)
 {
-	unsigned int i;
-	unsigned int c;
-	int pos;
+	int				pos;
+	unsigned int	i;
+	unsigned int	c;
 
 	i = 0;
 	c = 0;
@@ -282,43 +293,42 @@ void	muzzle(t_m *m)
 			pos += m->men->tex[0]->width - m->muzzle->width;
 		}
 		c++;
-		if(m->muzzle->pixels[(i) * 4] != 0)
+		if (m->muzzle->pixels[(i) * 4] != 0)
 		{
 			ft_memcpy(&m->map->img->pixels[(pos + i) * 4],
 				&m->muzzle->pixels[(i) * 4], 4);
 		}
 	}
 }
-void gun(t_m *m)
+
+void	gun(t_m *m)
 {
+	unsigned int	x;
+	unsigned int	y;
+	int				pos;
 
-    unsigned int x, y;
-    int pos;
-
-    x = 0;
-    y = 0;
-    pos = m->window_h / 1.7 * m->window_w / 1.2 - 100;
-    unsigned int copy_width = m->gun->width;
-    unsigned int copy_height = m->gun->height;
-    unsigned int max_x = copy_width;
-    unsigned int max_y = copy_height;
+	x = 0;
+	y = 0;
+	pos = m->window_h / 1.7 * m->window_w / 1.2 - 100;
 	if (m->firing == 1)
 		muzzle(m);
-    while (y < max_y)
-    {
-        x = 0;
-        while (x < max_x)
-        {
-            if((m->gun->pixels[(y * m->gun->width + x) * 4] != 0)
-			&& (pos + y * m->men->tex[0]->width + x) < (unsigned int)(m->window_h * m->window_w))
-            {
-                ft_memcpy(&m->map->img->pixels[(pos + y * m->men->tex[0]->width + x) * 4],
-                          &m->gun->pixels[(y * m->gun->width + x) * 4], 4);
-            }
-            x++;
-        }
-        y++;
-    }
+	while (y < m->gun->height)
+	{
+		x = 0;
+		while (x < m->gun->width)
+		{
+			if ((m->gun->pixels[(y * m->gun->width + x) * 4] != 0)
+				&& (pos + y * m->men->tex[0]->width + x)
+				< (unsigned int)(m->window_h * m->window_w))
+			{
+				ft_memcpy(&m->map->img->pixels[(pos + y
+						* m->men->tex[0]->width + x) * 4],
+					&m->gun->pixels[(y * m->gun->width + x) * 4], 4);
+			}
+			x++;
+		}
+		y++;
+	}
 	if (m->firing == 1)
 	{
 		m->firing = 0;
@@ -326,16 +336,15 @@ void gun(t_m *m)
 	}
 }
 
-
 void	fps_counter(t_m *m)
 {
 	char	*fps;
 	char	*num;
 
 	mlx_delete_image(m->map->mlx, m->map->fps);
-	num = ft_itoa((int)((1.0/(m->t->frametime * 1000))));
+	num = ft_itoa((int)((1.0 / (m->t->frametime * 1000))));
 	fps = ft_strjoin("FPS ", num);
-	m->map->fps = mlx_put_string(m->map->mlx, fps, 1800, 50);
+		m->map->fps = mlx_put_string(m->map->mlx, fps, 1800, 50);
 	free(num);
 	free(fps);
 }
@@ -343,14 +352,13 @@ void	fps_counter(t_m *m)
 void	game_loop(void *param)
 {
 	t_m	*m;
-	m = param;
 
+	m = param;
 	movement(m);
-	movspeed(m);
 	if (m->x == 0)
 	{
 		ft_memset(m->map->img->pixels, 0,
-		m->window_w * m->window_h * sizeof(int32_t));
+			m->window_w * m->window_h * sizeof(int32_t));
 	}
 	while (m->x <= m->window_w)
 	{
@@ -363,6 +371,5 @@ void	game_loop(void *param)
 	}
 	gun(m);
 	fps_counter(m);
-	// crosshair(m);
 	minimap(m);
 }
