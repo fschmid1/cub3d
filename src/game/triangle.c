@@ -59,5 +59,5 @@ void	draw_triangle(t_m *m, t_point pos, int size, double dir)
 		fmin(t.p1.y, fmin(t.p2.y, t.p3.y))};
 	t.max = (t_point){fmax(t.p1.x, fmax(t.p2.x, t.p3.x)),
 		fmax(t.p1.y, fmax(t.p2.y, t.p3.y))};
-	draw_triangle_fill(m, t, 0x00FF0000);
+	draw_triangle_fill(m, t, 0xFF0000FF);
 }
