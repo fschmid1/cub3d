@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:40 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/14 17:31:04 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/14 17:34:45 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ void	free_load_wall(t_m *m)
 	mlx_delete_texture(m->tex[SO]);
 	mlx_delete_texture(m->tex[WE]);
 	mlx_delete_texture(m->tex[EA]);
+	free(m->tex);
 	mlx_delete_texture(m->cross);
 	mlx_delete_texture(m->gun);
 	mlx_delete_texture(m->muzzle);
@@ -179,7 +180,6 @@ void	free_menu(t_m *m)
 		mlx_delete_texture(m->men->tex[i++]);
 	}
 	free(m->men->tex);
-	free(m->men->img);
 }
 
 void	free_main(t_m *m)
