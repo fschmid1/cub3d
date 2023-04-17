@@ -101,6 +101,7 @@ void	free_parse(t_m *m)
 	int i = 0;
 	while (i < m->p->size.x)
 		free(m->p->intmap[i++]);
+	free(m->p->intmap);
 	free(m->p);
 }
 
@@ -190,5 +191,7 @@ void	free_main(t_m *m)
 	free_parse(m);
 	free_menu(m);
 	free_msg(m);
+	free(m->map);
+	free(m->t);
 	free(m);
 }
