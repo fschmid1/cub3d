@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fschmid <fschmid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:52:40 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 11:51:43 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 15:58:33 by fschmid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	free_parse(t_m *m)
 	free(m->p->so);
 	free(m->p->we);
 	free(m->p->ea);
-	while (m->p->intmap && i < m->p->size.x)
+	while (m->p->intmap && i < m->p->size.y)
 		free(m->p->intmap[i++]);
 	if (m->p->intmap)
 		free(m->p->intmap);
