@@ -1,7 +1,7 @@
 NAME			= cub3D
 CC				= cc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror -g
+CFLAGS			= -Wall -Wextra -Werror -g -O3
 
 SRC				= $(addprefix $(SRC_DIR), $(SRC_FILES))
 SRC_DIR			= src/
