@@ -29,30 +29,30 @@ static bool	is_in_triangle(t_point p1, t_point p2, t_point p3, t_point p)
 
 static void draw_triangle(t_m *m, int x, int y, int size, double dir)
 {
-    int half_size = size / 2;
+	int half_size = size / 2;
 	x -= half_size;
 	y -= half_size;
-    double radians = dir * M_PI / 180.0;
-    t_point p1 = {x + half_size * cos(radians), y + half_size * sin(radians)};
-    t_point p2 = {x - half_size * cos(radians + M_PI / 6), y - half_size * sin(radians + M_PI / 6)};
-    t_point p3 = {x - half_size * cos(radians - M_PI / 6), y - half_size * sin(radians - M_PI / 6)};
+	double radians = dir * M_PI / 180.0;
+	t_point p1 = {x + half_size * cos(radians), y + half_size * sin(radians)};
+	t_point p2 = {x - half_size * cos(radians + M_PI / 6), y - half_size * sin(radians + M_PI / 6)};
+	t_point p3 = {x - half_size * cos(radians - M_PI / 6), y - half_size * sin(radians - M_PI / 6)};
 
-    int minX = fmin(p1.x, fmin(p2.x, p3.x));
-    int minY = fmin(p1.y, fmin(p2.y, p3.y));
-    int maxX = fmax(p1.x, fmax(p2.x, p3.x));
-    int maxY = fmax(p1.y, fmax(p2.y, p3.y));
+	int minX = fmin(p1.x, fmin(p2.x, p3.x));
+	int minY = fmin(p1.y, fmin(p2.y, p3.y));
+	int maxX = fmax(p1.x, fmax(p2.x, p3.x));
+	int maxY = fmax(p1.y, fmax(p2.y, p3.y));
 
-    t_point current;
-    current.y = minY;
-    while(current.y <= maxY) {
-        current.x = minX;
-        while(current.x <= maxX) {
+	t_point current;
+	current.y = minY;
+	while(current.y <= maxY) {
+		current.x = minX;
+		while(current.x <= maxX) {
 			if (is_in_triangle(p1, p2, p3, current))
-                draw_pixel(m, current.x, current.y, 0xFF0000FF);
-            current.x++;
-        }
-        current.y++;
-    }
+				draw_pixel(m, current.x, current.y, 0xFF0000FF);
+			current.x++;
+		}
+		current.y++;
+	}
 }
 
 static double	to_angle(t_m *m)
@@ -61,8 +61,8 @@ static double	to_angle(t_m *m)
 	double	degrees;
 
 	radians = atan2(m->t->diry, m->t->dirx);
-    degrees = radians * 180.0 / M_PI;
-    return (degrees);
+	degrees = radians * 180.0 / M_PI;
+	return (degrees);
 }
 
 static void	draw_player(t_m *m)

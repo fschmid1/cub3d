@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 18:04:43 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/14 17:33:37 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 15:27:21 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,4 @@ void	load_wall(t_m *m)
 	m->cross = mlx_load_png("./textures/crosshair.png");
 	m->gun = mlx_load_png("./textures/gun2.png");
 	m->muzzle = mlx_load_png("./textures/muzzle.png");
-
 }

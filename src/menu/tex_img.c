@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:16 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 11:50:24 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 15:26:03 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	load_textures(t_m *m, char *path)
 	char	*tmp;
 	char	*num;
 	char	*cur_path;
-	
+
 	i = 0;
 	while (i <= NUMOFFILES)
 	{
@@ -35,5 +35,5 @@ void	load_textures(t_m *m, char *path)
 
 void	alloc_tex_im(t_m *m)
 {
-	m->men->tex = malloc(sizeof(mlx_texture_t *)  * NUMOFFILES);
+	m->men->tex = malloc(sizeof(mlx_texture_t *) * NUMOFFILES);
 }
