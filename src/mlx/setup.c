@@ -25,6 +25,8 @@ t_m	*setup_main(void)
 	m->men = setup_menu();
 	m->men->msg = setup_msg();
 	m->time = 0;
+	m->tex = NULL;
+	m->t = NULL;
 	m->old_time = 0;
 	m->g_state = START;
 	m->time = mlx_get_time();
@@ -47,6 +49,7 @@ t_p		*setup_parse(t_m *main)
 	m->file = NULL;
 	m->map = NULL;
 	m->fmap = NULL;
+	m->intmap = NULL;
 	m->input = NULL;
 	m->no = NULL;
 	m->so = NULL;
@@ -64,6 +67,7 @@ t_map	*setup_map(void)
 		return (NULL);
 	map->mlx = NULL;
 	map->img = NULL;
+	map->map = NULL;
 	map->color = 0xFFFFFFFF;
 	map->minmap_scale = 0;
 	map->colorc = 0xa29a9aFF;
@@ -80,6 +84,10 @@ t_msg	*setup_msg(void)
 	if (!msg)
 		return (NULL);
 	msg->i = 0;
+	msg->cubed = NULL;
+	msg->start = NULL;
+	msg->maps = NULL;
+	msg->settings = NULL;
 	return (msg);
 }
 
@@ -93,15 +101,24 @@ t_menu	*setup_menu(void)
 	menu->t = 0;
 	menu->i = 0;
 	menu->speed = SPEED;
+	menu->tex = NULL;
+	menu->msg = NULL;
 	return (menu);
 }
 
 void	free_parse(t_m *m)
 {
-	int i = 0;
-	while (i < m->p->size.x)
+	int	i;
+
+	i = 0;
+	free(m->p->no);
+	free(m->p->so);
+	free(m->p->we);
+	free(m->p->ea);
+	while (m->p->intmap && i < m->p->size.x)
 		free(m->p->intmap[i++]);
-	free(m->p->intmap);
+	if (m->p->intmap)
+		free(m->p->intmap);
 	free(m->p);
 }
 
@@ -111,11 +128,13 @@ void	free_msg(t_m *m)
 	int j;
 
 	i = 0;
-	while (i <= MSG_NOF)
+	if (!m->men || !m->men->msg)
+		return ;
+	while (m->men->msg->cubed && i <= MSG_NOF)
 		mlx_delete_texture(m->men->msg->cubed[i++]);
 	free(m->men->msg->cubed);
 	i = 0;
-	while (i < 2)
+	while (m->men->msg->cubed && i < 2)
 	{
 		j = 0;
 		while (j <= MSG_NOF)
@@ -128,16 +147,15 @@ void	free_msg(t_m *m)
         free(m->men->msg->maps[i]);
         free(m->men->msg->settings[i++]);
     }
-    free(m->men->msg->start);
-    free(m->men->msg->maps);
-    free(m->men->msg->settings);
-	free(m->men->msg);
-	free(m->men);
+	return (free(m->men->msg->start), free(m->men->msg->maps), free(m->men->msg->settings),
+				free(m->men->msg));
 }
 
 
 void	free_load_wall(t_m *m)
 {
+	if (!m->tex)
+		return ;
 	mlx_delete_texture(m->tex[NO]);
 	mlx_delete_texture(m->tex[SO]);
 	mlx_delete_texture(m->tex[WE]);
@@ -154,13 +172,17 @@ void	free_map(t_m *m)
 	int	i;
 
 	i = 0;
-	while (i < m->p->size.y)
+	while (m->map->map && i < m->p->size.y)
 	{
 		free(m->map->map[i]);
 		free(m->t->map[i++]);
 	}
-	free(m->map->map);
-	free(m->t->map);
+	if (m->map->map)
+	{
+		free(m->map->map);
+		free(m->t->map);
+	}
+	free(m->map);
 }
 
 void	free_menu(t_m *m)
@@ -168,9 +190,13 @@ void	free_menu(t_m *m)
 	int i;
 
 	i = 0;
-	while (i <= NUMOFFILES)
+	if (!m->men)
+		return ;
+	free_msg(m);
+	while (m->men->tex && i <= NUMOFFILES)
 		mlx_delete_texture(m->men->tex[i++]);
 	free(m->men->tex);
+	free(m->men);
 }
 
 void	free_main(t_m *m)
@@ -179,18 +205,16 @@ void	free_main(t_m *m)
 	free_string_array(m->p->map);
 	free_string_array(m->p->fmap);
 	free_string_array(m->p->input);
-	mlx_delete_image(m->map->mlx, m->map->fps);
-	mlx_delete_image(m->map->mlx, m->map->img);
+	if (m->map->mlx)
+	{
+		mlx_delete_image(m->map->mlx, m->map->fps);
+		mlx_delete_image(m->map->mlx, m->map->img);
+	}
 	free_map(m);
 	free_load_wall(m);
-	free(m->p->no);
-	free(m->p->so);
-	free(m->p->we);
-	free(m->p->ea);
 	free_parse(m);
 	free_menu(m);
-	free_msg(m);
-	free(m->map);
 	free(m->t);
+
 	free(m);
 }
