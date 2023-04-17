@@ -13,43 +13,30 @@
 #include "../../include/cub3d.h"
 #include <stdio.h>
 
-t_player	*setup_player(t_m *m)
-{
-	t_player	*player;
-	char		dir;
 
-	player = malloc(sizeof(t_player));
-	if (!player)
-		return (NULL);
-	player->pos = m->p->pos_p;
+void	set_dir(t_m *m)
+{
+	char	dir;
+
 	dir = m->p->map[(int)m->p->pos_p.y][(int)m->p->pos_p.x];
 	if (dir == 'W')
-		player->dir = (t_vec) {-1, 0, 0};
+	{
+		m->t->dirx = -1;
+		m->t->diry = 0;
+	}
 	else if (dir == 'E')
-		player->dir = (t_vec) {1, 0, 0};
+	{
+		m->t->dirx = 1;
+		m->t->diry = 0;
+	}
 	else if (dir == 'S')
-		player->dir = (t_vec) {0, 1, 0};
+	{
+		m->t->dirx = 0;
+		m->t->diry = 1;
+	}
 	else if (dir == 'N')
-		player->dir = (t_vec) {0, -1, 0};
-	return (player);
-}
-
-t_camera	*setup_camera(t_m *m)
-{
-	t_camera *cam;
-
-	cam = malloc(sizeof(t_camera));
-	cam->step = (t_vec){0.1, 0.1, 0};
-	cam->old_plane = (t_vec){0, 0, 0};
-	cam->plane = (t_vec){0, 0.66, 0};
-	cam->side_dist = (t_vec){0, 0, 0};
-	cam->delta_dist = (t_vec){0, 0, 0};
-	cam->ray_dir = (t_vec){-1, 0, 0};
-	cam->old_ray_dir = (t_vec){0, 0, 0};
-	cam->ray_pos = (t_vec){m->p->pos_p.y, m->p->pos_p.x, 0};
-	cam->side = 0;
-	cam->perp_wd = 0;
-	cam->hit = 0;
-	cam->pos = (t_vec){m->p->pos_p.y, m->p->pos_p.x, 0};
-	return (cam);
+	{
+		m->t->dirx = 0;
+		m->t->diry = -1;
+	}
 }

@@ -18,10 +18,8 @@ void	set_position(t_m *m)
 {
 	m->t = malloc(sizeof(t_t));
 	m->t->map = dblcpy_to_int(m->p->intmap, m->p->size.y, m->p->size.x);
-	m->t->posx = m->map->player->pos.x;
-	m->t->posy = m->map->player->pos.y;
-	m->t->dirx = m->map->player->dir.x;
-	m->t->diry = m->map->player->dir.y;
+	m->t->posx = m->p->pos_p.x;
+	m->t->posy = m->p->pos_p.y;
 	m->t->planex = 0.66;
 	m->t->planey = 0.00;
 	m->t->time = 0;
@@ -34,6 +32,7 @@ void	set_position(t_m *m)
 	m->t->line_height = 0;
 	m->t->draw_start = 0;
 	m->t->draw_end = 0;
+	set_dir(m);
 	m->t->mouse = (t_vec) {m->window_w / 2, m->window_h / 2, 0};
 }
 
@@ -55,9 +54,6 @@ int	main(int argc, char **argv)
 	mlx_set_mouse_pos(m->map->mlx, m->window_w / 2, m->window_h / 2);
 	draw_msg(m);
 	m->map->map = dblcpy_to_int(m->p->intmap, m->p->size.y, m->p->size.x);
-	m->map->player = setup_player(m);
-	printf("--------------------PLAYER SETUP ----------------\n");
-	m->camera = setup_camera(m);
 	printf("--------------------T SETUP ----------------\n");
 	set_position(m);
 	register_hooks(m);
