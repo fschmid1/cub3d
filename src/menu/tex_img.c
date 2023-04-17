@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:16 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 11:41:17 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 11:50:24 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	load_textures(t_m *m, char *path)
 	char	*cur_path;
 	
 	i = 0;
-	while (i < m->men->num_of_f)
+	while (i <= NUMOFFILES)
 	{
 		num = ft_itoa(i);
 		tmp = ft_strjoin(path, num);
