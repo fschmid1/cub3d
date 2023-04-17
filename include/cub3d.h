@@ -151,37 +151,11 @@ typedef struct s_parse
 } t_p;
 
 //------------------------------------INPUT--------------------------------------
-typedef	struct	s_player
-{
-	t_vec	pos; // player pos
-	t_vec	dir; // player dir
-}	t_player;
-
-typedef struct	s_camera
-{
-	t_vec	old_ray_dir;
-	t_vec	ray_dir;
-	t_vec	ray_pos;
-	t_vec	pos;
-	t_vec	old_plane;
-	t_vec	plane;
-	int		map_x;
-	int		map_y;
-	t_vec	side_dist; // distance to side
-	t_vec	delta_dist; // delta ray dir
-	t_vec	step; //stepX // stepY
-	double	perp_wd; // perp wall dist
-	int		hit;
-	int		side; // hit NS OR EW wall?
-	double	mspeed; // movement speed
-	double	rspeed; // rotation speed
-}	t_camera;
 
 typedef struct	s_map
 {
 	mlx_t		*mlx; //mlx
 	mlx_image_t	*img; //initial window
-	t_player	*player; //player struct
 	int			**map;
 	uint32_t	color;
 	uint32_t	colorc;
@@ -239,7 +213,6 @@ typedef	struct	s_main
 	mlx_texture_t	*muzzle;
 	t_menu			*men; //menu animation struct
 	t_map			*map; //makes the cub 3d
-	t_camera		*camera; //camera infos
 	t_p				*p; // parsed
 	int				window_w; //window width
 	int				window_h; //window height
@@ -275,8 +248,7 @@ void	set_position(t_m *m);
 //==============================================================================
 //----------------------------------GAME/SETUP.c--------------------------------
 //==============================================================================
-t_player	*setup_player(t_m *m);
-t_camera	*setup_camera(t_m *m);
+void	set_dir(t_m *m);
 //==============================================================================
 //----------------------------------DRAW.c-------------------------------------
 //==============================================================================
@@ -308,7 +280,6 @@ void	free_t(t_p *m);
 void	testing(t_p *main);
 void	dprint(char **str);
 void	dprinti(int **str, int x, int y);
-void	test_values(t_m *m);
 //==============================================================================
 //---------------------------------TEX_COL.c------------------------------------
 //==============================================================================

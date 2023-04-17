@@ -187,8 +187,6 @@ void	free_main(t_m *m)
 	free(m->p->so);
 	free(m->p->we);
 	free(m->p->ea);
-	free(m->camera);
-	free(m->map->player);
 	free_parse(m);
 	free_menu(m);
 	free_msg(m);
