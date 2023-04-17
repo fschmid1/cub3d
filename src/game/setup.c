@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:33:21 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 15:15:26 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 16:57:59 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	set_dir_ew(t_m *m, char dir)
 	}
 }
 
-static void set_dir_sn(t_m *m, char dir)
+static void	set_dir_sn(t_m *m, char dir)
 {
 	if (dir == 'S')
 	{

@@ -6,12 +6,11 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 11:49:51 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 15:20:08 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 17:31:56 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
-#include <stdio.h>
 
 int	get_input(t_p *m)
 {
@@ -126,48 +125,4 @@ char	*find_values(t_p *m)
 		|| find_color(m, m->c, "C") == FALSE)
 		return (MC);
 	return (err);
-}
-
-void	map_to_int(t_p *m)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	j = 0;
-	m->intmap = malloc(sizeof(int *) * m->size.y + 1);
-	while (++i < m->size.y)
-	{
-		j = 0;
-		m->intmap[i] = ft_calloc(sizeof(int), m->size.x + 1);
-		while (m->map[i][j])
-		{
-			if (ispos_p(m->map[i][j]) == TRUE || m->map[i][j] == '0')
-				m->intmap[i][j] = WALKABLE;
-			else if (m->map[i][j] == '1')
-				m->intmap[i][j] = WALL;
-			else if (m->map[i][j] == 'd')
-				m->intmap[i][j] = DOOR_OPEN;
-			else if (m->map[i][j] == 'D')
-				m->intmap[i][j] = DOOR_CLOSED;
-			j++;
-		}
-	}
-}
-
-void	input_check(t_p *m, int argc, char **argv)
-{
-	if (ft_strnstr(argv[1], ".cub", ft_strlen(argv[1])) == 0)
-		err_exit(m, ME);
-	if (argc == 2 && open(argv[1], O_RDONLY) > 0)
-	{
-		m->fd = open(argv[1], O_RDONLY);
-		if (get_input(m) == FALSE)
-			err_exit(m, MNF);
-		err_exit(m, find_values(m));
-		check_map(m);
-		map_to_int(m);
-	}
-	else
-		err_exit(m, "INPUT IS A FILE");
 }
