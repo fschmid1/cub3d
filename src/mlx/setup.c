@@ -142,6 +142,7 @@ void	free_load_wall(t_m *m)
 	mlx_delete_texture(m->tex[SO]);
 	mlx_delete_texture(m->tex[WE]);
 	mlx_delete_texture(m->tex[EA]);
+	mlx_delete_texture(m->tex[DOOR]);
 	free(m->tex);
 	mlx_delete_texture(m->cross);
 	mlx_delete_texture(m->gun);

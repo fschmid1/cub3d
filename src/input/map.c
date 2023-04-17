@@ -28,8 +28,7 @@ void	resize_map(t_p *m)
 		x = 0;
 		while (x < m->size.x)
 		{
-			if ((m->map[y][x] != '1' 
-			&& m->map[y][x] != '0'
+			if ((!ft_strchr("01dD", m->map[y][x])
 			&& ispos_p(m->map[y][x]) == 0)
 			|| x >= (int)ft_strlen(m->map[y]))
 				new[y][x] = '1';
@@ -62,9 +61,7 @@ void	max_val(t_p *m)
 
 void	fill(t_p *m, t_point cur, char to_fill)
 {
-	if ((m->fmap[cur.y][cur.x] != '1'
-		&& m->fmap[cur.y][cur.x] != '0'
-		&& m->fmap[cur.y][cur.x] != 'F')
+	if (!ft_strchr("01FdD", m->fmap[cur.y][cur.x])
 		|| (m->fmap[0][cur.x] == '0'))
 		{
 			printf("%i:%i\n", cur.x, cur.y);

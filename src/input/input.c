@@ -142,10 +142,14 @@ void	map_to_int(t_p *m)
  		m->intmap[i] = ft_calloc(sizeof(int), m->size.x + 1);
 		while(m->map[i][j])
 		{
-			if (ispos_p(m->map[i][j]) == TRUE)
-				m->intmap[i][j] = 0;
-			else
-				m->intmap[i][j] = m->map[i][j] - '0';
+			if (ispos_p(m->map[i][j]) == TRUE || m->map[i][j] == '0')
+				m->intmap[i][j] = WALKABLE;
+			else if (m->map[i][j] == '1')
+				m->intmap[i][j] = WALL;
+			else if (m->map[i][j] == 'd')
+				m->intmap[i][j] = DOOR_OPEN;
+			else if (m->map[i][j] == 'D')
+				m->intmap[i][j] = DOOR_CLOSED;
 			j++;
 		}
 	}

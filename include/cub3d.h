@@ -91,7 +91,18 @@ typedef enum e_gwall
 	SO,
 	WE,
 	EA,
+	DOOR,
 } t_gwall;
+
+typedef enum e_entity
+{
+	WALKABLE,
+	WALL,
+	PLAYER,
+	DOOR_OPEN,
+	DOOR_CLOSED,
+
+} t_entity;
 
 //------------------------------------MENU--------------------------------------
 typedef struct s_msg
@@ -213,6 +224,9 @@ typedef	struct	s_test
 	double	olddirx;
 	double	oldplanex;
 	int		wall;
+	bool	is_door;
+	t_point	door_pos;
+	double	door_dist;
 	t_vec	mouse;
 } t_t;
 
