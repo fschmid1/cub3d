@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:39:22 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 15:24:17 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 17:51:55 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 int	ispos_p(char c)
 {
 	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
+}
+
+char	*posp(t_p *m)
+{
+	if (m->pos_p.x == -1 || m->pos_p.y == -1)
+		return (NP);
+	return (NULL);
 }
 
 char	*find_player(t_p *m)
@@ -42,7 +49,5 @@ char	*find_player(t_p *m)
 				return (IM);
 		}
 	}
-	if (m->pos_p.x == -1 || m->pos_p.y == -1)
-		return (NP);
-	return (NULL);
+	return (posp(m));
 }

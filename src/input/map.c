@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:54:02 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 17:08:00 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/17 17:47:03 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,14 @@ void	resize_map(t_p *m)
 	y = -1;
 	while (++y < m->size.y)
 	{
-		x = 0;
-		while (x < m->size.x)
+		x = -1;
+		while (++x < m->size.x)
 		{
-			if ((!ft_strchr("01dD", m->map[y][x])
-				&& ispos_p(m->map[y][x]) == 0)
-			|| x >= (int)ft_strlen(m->map[y]))
+			if ((!ft_strchr("01dD", m->map[y][x]) && ispos_p(m->map[y][x]) == 0)
+				|| x >= (int)ft_strlen(m->map[y]))
 				new[y][x] = '1';
 			else
 				new[y][x] = m->map[y][x];
-			x++;
 		}
 		new[y][x] = '\0';
 	}

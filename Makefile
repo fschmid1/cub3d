@@ -21,7 +21,7 @@ GAME_FILES		= calculations.c draw.c game.c minimap.c setup.c triangle.c
 
 UTILS			= $(addprefix $(UTILS_DIR), $(UTILS_FILES))
 UTILS_DIR		= src/utils/
-UTILS_FILES		= utils.c testing.c error.c
+UTILS_FILES		= utils.c error.c
 
 MENU			= $(addprefix $(MENU_DIR), $(MENU_FILES))
 MENU_DIR		= src/menu/
