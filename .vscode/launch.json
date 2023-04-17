@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch",
+      "type": "cppdbg",
+      "program": "${workspaceFolder}/cub3D",
+      "args": ["./maps/huge2.cub"],
+      "cwd": "${workspaceFolder}",
+      "request": "launch",
+      "MIMode": "lldb"
+    }
+  ]
+}
