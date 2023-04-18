@@ -104,6 +104,16 @@ fclean:
 				@$(RM) $(NAME)
 				@echo "fcleaned $(NAME)"
 
+ffclean:		fclean
+				@echo $(RED)
+				@echo "deleted mlx"
+				@echo "deleted libft"
+				@echo "deleted LeakSanitizer"
+				@rm -rf mlx42
+				@rm -rf libft
+				@rm -rf LeakSanitizer
+				@echo $(DEFAULT)
+
 re:
 				@make fclean
 				@make all
