@@ -6,13 +6,13 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:51:36 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/18 11:51:49 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/18 12:16:49 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void	mouse2(double mouse_movement, t_m *m)
+void	mouse2(double mouse_movement, t_m *m, double ra)
 {
 	m->t->olddirx = m->t->dirx;
 	m->t->dirx = m->t->dirx * cos(mouse_movement * ra)
@@ -27,7 +27,7 @@ void	mouse2(double mouse_movement, t_m *m)
 	m->x = 0;
 }
 
-void	mouse1(double mouse_movement, t_m *m)
+void	mouse1(double mouse_movement, t_m *m, double ra)
 {
 	m->t->olddirx = m->t->dirx;
 	m->t->dirx = m->t->dirx * cos(mouse_movement * ra)
@@ -56,7 +56,7 @@ void	mouse_hook(double x, double y, void *param)
 	m->t->mouse.x = x;
 	ra = 0.0174532925 * 0.075;
 	if (mouse_movement > 0)
-		mouse1(mouse_movement, m);
+		mouse1(mouse_movement, m, ra);
 	else if (mouse_movement < 0)
-		mouse2(mouse_movement, m);
+		mouse2(mouse_movement, m, ra);
 }

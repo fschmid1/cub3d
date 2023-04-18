@@ -373,6 +373,6 @@ void	draw_lines(t_m *m);
 //----------------------------------------MOUSE.c--------------------------------------
 //==============================================================================
 void	mouse_hook(double x, double y, void *param);
-void	mouse1(double mouse_movement, t_m *m);
-void	mouse2(double mouse_movement, t_m *m);
+void	mouse1(double mouse_movement, t_m *m, double ra);
+void	mouse2(double mouse_movement, t_m *m, double ra);
 #endif
