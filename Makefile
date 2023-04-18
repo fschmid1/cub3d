@@ -124,6 +124,8 @@ run:			$(NAME)
 lrun:			lsan
 				./$(NAME) maps/huge.cub
 
+bonus:			all
+
 
 .PHONY:			all clean fclean re lsan run
 .SILENT:		clean
