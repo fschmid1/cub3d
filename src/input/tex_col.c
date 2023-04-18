@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:01:46 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/18 13:23:24 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/18 13:31:13 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ int	set_color(char **conv)
 {
 	int	arr;
 
-	arr = (ft_atoi(conv[0]) << 16) | (ft_atoi(conv[1]) << 8) | ft_atoi(conv[2]) | 0xFF;
+	arr = ((ft_atoi(conv[0])) << 24) | (ft_atoi(conv[1]) << 16) | (ft_atoi(conv[2]) << 8) | 0xFF;
 	// printf("------------------------\n");
 	// printf("ORIGINAL\n0:%s:1:%s:2:%s:\n", conv[0], conv[1], conv[2]);
 	// printf("AOIT\n0:%i:1:%i:2:%i:\n", ft_atoi(conv[0]), ft_atoi(conv[1]), ft_atoi(conv[2]));
-	// printf("------------------------\n");
-	// printf("RES: %i\n", arr);
-	// printf("------------------------\n");
+	printf("------------------------\n");
+	printf("RES: %i\n", arr);
+	printf("------------------------\n");
 	free(conv[0]);
 	free(conv[1]);
 	free(conv[2]);
