@@ -12,78 +12,6 @@
 
 #include "../../include/cub3d.h"
 
-void	movement(t_m *m)
-{
-	m->t->old_time = m->t->time;
-	m->t->time = mlx_get_time();
-	m->t->frametime = (m->t->time - m->t->old_time) / 1000;
-	m->t->movspeed = m->t->frametime * 5000;
-	m->t->rotspeed = m->t->frametime * 3000;
-	if (mlx_is_key_down(m->map->mlx, MLX_KEY_W))
-	{
-		if (m->t->map[(int)m->t->posy][(int)(m->t->posx + m->t->dirx
-			* m->t->movspeed)] == WALKABLE
-			|| m->t->map[(int)m->t->posy][(int)(m->t->posx + m->t->dirx
-				* m->t->movspeed)] == DOOR_OPEN)
-			m->t->posx += m->t->dirx * m->t->movspeed;
-		if (m->t->map[(int)(m->t->posy + m->t->diry
-				* m->t->movspeed)][(int)(m->t->posx)] == WALKABLE
-			|| m->t->map[(int)(m->t->posy + m->t->diry
-				* m->t->movspeed)][(int)(m->t->posx)] == DOOR_OPEN)
-			m->t->posy += m->t->diry * m->t->movspeed;
-		m->x = 0;
-	}
-	if (mlx_is_key_down(m->map->mlx, MLX_KEY_S))
-	{
-		if (m->t->map[(int)m->t->posy][(int)(m->t->posx - m->t->dirx
-			* m->t->movspeed)] == WALKABLE
-			|| m->t->map[(int)m->t->posy][(int)(m->t->posx - m->t->dirx
-				* m->t->movspeed)] == DOOR_OPEN)
-			m->t->posx -= m->t->dirx * m->t->movspeed;
-		if (m->t->map[(int)(m->t->posy - m->t->diry
-				* m->t->movspeed)][(int)(m->t->posx)] == WALKABLE
-			|| m->t->map[(int)(m->t->posy - m->t->diry
-				* m->t->movspeed)][(int)(m->t->posx)] == DOOR_OPEN)
-			m->t->posy -= m->t->diry * m->t->movspeed;
-		m->x = 0;
-	}
-	if (mlx_is_key_down(m->map->mlx, MLX_KEY_A))
-	{
-		if (m->t->map[(int)m->t->posy][(int)(m->t->posx - m->t->planex
-			* m->t->movspeed)] == WALKABLE ||
-			m->t->map[(int)m->t->posy][(int)(m->t->posx
-			- m->t->planex * m->t->movspeed)] == DOOR_OPEN)
-			m->t->posx -= m->t->planex * m->t->movspeed;
-		if (m->t->map[(int)(m->t->posy - m->t->planey
-				* m->t->movspeed)][(int)(m->t->posx)] == WALKABLE
-			|| m->t->map[(int)(m->t->posy - m->t->planey
-				* m->t->movspeed)][(int)(m->t->posx)] == DOOR_OPEN)
-			m->t->posy -= m->t->planey * m->t->movspeed;
-		m->x = 0;
-	}
-	if (mlx_is_key_down(m->map->mlx, MLX_KEY_D))
-	{
-		if (m->t->map[(int)m->t->posy][(int)(m->t->posx + m->t->planex
-			* m->t->movspeed)] == WALKABLE ||
-		m->t->map[(int)m->t->posy][(int)(m->t->posx
-		+ m->t->planex * m->t->movspeed)] == DOOR_OPEN)
-			m->t->posx += m->t->planex * m->t->movspeed;
-		if (m->t->map[(int)(m->t->posy + m->t->planey
-				* m->t->movspeed)][(int)(m->t->posx)] == WALKABLE
-		|| m->t->map[(int)(m->t->posy + m->t->planey
-		* m->t->movspeed)][(int)(m->t->posx)] == DOOR_OPEN)
-			m->t->posy += m->t->planey * m->t->movspeed;
-		m->x = 0;
-	}
-	if (mlx_is_mouse_down(m->map->mlx, MLX_MOUSE_BUTTON_LEFT))
-	{
-		m->firing = 1;
-		m->x = 0;
-	}
-	else
-		m->firing = 0;
-}
-
 void	muzzle(t_m *m)
 {
 	int				pos;
@@ -109,17 +37,8 @@ void	muzzle(t_m *m)
 	}
 }
 
-void	gun(t_m *m)
+static void	draw_gun(t_m *m, int pos, unsigned int x, unsigned int y)
 {
-	unsigned int	x;
-	unsigned int	y;
-	int				pos;
-
-	x = 0;
-	y = 0;
-	pos = m->window_h / 1.7 * m->window_w / 1.2 - 100;
-	if (m->firing == 1)
-		muzzle(m);
 	while (y < m->gun->height)
 	{
 		x = 0;
@@ -137,6 +56,20 @@ void	gun(t_m *m)
 		}
 		y++;
 	}
+}
+
+void	gun(t_m *m)
+{
+	unsigned int	x;
+	unsigned int	y;
+	int				pos;
+
+	x = 0;
+	y = 0;
+	pos = m->window_h / 1.7 * m->window_w / 1.2 - 100;
+	if (m->firing == 1)
+		muzzle(m);
+	draw_gun(m, pos, x, y);
 	if (m->firing == 1)
 	{
 		m->firing = 0;
