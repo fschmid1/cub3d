@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 17:09:57 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 17:36:04 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/18 13:24:07 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	draw_ceiling(t_m *m)
 	while (i < m->window_h)
 	{
 		if (i < m->t->draw_start)
-			draw_pixel(m, m->x, i, m->map->colorc);
+			draw_pixel(m, m->x, i, m->p->f);
 		else if (i > m->t->draw_end)
-			draw_pixel(m, m->x, i, m->map->colorf);
+			draw_pixel(m, m->x, i, m->p->c);
 		i++;
 	}
 }

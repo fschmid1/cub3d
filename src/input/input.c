@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 11:49:51 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 17:31:56 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/18 13:23:40 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,9 @@ char	*find_values(t_p *m)
 		if (check_tex(m))
 			return (TF);
 	}
-	if (find_color(m, m->f, "F") == FALSE
-		|| find_color(m, m->c, "C") == FALSE)
+	if (find_color(m, &m->f, "F") == FALSE
+		|| find_color(m, &m->c, "C") == FALSE)
 		return (MC);
+	// printf("C: %d F: %d\n", m->c, m->f);
 	return (err);
 }

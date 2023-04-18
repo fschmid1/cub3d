@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:01:46 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 15:25:09 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/18 13:23:24 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,26 @@ int	find_color(t_p *main, int *arr, char *find)
 	free(res);
 	if (!conv[0] || !conv[1] || !conv[2])
 		return (free_string_array(conv), FALSE);
-	set_color(arr, conv);
+	*arr = set_color(conv);
 	return (TRUE);
 }
 
-void	set_color(int *arr, char **conv)
+int	set_color(char **conv)
 {
-	arr[0] = ft_atoi(conv[0]);
+	int	arr;
+
+	arr = (ft_atoi(conv[0]) << 16) | (ft_atoi(conv[1]) << 8) | ft_atoi(conv[2]) | 0xFF;
+	// printf("------------------------\n");
+	// printf("ORIGINAL\n0:%s:1:%s:2:%s:\n", conv[0], conv[1], conv[2]);
+	// printf("AOIT\n0:%i:1:%i:2:%i:\n", ft_atoi(conv[0]), ft_atoi(conv[1]), ft_atoi(conv[2]));
+	// printf("------------------------\n");
+	// printf("RES: %i\n", arr);
+	// printf("------------------------\n");
 	free(conv[0]);
-	arr[1] = ft_atoi(conv[1]);
 	free(conv[1]);
-	arr[2] = ft_atoi(conv[2]);
 	free(conv[2]);
 	free(conv);
+	return(arr);
 }
 
 char	*find_texture(char *file, char *find)
