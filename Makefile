@@ -17,7 +17,7 @@ MLX_FILES		= draw.c free_stuff.c load_wall.c make.c setup.c setup2.c window.c mo
 
 GAME			= $(addprefix $(GAME_DIR), $(GAME_FILES))
 GAME_DIR		= src/game/
-GAME_FILES		= calculations.c draw.c game.c minimap.c setup.c triangle.c draw_textures.c
+GAME_FILES		= calculations.c draw.c game.c minimap.c setup.c triangle.c draw_textures.c movement.c
 
 UTILS			= $(addprefix $(UTILS_DIR), $(UTILS_FILES))
 UTILS_DIR		= src/utils/
