@@ -6,7 +6,7 @@
 /*   By: fschmid <fschmid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:46:34 by fschmid           #+#    #+#             */
-/*   Updated: 2023/04/18 11:46:36 by fschmid          ###   ########.fr       */
+/*   Updated: 2023/04/18 14:32:07 by fschmid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	movement(t_m *m)
 	movement_down(m);
 	movement_left(m);
 	movement_right(m);
+	rotate_handler(m);
 	if (mlx_is_mouse_down(m->map->mlx, MLX_MOUSE_BUTTON_LEFT))
 	{
 		m->firing = 1;
