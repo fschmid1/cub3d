@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:59:04 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 17:06:39 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/18 11:37:45 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ void	make_cubed(t_m *m)
 	unsigned int	c;
 	int				pos;
 
+	make_start(m);
+	make_maps(m);
+	make_settings(m);
 	i = 0;
 	c = 0;
 	pos = m->window_h / 2 * m->window_w / 2 + 19860;
@@ -47,20 +50,19 @@ void	make_start(t_m *m)
 	i = 0;
 	c = 0;
 	pos = m->window_h / 2 * m->window_w / 1.5 + 46865;
+	color = BLUE;
 	if (m->selection == 0)
 		color = GREEN;
-	else
-		color = BLUE;
 	while (i++ < (m->men->msg->start[color][m->men->msg->i]->width
 		* m->men->msg->start[color][m->men->msg->i]->height))
 	{
+		c++;
 		if (c == m->men->msg->start[color][m->men->msg->i]->width)
 		{
 			c = 0;
 			pos += m->men->tex[0]->width
 				- m->men->msg->start[color][m->men->msg->i]->width;
 		}
-		c++;
 		if (m->men->msg->start[color][m->men->msg->i]->pixels[(i) * 4] != 0)
 			ft_memcpy(&m->map->img->pixels[(i + pos) * 4],
 				&m->men->msg->start[color][m->men->msg->i]->pixels[(i) * 4], 4);
@@ -75,10 +77,9 @@ void	make_maps(t_m *m)
 	int				color;
 
 	pos = m->window_h / 2 * m->window_w / 1.3 + 46150;
+	color = BLUE;
 	if (m->selection == 1)
 		color = GREEN;
-	else
-		color = BLUE;
 	i = 0;
 	c = 0;
 	while (i++ < (m->men->msg->maps[color][m->men->msg->i]->width
@@ -104,12 +105,10 @@ void	make_settings(t_m *m)
 	int				pos;
 	int				color;
 
-	color = 0;
 	pos = m->window_h / 2 * m->window_w / 1.15 + 49567;
+	color = BLUE;
 	if (m->selection == 2)
 		color = GREEN;
-	else
-		color = BLUE;
 	i = 0;
 	c = 0;
 	while (i++ < (m->men->msg->settings[color][m->men->msg->i]->width
@@ -123,8 +122,7 @@ void	make_settings(t_m *m)
 		}
 		c++;
 		if (m->men->msg->settings[color][m->men->msg->i]->pixels[i * 4] != 0)
-			ft_memcpy(&m->map->img->pixels[(i + pos) * 4],
-				&m->men->msg->settings[color][m->men->msg->i]->pixels[(i)
-				* 4], 4);
+			ft_memcpy(&m->map->img->pixels[(i + pos) * 4], &m->men->msg
+				->settings[color][m->men->msg->i]->pixels[i * 4], 4);
 	}
 }

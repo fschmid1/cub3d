@@ -6,17 +6,14 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:53:00 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 17:37:52 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/18 11:51:30 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void	key(mlx_key_data_t keydata, void *param)
+void	keydata1(mlx_key_data_t keydata, t_m *m)
 {
-	t_m	*m;
-
-	m = param;
 	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS
 		&& m->g_state == START)
 	{
@@ -40,6 +37,14 @@ void	key(mlx_key_data_t keydata, void *param)
 		else
 			mlx_close_window(m->map->mlx);
 	}
+}
+
+void	key(mlx_key_data_t keydata, void *param)
+{
+	t_m	*m;
+
+	m = param;
+	keydata1(keydata, m);
 	if (keydata.key == MLX_KEY_ENTER && keydata.action == MLX_PRESS
 		&& m->selection == 0)
 	{
@@ -96,57 +101,11 @@ void	menu_hook(void *param)
 		else
 			m->men->msg->i = 2;
 		draw_image(m);
-		make_start(m);
-		make_maps(m);
 		make_cubed(m);
-		make_settings(m);
 		m->men->t = time;
 	}
 	if (m->g_state == GAME)
 		game_loop(m);
-}
-
-void	mouse_hook(double x, double y, void *param)
-{
-	t_m		*m;
-	double	ra;
-	double	mouse_movement;
-
-	(void) y;
-	m = param;
-	if (m->g_state != GAME)
-		return ;
-	mouse_movement = x - m->t->mouse.x;
-	m->t->mouse.x = x;
-	ra = 0.0174532925 * 0.075;
-	if (mouse_movement > 0)
-	{
-		m->t->olddirx = m->t->dirx;
-		m->t->dirx = m->t->dirx * cos(mouse_movement * ra)
-			- m->t->diry * sin(mouse_movement * ra);
-		m->t->diry = m->t->olddirx * sin(mouse_movement * ra)
-			+ m->t->diry * cos(mouse_movement * ra);
-		m->t->oldplanex = m->t->planex;
-		m->t->planex = m->t->planex * cos(mouse_movement * ra)
-			- m->t->planey * sin(mouse_movement * ra);
-		m->t->planey = m->t->oldplanex * sin(mouse_movement * ra)
-			+ m->t->planey * cos(mouse_movement * ra);
-		m->x = 0;
-	}
-	else if (mouse_movement < 0)
-	{
-		m->t->olddirx = m->t->dirx;
-		m->t->dirx = m->t->dirx * cos(mouse_movement * ra)
-			- m->t->diry * sin(mouse_movement * ra);
-		m->t->diry = m->t->olddirx * sin(mouse_movement * ra)
-			+ m->t->diry * cos(mouse_movement * ra);
-		m->t->oldplanex = m->t->planex;
-		m->t->planex = m->t->planex * cos(mouse_movement * ra)
-			- m->t->planey * sin(mouse_movement * ra);
-		m->t->planey = m->t->oldplanex * sin(mouse_movement * ra)
-			+ m->t->planey * cos(mouse_movement * ra);
-		m->x = 0;
-	}
 }
 
 void	register_hooks(t_m *m)
