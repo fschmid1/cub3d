@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 12:01:43 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/18 12:08:21 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/18 13:22:54 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,8 +163,8 @@ typedef struct s_parse
 	char	*so;
 	char	*we;
 	char	*ea;
-	int		f[3];
-	int		c[3];
+	int		f;
+	int		c;
 	t_vec	pos_p;
 	t_vec	size;
 	t_m		*main;
@@ -309,7 +309,7 @@ void	dprinti(int **str, int x, int y);
 //---------------------------------TEX_COL.c------------------------------------
 //==============================================================================
 int		check_tex(t_p *m);
-void	set_color(int *arr, char **conv);
+int	set_color(char **conv);
 char	*find_texture(char *file, char *find);
 int		find_color(t_p *main, int *arr, char *find);
 //==============================================================================
