@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:54:02 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/17 17:47:03 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/18 15:35:46 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,11 @@ void	max_val(t_p *m)
 void	fill(t_p *m, t_point cur, char to_fill)
 {
 	if (!ft_strchr("01FdD", m->fmap[cur.y][cur.x])
-		|| (m->fmap[0][cur.x] == '0'))
+		|| (m->fmap[cur.y][0] == '0')
+		|| ((m->fmap[cur.y][cur.x] == '0')
+			&& cur.y == 0)
+		|| ((m->fmap[cur.y][cur.x] == '0')
+			&& (!m->fmap[cur.y][cur.x + 1])))
 		m->status = FALSE;
 	else if (cur.x < 0 || cur.x >= (int)ft_strlen(m->fmap[cur.y])
 		|| cur.y < 0 || cur.y >= m->size.y
@@ -106,9 +110,6 @@ void	check_map(t_p *m)
 	t_point	size;
 
 	i = 0;
-	while (i < m->size.y)
-		if (m->map[0][i++] == '0')
-			err_exit(m, MH);
 	size = (t_point){m->size.x, m->size.y};
 	m->fmap = doublcpy(m->map, m->size.y);
 	m->fmap[(int)m->pos_p.y][(int)m->pos_p.x] = '0';
