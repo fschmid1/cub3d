@@ -6,7 +6,7 @@
 /*   By: pgorner <pgorner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 11:49:51 by pgorner           #+#    #+#             */
-/*   Updated: 2023/04/18 13:36:23 by pgorner          ###   ########.fr       */
+/*   Updated: 2023/04/18 15:19:51 by pgorner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ char	*find_values(t_p *m)
 	m->ea = find_texture(m->file, "EA");
 	if (TESTING != 1)
 	{
-	err = check_textures(m);
+		err = check_textures(m);
 		if (check_tex(m))
 			return (TF);
 	}
